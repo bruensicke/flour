@@ -8,13 +8,13 @@ CREATE TABLE IF NOT EXISTS `flour_activities` (
 	`data` TEXT NOT NULL,
 	`created` DATETIME NOT NULL,
 	PRIMARY KEY (`id`),
-	UNIQUE KEY `idx_type` (`type`)
+	KEY `idx_type` (`type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `flour_content_objects` (
 	`id` CHAR(36) NOT NULL,
 	`title` VARCHAR(255) NOT NULL,
-	PRIMARY KEY (`id`),
+	PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `flour_contents` (
@@ -36,8 +36,7 @@ CREATE TABLE IF NOT EXISTS `flour_contents` (
 	`modified_by` CHAR(36) DEFAULT NULL,
 	`deleted` DATETIME DEFAULT NULL,
 	`deleted_by` CHAR(36) DEFAULT NULL,
-	PRIMARY KEY (`id`),
-	UNIQUE KEY `idx_model_id_locale_name` (`model`, `foreign_id`, `locale`, `name`)
+	PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `flour_meta_fields` (
@@ -48,7 +47,6 @@ CREATE TABLE IF NOT EXISTS `flour_meta_fields` (
 	`name` VARCHAR(255) NOT NULL,
 	`val` TEXT NOT NULL,
 	PRIMARY KEY (`id`),
-	UNIQUE KEY `idx_model_id_locale_name` (`model`, `foreign_id`, `locale`, `name`),
 	KEY `idx_model` (`model`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

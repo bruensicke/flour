@@ -25,7 +25,7 @@ $data = (isset($data))
 
 $empty = (isset($empty))
 	? $empty
-	: $this->element('empty');
+	: $this->element('flour/empty');
 
 $search = (isset($search))
 	? $search

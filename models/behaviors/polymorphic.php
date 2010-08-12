@@ -9,18 +9,37 @@
  * @version $Id$
  * @copyright bruensicke.com GmbH
  */
-class PolymorphicBehavior extends ModelBehavior {
+class PolymorphicBehavior extends ModelBehavior
+{
 	
+/**
+ * @access public
+ */
+	var $settings = array();
+
+/**
+ * @access private
+ */
 	private $__polyConditions = null;
 
+/**
+ * @access private
+ */
 	private $__defaultSettings = array(
 		'classField' => 'model',
 		'foreignKey' => 'foreign_id'
 	);
 
+/**
+ * Setting up configuration for every model using this behavior.
+ *
+ * @param string $Model 
+ * @param array $settings 
+ * @return array $settings for this model
+ */
 	public function setup(&$Model, $settings = array())
 	{
-		$this->settings[$Model->alias] = array_merge(
+		return $this->settings[$Model->alias] = array_merge(
 			$this->__defaultSettings,
 			$settings
 		);

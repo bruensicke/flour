@@ -39,7 +39,7 @@ class Content extends FlourAppModel
  * @return bool
  * @access public
  */
-	function bind($data = array())
+	function _bind($data = array())
 	{
 		$this->data = (!empty($data))
 			? $data
@@ -54,16 +54,23 @@ class Content extends FlourAppModel
 			$foreignModel = ClassRegistry::init($model);
 
 			$this->bindModel(
-				array('hasOne' => 
-					array(
+				array('belongsTo' => array(
 						$foreignModel->alias => array(
 							'className' => $model,
-							'conditions' => array('model' => $model),
+							// 'conditions' => array('model' => $model),
 							'foreignKey' => 'foreign_id',
-							'dependant' => true,
 						)
 					)
 				)
+			);
+			$this->{$foreignModel->alias}->bindModel(
+				array('hasOne' => array(
+					'Content' => array(
+						'className' => 'Flour.Content',
+						'foreignKey' => 'foreign_id',
+						'dependant' => true,
+					)
+				))
 			);
 			$this->{$foreignModel->alias}->data = $this->data;
 			return true;

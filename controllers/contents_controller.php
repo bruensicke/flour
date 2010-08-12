@@ -73,22 +73,39 @@ class ContentsController extends FlourAppController
 	{
 		if(!empty($this->data))
 		{
+			$model = $this->data['Content']['model'];
+			$modelArray = pluginSplit($model);
+			$modelName = $modelArray[1];
+			$this->$modelName = ClassRegistry::init($model);
+			$this->$modelName->create($this->data);
 			$this->Content->create($this->data);
-			$this->Content->bind($this->data);
-
-			if($this->Content->saveAll($this->data, array('validate' => 'only')))
+			$valid1 = $this->$modelName->validates();
+			$valid2 = $this->Content->validates();
+			
+			if($valid1 && $valid2)
 			{
-				//save remote object first, then content
-				if($this->Content->saveAll($this->data, array('validate' => false)))
+				$save1 = $this->$modelName->save();
+				if($save1)
 				{
-					$id = $this->Content->getInsertId();
-					$this->Flash->success(
-						__('Content :Content.name saved.', true),
-						array('action' => 'edit', $id)
-					);
+					$model_id = $this->$modelName->getInsertID();
+					$this->data['Content']['foreign_id'] = $model_id;
+					$this->Content->create($this->data);
+					$save2 = $this->Content->save();
+					if($save2)
+					{
+						$id = $this->Content->getInsertID();
+						$this->Flash->success(
+							__('Content :Content.name saved.', true),
+							array('action' => 'edit', $id)
+						);
+					} else {
+						$this->Flash->error(
+							__('Content :Content.name could not be saved.', true)
+						);
+					}
 				} else {
-					return $this->Flash->error(
-						__('Content :Content.name could not be saved.', true)
+					$this->Flash->error(
+						__(':Content.model could not be saved.', true)
 					);
 				}
 			}
@@ -112,10 +129,21 @@ class ContentsController extends FlourAppController
 		}
 		if(!empty($this->data))
 		{
+			$model = $this->data['Content']['model'];
+			$modelArray = pluginSplit($model);
+			$modelName = $modelArray[1];
+			$this->$modelName = ClassRegistry::init($model);
+			$this->data[$modelName]['id'] = $this->data['Content']['foreign_id'];
+			$this->$modelName->create($this->data);
 			$this->Content->create($this->data);
-			if($this->Content->validates())
+			$valid1 = $this->$modelName->validates();
+			$valid2 = $this->Content->validates();
+			
+			if($valid1 && $valid2)
 			{
-				if($this->Content->save($this->data, false))
+				$save1 = $this->$modelName->save();
+				$save2 = $this->Content->save();
+				if($save1 && $save2)
 				{
 					$this->Flash->success(
 						__('Content :Content.name saved.', true),
@@ -129,8 +157,7 @@ class ContentsController extends FlourAppController
 			}
 		}
 		$this->data = $this->Content->read(null, $id);
-		$type = $this->data['Content']['type'];
-		$this->set('type', $type);
+		$this->set('type', $this->data['Content']['type']);
 	}
 
 /**

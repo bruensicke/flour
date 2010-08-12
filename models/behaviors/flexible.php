@@ -19,39 +19,55 @@ class FlexibleBehavior extends ModelBehavior
 	var $settings = array();
 
 /**
- * Per default a Model called <Model>Field is used for storing the virtual fields. To overwrite pass an array like:
- * array('with' => OtherModel) as the actsAs parameter.
- *
- * @param object $Model
- * @param array $settings
- * @return array
+ * @access private
+ */
+	private $__defaultSettings = array(
+		'with' => 'Flour.MetaField',
+		'dependent' => true,
+		'foreignKey' => 'foreign_id',
+	);
+
+/**
+ * enter all models here, that for sure do not need to be flexible.
  * @access public
  */
-	function setup(&$Model, $settings = array())
+	var $modelBlacklist = array(
+		'AppModel',
+		'FlourAppModel',
+		'Tagged',
+		'MetaField',
+	);
+
+/**
+ * Setting up configuration for every model using this behavior. To overwrite pass an array like:
+ * array('with' => OtherModel) as the actsAs parameter.
+ *
+ * @param string $Model 
+ * @param array $settings 
+ * @return array $settings for this model (if not in blacklist)
+ */
+	public function setup(&$Model, $settings = array())
 	{
-		if(!in_array($Model->alias, array('FlourAppModel', 'Tagged', 'MetaField')))
+		if(in_array($Model->alias, $this->modelBlacklist))
 		{
-			$base = array('schema' => $Model->schema());
-			$assoc = 'MetaField';
-			$Model->bindModel(
-				array('hasMany' => array(
-						'MetaField' => array(
-							'className' => 'Flour.MetaField',
-							'dependent' => true,
-							'foreignKey' => 'foreign_id',
-							'conditions' => array('model' => $Model->alias),
-						)
-					)
-				)
-			);
-			$defaults = array(
-				'with' => $assoc,
-				'foreignKey' => 'foreign_id',
-				'dependent' => true,
-				'conditions' => array('Model' => $Model->alias),
-			);
-			return $this->settings[$Model->alias] = am($base, $defaults, !empty($settings) ? $settings : array());
+			return;
 		}
+		$this->settings[$Model->alias] = array_merge(
+			$this->__defaultSettings,
+			$settings
+		);
+		$class = pluginSplit($this->settings[$Model->alias]['with']);
+		$base = array(
+			'className' => $this->settings[$Model->alias]['with'],
+			'modelName' => $class[1],
+			'schema' => $Model->schema(),
+		);
+		$this->settings[$Model->alias] = array_merge(
+			$this->settings[$Model->alias],
+			$base
+		);
+		$this->__bind($Model);
+		return $this->settings[$Model->alias];
 	}
 
 /**
@@ -65,14 +81,18 @@ class FlexibleBehavior extends ModelBehavior
  */
 	function afterFind(&$Model, $results, $primary)
 	{
+		if(in_array($Model->alias, $this->modelBlacklist))
+		{
+			return $results;
+		}
 		extract($this->settings[$Model->alias]);
 		foreach ($results as $i => $item)
 		{
-			if (!isset($item[$with]))
+			if (!isset($item[$modelName]))
 			{
 				continue;
 			}
-			foreach ($item[$with] as $field)
+			foreach ($item[$modelName] as $field)
 			{
 				$results[$i][$Model->alias][$field['name']] = $field['val'];
 			}
@@ -107,26 +127,34 @@ class FlexibleBehavior extends ModelBehavior
  * @param object $Model
  * @access public
  */
-	function afterSave(&$Model)
+	function afterSave(&$Model, $created)
 	{
+		if(in_array($Model->alias, $this->modelBlacklist))
+		{
+			return $results;
+		}
 		extract($this->settings[$Model->alias]);
 		$fields = array_diff_key($Model->data[$Model->alias], $schema);
 		$id = $Model->id;
 		foreach ($fields as $key => $val)
 		{
-			$field = $Model->{$with}->find('first', array(
-				'fields' => array($with.'.id'),
-				'conditions' => array($with.'.'.$foreignKey => $id, $with.'.name' => $key),
+			$field = $Model->{$modelName}->find('first', array(
+				'fields' => array($modelName.'.id'),
+				'conditions' => array($modelName.'.'.$foreignKey => $id, $modelName.'.name' => $key),
 				'recursive' => -1,
 			));
-			$Model->{$with}->create(false);
+			$Model->{$modelName}->create(false);
 			if ($field) {
-				$Model->{$with}->set('id', $field[$with]['id']);
+				$Model->{$modelName}->set('id', $field[$modelName]['id']);
 			} else {
-				$Model->{$with}->set(array($foreignKey => $id, 'name' => $key));
+				$Model->{$modelName}->set(array(
+					$foreignKey => $id,
+					'model' => $Model->alias,
+					'name' => $key,
+				));
 			}
-			$Model->{$with}->set('val', $val);
-			$Model->{$with}->save();
+			$Model->{$modelName}->set('val', $val);
+			$Model->{$modelName}->save();
 		}
 	}
 
@@ -175,6 +203,14 @@ class FlexibleBehavior extends ModelBehavior
 			$arr[$key] = $val;
 		}
 		return $arr;
+	}
+
+	function __bind(&$Model)
+	{
+		extract($this->settings[$Model->alias]);
+		$Model->bindModel(
+			array('hasMany' => array($modelName => compact('className', 'dependent', 'foreignKey', 'conditions')))
+		);
 	}
 
 }
