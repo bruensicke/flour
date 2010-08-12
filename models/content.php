@@ -10,9 +10,9 @@
 class Content extends FlourAppModel
 {
 	var $actsAs = array(
+		'Flour.Taggable',
 		'Flour.Polymorphic',
 		'Flour.Editionable',
-		'Flour.Taggable',
 	);
 
 	/**

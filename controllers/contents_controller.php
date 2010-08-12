@@ -158,6 +158,9 @@ class ContentsController extends FlourAppController
 		}
 		$this->data = $this->Content->read(null, $id);
 		$this->set('type', $this->data['Content']['type']);
+
+		$editions = $this->Content->find('editions');
+		$this->set('editions', $editions);
 	}
 
 /**

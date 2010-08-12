@@ -172,6 +172,11 @@ class FlourAppModel extends AppModel
 	function _setEditions(&$options, &$type) {
 		$slug = null;
 		
+		// find all editions with inherited id
+		if(isset($this->id)) {
+			$slug = $this->field('slug');
+		}
+		
 		// find all editions with same slug by reference id:
 		if(isset($options['conditions'][$this->alias.'.'.$this->primaryKey])) {
 			$slug = $this->field('slug', $options['conditions']);
@@ -277,4 +282,3 @@ class FlourAppModel extends AppModel
 	}
 	
 }
-?>
