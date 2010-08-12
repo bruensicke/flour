@@ -429,4 +429,3 @@ class WebserviceView extends Object
 		return (is_array($variable) && 0 !== count(array_diff_key($variable, array_keys(array_keys($variable)))));
 	}
 }
-?>
