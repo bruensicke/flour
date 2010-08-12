@@ -11,3 +11,4 @@ echo $this->element('flour/iterator', array(
 ));
 
 echo $this->element('flour/content_stop');
+echo $this->Html->style('body {color: red;}');

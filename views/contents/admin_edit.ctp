@@ -7,6 +7,8 @@ echo $this->Form->hidden('Content.id');
 
 echo $this->element('flour/content_start');
 
+	echo $this->Html->div('span-24', $this->element('flour/editions'));
+
 		echo $this->Html->div('span-14');
 
 			//TODO: use panel-element instead of box (must be created before :)
