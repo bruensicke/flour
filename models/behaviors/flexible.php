@@ -14,17 +14,27 @@ class FlexibleBehavior extends ModelBehavior
 {
 
 /**
+ * Settings array
+ *
+ * @var array
  * @access public
  */
-	var $settings = array();
+	public $settings = array();
 
 /**
- * @access private
+ * Default settings
+ *
+ * with				- the model to use for metaFields
+ * foreignKey		- field to use for connected id in table of 'with'-model
+ * dependent		- state of dependancy, see model relations
+ *
+ * @var array
+ * @access protected
  */
-	private $__defaultSettings = array(
+	protected $_defaults = array(
 		'with' => 'Flour.MetaField',
-		'dependent' => true,
 		'foreignKey' => 'foreign_id',
+		'dependent' => true,
 	);
 
 /**
@@ -42,7 +52,7 @@ class FlexibleBehavior extends ModelBehavior
  * Setting up configuration for every model using this behavior. To overwrite pass an array like:
  * array('with' => OtherModel) as the actsAs parameter.
  *
- * @param string $Model 
+ * @param object $Model 
  * @param array $settings 
  * @return array $settings for this model (if not in blacklist)
  */
@@ -52,10 +62,11 @@ class FlexibleBehavior extends ModelBehavior
 		{
 			return;
 		}
-		$this->settings[$Model->alias] = array_merge(
-			$this->__defaultSettings,
-			$settings
-		);
+		if (!isset($this->settings[$Model->alias])) {
+			$this->settings[$Model->alias] = $this->_defaults;
+		}
+		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], $settings);
+
 		$class = pluginSplit($this->settings[$Model->alias]['with']);
 		$base = array(
 			'className' => $this->settings[$Model->alias]['with'],

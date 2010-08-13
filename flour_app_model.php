@@ -13,7 +13,7 @@ class FlourAppModel extends AppModel
 
 	var $actsAs = array(
 		'Flour.Flexible',
-		'Flour.Editionable',
+		// 'Flour.Editionable',
 		'Flour.Taggable',
 	);
 
