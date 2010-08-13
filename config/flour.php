@@ -8,6 +8,7 @@ Configure::write('Flour.Content.types', array(
 	'blog' => __('Blogpost', true),
 ));
 
+Configure::write('Flour.Content.defaultStatus', 1);
 Configure::write('Flour.Content.status', array(
 	'0' => __('offline', true),
 	'1' => __('draft', true),

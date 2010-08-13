@@ -2,11 +2,11 @@
 //retrieve the content_type to be used
 $type = (isset($this->passedArgs['type']))
 	? $this->passedArgs['type']
-	: 'article';
+	: Configure::read('Flour.Content.defaultType');
 
 $status = (isset($this->passedArgs['status']))
 	? $this->passedArgs['status']
-	: 0;
+	: Configure::read('Flour.Content.defaultStatus');
 
 echo $this->Form->error('Content.model', array(
 	'notEmpty' => __('You must give a model to use.', true)

@@ -5,7 +5,7 @@ $this->description = __('Add new Content.', true);
 //switch type on named-param
 $type = (isset($this->passedArgs['type']))
 	? $this->passedArgs['type']
-	: 'article';
+	: Configure::read('Flour.Content.defaultType');
 
 echo $this->Form->create('Content', array('action' => $this->action));
 echo $this->element('flour/content_start');
