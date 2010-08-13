@@ -22,7 +22,7 @@
  * @subpackage	plugins.tags.controllers
  */
 
-class TagsController extends TagsAppController {
+class TagsController extends FlourAppController {
 /**
  * Name
  *
