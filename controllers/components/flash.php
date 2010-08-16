@@ -34,7 +34,7 @@ class FlashComponent extends Object
 /**
  * if set to true, responds with json on ajax-calls
  *
- * @var public $filterAjax
+ * @var boolean $filterAjax
  * @access public
  */
 	public $filterAjax = true;
@@ -42,7 +42,7 @@ class FlashComponent extends Object
 /**
  * if set to true, will preserve all named params in urls, on redirects
  *
- * @var public $preserveNamedParams
+ * @var boolean $preserveNamedParams
  * @access public
  */
 	public $preserveNamedParams = true;
@@ -50,7 +50,7 @@ class FlashComponent extends Object
 /**
  * Pointer to Controller Object
  *
- * @var protected $Controller
+ * @var object $Controller
  * @access protected
  */
 	protected $Controller = null;

@@ -12,7 +12,7 @@ class SearchComponent extends Object
 /**
  * if set to true, will preserve all named params in urls, on redirects
  *
- * @var public $preserveNamedParams
+ * @var boolean $preserveNamedParams
  * @access public
  */
 	public $preserveNamedParams = true;
@@ -20,7 +20,7 @@ class SearchComponent extends Object
 /**
  * Pointer to Controller Object
  *
- * @var protected $Controller
+ * @var object $Controller
  * @access protected
  */
 	protected $Controller = null;
