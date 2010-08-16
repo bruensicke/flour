@@ -20,13 +20,48 @@
 App::import('Core', array('String', 'Set'));
 class FlashComponent extends Object 
 {
-	public $components = array('Session', 'RequestHandler');
-	
+/**
+ * Other components to load
+ *
+ * @var public $components
+ * @access public
+ */
+	public $components = array(
+		'Session',
+		'RequestHandler',
+	);
+
+/**
+ * if set to true, responds with json on ajax-calls
+ *
+ * @var public $filterAjax
+ * @access public
+ */
 	public $filterAjax = true;
-	
+
+/**
+ * if set to true, will preserve all named params in urls, on redirects
+ *
+ * @var public $preserveNamedParams
+ * @access public
+ */
 	public $preserveNamedParams = true;
-	
-	public function initialize($controller)
+
+/**
+ * Pointer to Controller Object
+ *
+ * @var protected $Controller
+ * @access protected
+ */
+	protected $Controller = null;
+
+/**
+ * Intialize Callback
+ *
+ * @param object Controller object
+ * @access public
+ */
+	public function initialize(&$controller)
 	{
 		$this->Controller = $controller;
 		if(!in_array('Session', $this->Controller->components))
