@@ -71,9 +71,19 @@ $template = (isset($template))
 	? $template
 	: '{{rows}}';
 
+//maybe in named params?
+$element_template = (isset($this->passedArgs['view']))
+		? $this->passedArgs['view']
+		: null;
+
+//fallback, it is given
+$element_template = (isset($element_template))
+	? $element_template
+	: 'default';
+
 $row_options = (isset($row_options))
 	? $row_options
-	: array('template' => 'default');
+	: array('template' => $element_template);
 
 
 /* BEGIN OF RENDERING */
