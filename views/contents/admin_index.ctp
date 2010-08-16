@@ -10,4 +10,6 @@ echo $this->element('flour/iterator', array(
 	'element' => 'contents/item',
 ));
 
+echo $this->TagCloud->display($tags, array('before' => '<span>'));
+
 echo $this->element('flour/content_stop');

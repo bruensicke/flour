@@ -44,6 +44,10 @@ class ContentsController extends FlourAppController
 		$this->set('search', $search);
 		
 		$this->data = $this->paginate('Content', $conditions);
+		$this->set('tags', 
+			$this->Content->Tagged->find('cloud', array(
+				'order' => 'Tag.name ASC',
+			)));
 	}
 
 /**
@@ -158,9 +162,7 @@ class ContentsController extends FlourAppController
 		}
 		$this->data = $this->Content->read(null, $id);
 		$this->set('type', $this->data['Content']['type']);
-
-		$editions = $this->Content->find('editions');
-		$this->set('editions', $editions);
+		$this->set('editions', $this->Content->find('editions'));
 	}
 
 /**
