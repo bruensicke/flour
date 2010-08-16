@@ -9,8 +9,6 @@
  **/
 class ContentObject extends FlourAppModel
 {
-	var $actsAs = array(
-		'Flour.Flexible',
-	);
+
 }
 ?>

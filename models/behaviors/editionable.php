@@ -140,20 +140,20 @@ class EditionableBehavior extends ModelBehavior
 			}
 		
 			// find all editions with same slug by reference id:
-			if(isset($options['conditions'][$this->alias.'.'.$this->primaryKey])) {
+			if(isset($options['conditions'][$Model->alias.'.'.$Model->primaryKey])) {
 				$slug = $this->field('slug', $options['conditions']);
 			}
 		
 			// find all editions with given slug
-			if(isset($options['conditions'][$this->alias.'.slug'])) {
+			if(isset($options['conditions'][$Model->alias.'.slug'])) {
 				$slug = $options['conditions'][$this->alias.'.slug'];
 			}
 
-			unset($options['conditions'][$this->alias.'.'.$this->primaryKey]);
+			unset($options['conditions'][$Model->alias.'.'.$Model->primaryKey]);
 			$options['conditions'] = array_merge(
 				$options['conditions'],
 				array(
-					$this->alias.'.slug' => $slug,
+					$Model->alias.'.slug' => $slug,
 				)
 			);
 		

@@ -42,8 +42,10 @@ class FlexibleBehavior extends ModelBehavior
  * @access public
  */
 	var $modelBlacklist = array(
+		'Model',
 		'AppModel',
 		'FlourAppModel',
+		'Tag',
 		'Tagged',
 		'MetaField',
 	);
@@ -120,6 +122,10 @@ class FlexibleBehavior extends ModelBehavior
  */
 	function beforeSave(&$Model)
 	{
+		if(in_array($Model->alias, $this->modelBlacklist))
+		{
+			return;
+		}
 		$fields = $Model->data[$Model->alias];
 		foreach ($fields as $key => $val)
 		{
@@ -129,6 +135,7 @@ class FlexibleBehavior extends ModelBehavior
 			}
 			$Model->data[$Model->alias][$key] = $val;
 		}
+		return;
 	}
 
 /**
@@ -142,7 +149,7 @@ class FlexibleBehavior extends ModelBehavior
 	{
 		if(in_array($Model->alias, $this->modelBlacklist))
 		{
-			return $results;
+			return;
 		}
 		extract($this->settings[$Model->alias]);
 		$fields = array_diff_key($Model->data[$Model->alias], $schema);
