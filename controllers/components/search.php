@@ -10,6 +10,22 @@
 class SearchComponent extends Object 
 {
 /**
+ * All url-triggered search modes, this component supports
+ *
+ * @var array $_searchModes
+ * @access protected
+ */
+	protected $_searchModes = array(
+		'fullsearch',
+		'search',
+		'tags',
+		'date',
+		'from',
+		'to',
+		'status',
+	);
+
+/**
  * if set to true, will preserve all named params in urls, on redirects
  *
  * @var boolean $preserveNamedParams
@@ -26,6 +42,14 @@ class SearchComponent extends Object
 	protected $Controller = null;
 
 /**
+ * passedArgs, will be set in initialize
+ *
+ * @var array $passedArgs
+ * @access protected
+ */
+	protected $passedArgs = null;
+
+/**
  * Intialize Callback
  *
  * @param object Controller object
@@ -34,43 +58,76 @@ class SearchComponent extends Object
 	public function initialize(&$controller)
 	{
 		$this->Controller = $controller;
+		$this->passedArgs = $controller->passedArgs;
+
 		// if(!in_array('Session', $this->Controller->components))
 		// {
 		// 	array_unshift($this->Controller->components, 'Session');
 		// }
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/**
+ * startup Callback will be exectured before Controller action, but after beforeFilter
+ *
+ * @access public
+ */
+	public function startup()
+	{
+		if(!empty($_POST) && isset($_POST['data']['Flour']['search']))
+		{
+			$this->redirect($_POST['data']['Flour']);
+		}
+	}
 
 /**
  * generates an conditions array for searches and paginate, that consists of search-params coming in from named params.
- * Only named params that are present in $this->_search_modes are available
+ * Only named params that are present in $this->_searchModes are available
+ * 
+ * usage via Model->alias:
+ * {{{
+ *	$this->Search->buildConditions('Content');
+ * }}}
  *
- * @param string $modelname The name of the Model to look for
- * @param mixed $search_fields The fields in the database to search in
+ * usage via search_fields:
+ * {{{
+ *	$this->Search->buildConditions(array(
+ * 		'Project.name',
+ * 		'Project.owner',
+ * 		'ProjectDetails.description',
+ * 		'ProjectDetails.status',
+ * 		'ProjectMessage.body',
+ * ));
+ * }}}
+ *
+ * @param mixed $search_fields The alias of the model or an array with fields in the database to search in
  * @return array
- * @access private
+ * @access public
  */
-	function _buildConditions($modelname, $search_fields = array())
+	public function buildConditions($search_fields = array())
 	{
-		$conditions = array();
-		//debug($this->data);
-		foreach($this->params['named'] as $key => $value)
+
+		if(is_string($search_fields)
+			&& isset($this->Controller->$search_fields)
+			&& is_object($this->Controller->$search_fields)
+		)
 		{
-			if(in_array($key, $this->_search_modes))
+			$schema = $this->Controller->$search_fields->schema();
+			$alias = $this->Controller->$search_fields->alias;
+			$search_fields = array();
+			foreach($schema as $fieldname => $attributes)
+			{
+				$search_fields[] = $alias.'.'.$fieldname;
+			}
+		}
+
+		$search_fields = (is_string($search_fields))
+			? array($search_fields)
+			: $search_fields;
+
+		$conditions = array();
+		foreach($this->passedArgs as $key => $value)
+		{
+			if(in_array($key, $this->_searchModes))
 			switch($key)
 			{
 				case 'fullsearch':
@@ -99,21 +156,23 @@ class SearchComponent extends Object
 						}
 						if ($term != '')
 						{
-							foreach ($this->search_fields as $field)
+							foreach ($search_fields as $field)
 							{
-								$not = ($not) ? "NOT " : "";
+								$not = ($not)
+									? "NOT "
+									: "";
 								$conditions[$type][] = "{$field} {$not}LIKE '%{$term}%'";
 							}
 						}
 					}
-					$this->set('current_searchterms', split(' ', $value));
+					$this->Controller->set('current_searchterms', explode(' ', $value));
 					break;
 
 				case 'search':
 				
 					// add + to every word, if it's not explicitly set to -
 					// add * after every word to also in-/exclude part-words
-					$current_searchterms = split(' ', $value);
+					$current_searchterms = explode(' ', $value);
 					foreach($current_searchterms as &$term) {
 						$term = ltrim($term, '+');
 						if(substr($term,0,1) != '-') {
@@ -123,10 +182,15 @@ class SearchComponent extends Object
 							$term .= '*';
 						}
 					}
-					$value = addcslashes(join(' ', $current_searchterms), "\"'%");
+					$db_value = addcslashes(implode(' ', $current_searchterms), "\"'%");
 					
-					$conditions['AND'][] = 'MATCH('.join(', ', $search_fields).') AGAINST(\''.$value.'\' IN BOOLEAN MODE )';
+					$conditions['AND'][] = 'MATCH('.join(', ', $search_fields).') AGAINST(\''.$db_value.'\' IN BOOLEAN MODE )';
+					$this->Controller->set('current_searchterms', $value);
 
+					break;
+
+				case 'tags':
+					$conditions[$alias.'.tags LIKE'] = '%'.$value.'%';
 					break;
 
 				case 'date':
@@ -139,33 +203,34 @@ class SearchComponent extends Object
 						list($t_d, $t_m, $t_y) = split('\.', $to, 3);
 						$from = '20'.$f_y.'-'.$f_m.'-'.$f_d.' 00:00:00';  //concatenate mysql-conform date-string
 						$to = '20'.$t_y.'-'.$t_m.'-'.$t_d.' 23:59:59'; //concatenate mysql-conform date-string
-						$conditions[$modelname.'.created >='] = $from;
-						$conditions[$modelname.'.created <='] = $to;
+						$conditions[$alias.'.created >='] = $from;
+						$conditions[$alias.'.created <='] = $to;
 					} else {
 						list($f_d, $f_m, $f_y) = split('\.', $value, 3);
 						$value = '20'.$f_y.'-'.$f_m.'-'.$f_d; //concatenate mysql-conform date-string
-						$conditions[$modelname.'.created LIKE'] = $value.'%';
+						$conditions[$alias.'.created LIKE'] = $value.'%';
 					}
 					$searchterms = split(' - ', $value);
-					$this->set('current_search_range', $searchterms);
-					$this->set('current_searchtype', $key);
+					$this->Controller->set('current_search_range', $searchterms);
+					$this->Controller->set('current_searchtype', $key);
 					break;
 
 				case 'from':
-					$conditions[$modelname.'.created >='] = $value.'%'; //TODO: works?
+					$conditions[$alias.'.created >='] = $value.'%';
 					break;
 
 				case 'to':
-					$conditions[$modelname.'.created <='] = $value.'%'; //TODO: works?
+					$conditions[$alias.'.created <='] = $value.'%';
 					break;
 
 				case 'status':
 					$value = split(',', $value); //too bad... see: https://trac.cakephp.org/ticket/5449
-					$conditions[$modelname.'.status'] = $value;
+					$conditions[$alias.'.status'] = $value;
 					break;
 
+				//TBD.
 				default:
-					$conditions[$key] = Sanitize::paranoid($value, array('-', '.')); //every key (that is in $this->_search_modes) will be put directly as condition
+					$conditions[$key] = Sanitize::paranoid($value, array('-', '.')); //every key (that is in $this->_searchModes) will be put directly as condition
 			}
 		}
 		return $conditions;
@@ -174,7 +239,7 @@ class SearchComponent extends Object
 	function _addSearchModes($modes)
 	{
 		if(!is_array($modes)) $modes = array($modes);
-		$this->_search_modes = array_merge($this->_search_modes, $modes);
+		$this->_searchModes = array_merge($this->_searchModes, $modes);
 	}
 
 /**
@@ -184,34 +249,21 @@ class SearchComponent extends Object
  * @return NULL
  * @access public
  */
-	function search($searchterm = null)
+	public function redirect($data = array())
 	{
-		if(!empty($this->data))
+		if(isset($data['params']))
 		{
-			$model = $this->data['Model']['name'];
-			$action = (isset($this->data['Action']['name']))
-				? $this->data['Action']['name']
-				: 'index';
-			$url = array_merge($this->data[$model], array('action' => $action, 'controller' => low(Inflector::pluralize($model))));
-			$this->redirect($url); //TODO: check array //we redirect here, so we have named params again
+			$params = json_decode($data['params'], true);
+			unset($data['params']);
+			$data = array_merge($params, $data);
 		}
+		$url = array(
+			'controller' => $this->Controller->params['controller'],
+			'action' => $this->Controller->params['action'],
+		);
+		$url = array_merge($url, $data);
+		$this->Controller->redirect($url); //TODO: check array //we redirect here, so we have named params again
 	}
 
-/**
- * generates a url with current search and redirects to index() with corresponding parameters.
- *
- * @param string $searchterm Term to search for (can be multiple terms, with + and -)
- * @return NULL
- * @access public
- */
-	function admin_search($searchterm = null)
-	{
-		if(!empty($this->data))
-		{
-			$model = $this->data['Model']['name'];
-			$url = array_merge($this->data[$model], array('action' => 'index', 'controller' => low(Inflector::pluralize($model))));
-			$this->redirect($url); //TODO: check array //we redirect here, so we have named params again
-		}
-	}
 
 }

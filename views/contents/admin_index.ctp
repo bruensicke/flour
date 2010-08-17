@@ -8,6 +8,7 @@ echo $this->element('flour/content_start');
 
 echo $this->element('flour/iterator', array(
 	'element' => 'contents/item',
+	'search' => true,
 ));
 
 echo $this->TagCloud->display($tags, array('before' => '<span>'));

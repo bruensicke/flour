@@ -23,26 +23,8 @@ class ContentsController extends FlourAppController
  */
 	function admin_index()
 	{
-		$search = (isset($this->params['named']['search']))
-			? $this->params['named']['search']
-			: '';
-			
-		$conditions = array();
-		
-		if(!empty($search)) {
-			$conditions['OR'] = array(
-				'Content.id =' => $search,
-				'Content.name LIKE' => '%'.$search.'%',
-				'Content.title LIKE' => '%'.$search.'%',
-				'Content.body LIKE' => '%'.$search.'%',
-				'Content.slug LIKE' => '%'.$search.'%',
-			);
-		}
-
-		$contain = array();
-
-		$this->set('search', $search);
-		
+		// $conditions = $this->Search->buildConditions(array('Content.name'));
+		$conditions = $this->Search->buildConditions('Content');
 		$this->data = $this->paginate('Content', $conditions);
 		$this->set('tags', 
 			$this->Content->Tagged->find('cloud', array(

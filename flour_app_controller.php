@@ -29,7 +29,7 @@ class FlourAppController extends AppController
  */
 	var $components = array(
 		'Flour.Flash',
-		// 'Flour.Search',
+		'Flour.Search',
 	);
 
 /**

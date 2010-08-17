@@ -97,14 +97,8 @@ $box_content = $btnbar_content = array();
 //TODO: switch for search-form
 if(!empty($search))
 {
-	echo $this->Form->create('', array('action' => 'search'));
+	echo $this->Form->create('Flour', array('url' => array('controller' => $this->params['controller'])));
 }
-
-
-
-
-
-
 
 	if(!empty($search))
 	{
@@ -118,14 +112,13 @@ if(!empty($search))
 			}
 			$btnbar_content[] = $this->Html->tag('span', $this->Html->link( __('reset', true), $url));
 		}
-
 		$btnbar_content[] = '&nbsp;'; //needed for placement in caption (line-height)
-		$btnbar_content[] = $this->Form->hidden('Model.name', array('value' => $search));
+		$btnbar_content[] = $this->Form->hidden('Flour.search', array('value' => 1));
 		if($preserveNamedParams && isset($this->params['named']) && !empty($this->params['named']))
 		{
-			$btnbar_content[] = $this->Form->hidden('Model.params', array('value' => json_encode($this->params['named'])));
+			$btnbar_content[] = $this->Form->hidden('Flour.params', array('value' => json_encode($this->params['named'])));
 		}
-		$btnbar_content[] = $this->Form->input('search', array(
+		$btnbar_content[] = $this->Form->input('Flour.search', array(
 			'label' => false,
 			'value' => $current_searchterms,
 			'class' => 'search',
@@ -201,7 +194,7 @@ if(!empty($search))
 		$content = $empty;
 	}
 
-	if(!empty($current_searchterms))
+	if(!empty($current_searchterms) && isset($this->Text) && is_object($this->Text))
 	{
 		//highlights the searchterm in output
 		$content = $this->Text->highlight(
@@ -217,7 +210,7 @@ if(!empty($search))
 	$box_content[] = $this->Html->div('items', $content);
 
 	//paginator
-	$footer = (isset($this->Paginator))
+	$footer = (isset($this->Paginator) && is_object($this->Paginator))
 		? $this->element($paginator_element, array('search' => $current_searchterms))
 		: null;
 
