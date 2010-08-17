@@ -8,9 +8,11 @@
  * Benefit: allows better styling based on state
  * 
  * Built in redirect after flash:
+ * {{{
  *   $this->Flash->error('go away', '/');
  *   $this->Flash->success( __('welcome!', true), array('action' => 'dashboard'));
  *   $this->Flash->success( __('welcome :user!', true), array('user' => 'd1rk'), array('action' => 'dashboard'));
+ * }}}
  * 
  * @package flour
  * @author Dirk Brünsicke
