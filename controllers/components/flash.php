@@ -50,9 +50,9 @@ class FlashComponent extends Object
 	public $preserveNamedParams = true;
 
 /**
- * Pointer to Controller Object
+ * calling controller object
  *
- * @var object $Controller
+ * @var Controller $Controller
  * @access protected
  */
 	protected $Controller = null;

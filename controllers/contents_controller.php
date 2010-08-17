@@ -40,6 +40,7 @@ class ContentsController extends FlourAppController
 		$this->data = $this->paginate('Content', $conditions);
 		$this->set('tags', 
 			$this->Content->Tagged->find('cloud', array(
+				'model' => 'Content',
 				'order' => 'Tag.name ASC',
 			)));
 	}
