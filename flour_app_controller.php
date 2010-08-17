@@ -28,31 +28,9 @@ class FlourAppController extends AppController
  * @access public
  */
 	var $components = array(
+		// 'Flour.Config',
 		'Flour.Flash',
 		'Flour.Search',
 	);
 
-/**
-* Reads settings from database and writes them using the Configure class
-* 
-* @return void
-* @access private
-* @author Jose Diaz-Gonzalez
-*/
-	function _configureAppSettings() {
-		$settings = array();
-		$this->loadModel('Setting');
-		$Setting = $this->Setting;
-		if (($settings = Cache::read("settings.all")) === false)
-		{
-			$settings = $this->Setting->find('all');
-			Cache::write("settings.all", $settings);
-		}
-		foreach($settings as $_setting)
-		{
-			if ($_setting['Setting']['value'] !== null) {
-				Configure::write("{$_setting['Setting']['category']}.{$_setting['Setting']['setting']}", $_setting['Setting']['value']);
-			}
-		}
-	}
 }
