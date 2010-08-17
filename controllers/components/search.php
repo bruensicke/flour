@@ -184,13 +184,27 @@ class SearchComponent extends Object
 					}
 					$db_value = addcslashes(implode(' ', $current_searchterms), "\"'%");
 					
-					$conditions['AND'][] = 'MATCH('.join(', ', $search_fields).') AGAINST(\''.$db_value.'\' IN BOOLEAN MODE )';
+					$conditions['AND'][] = 'MATCH('.implode(', ', $search_fields).') AGAINST(\''.$db_value.'\' IN BOOLEAN MODE )';
 					$this->Controller->set('current_searchterms', $value);
 
 					break;
 
 				case 'tags':
-					$conditions[$alias.'.tags LIKE'] = '%'.$value.'%';
+					if(!stristr($value, ','))
+					{
+						$conditions[$alias.'.tags LIKE'] = '%'.$value.'%';
+						$this->Controller->set('current_tags', $value);
+					} else {
+						$type = (true) //TODO: find good condition
+							? 'OR'
+							: 'AND';
+						$current_tags = explode(',', $value);
+						foreach($current_tags as $tag)
+						{
+							$conditions[$type][] = $alias.'.tags LIKE \'%'.$tag.'%\''; //'%'.$value.'%';
+						}
+						$this->Controller->set('current_tags', $current_tags);
+					}
 					break;
 
 				case 'date':
