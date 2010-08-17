@@ -37,7 +37,7 @@ class ConfigurationsController extends FlourAppController
 	public function admin_index()
 	{
 		$conditions = $this->Search->buildConditions('Configuration');
-		$this->data = $this->paginate('Configuration', $conditions);
+		$this->data = $this->Configuration->find('all', compact('conditions'));
 		$this->set('tags', 
 			$this->Configuration->Tagged->find('cloud', array(
 				'model' => 'Configuration',
@@ -84,41 +84,23 @@ class ConfigurationsController extends FlourAppController
 	{
 		if(!empty($this->data))
 		{
-			$model = $this->data['Configuration']['model'];
-			$modelArray = pluginSplit($model);
-			$modelName = $modelArray[1];
-			$this->$modelName = ClassRegistry::init($model);
-			$this->$modelName->create($this->data);
 			$this->Configuration->create($this->data);
-			$valid1 = $this->$modelName->validates();
-			$valid2 = $this->Configuration->validates();
-			
-			if($valid1 && $valid2)
+			if($this->Configuration->validates())
 			{
-				$save1 = $this->$modelName->save();
-				if($save1)
+				if($this->Configuration->save(null, false))
 				{
-					$model_id = $this->$modelName->getInsertID();
-					$this->data['Configuration']['foreign_id'] = $model_id;
-					$this->Configuration->create($this->data);
-					$save2 = $this->Configuration->save();
-					if($save2)
-					{
-						$id = $this->Configuration->getInsertID();
-						$this->Flash->success(
-							__('Configuration :Configuration.name saved.', true),
-							array('action' => 'edit', $id)
-						);
-					} else {
-						$this->Flash->error(
-							__('Configuration :Configuration.name could not be saved.', true)
-						);
-					}
+					$id = $this->Configuration->getInsertID();
+					$this->Flash->success(
+						__('Configuration :Configuration.name saved.', true),
+						array('action' => 'edit', $id)
+					);
 				} else {
 					$this->Flash->error(
-						__(':Configuration.model could not be saved.', true)
+						__('Configuration :Configuration.name could not be saved.', true)
 					);
 				}
+			} else {
+				//validation errors
 			}
 		}
 	}
@@ -141,31 +123,22 @@ class ConfigurationsController extends FlourAppController
 		}
 		if(!empty($this->data))
 		{
-			$model = $this->data['Configuration']['model'];
-			$modelArray = pluginSplit($model);
-			$modelName = $modelArray[1];
-			$this->$modelName = ClassRegistry::init($model);
-			$this->data[$modelName]['id'] = $this->data['Configuration']['foreign_id'];
-			$this->$modelName->create($this->data);
 			$this->Configuration->create($this->data);
-			$valid1 = $this->$modelName->validates();
-			$valid2 = $this->Configuration->validates();
-			
-			if($valid1 && $valid2)
+			if($this->Configuration->validates())
 			{
-				$save1 = $this->$modelName->save();
-				$save2 = $this->Configuration->save();
-				if($save1 && $save2)
+				if($this->Configuration->save(null, false))
 				{
 					$this->Flash->success(
 						__('Configuration :Configuration.name saved.', true),
-						array('action' => 'edit', $this->data['Configuration']['id'])
+						array('action' => 'edit', $id)
 					);
 				} else {
 					$this->Flash->error(
 						__('Configuration :Configuration.name could not be saved.', true)
 					);
 				}
+			} else {
+				//validation errors
 			}
 		}
 		$this->data = $this->Configuration->read(null, $id);

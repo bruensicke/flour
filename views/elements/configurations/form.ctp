@@ -2,11 +2,11 @@
 //retrieve the content_type to be used
 $type = (isset($this->passedArgs['type']))
 	? $this->passedArgs['type']
-	: Configure::read('Flour.Content.defaultType');
+	: Configure::read('Flour.Configuration.defaultType');
 
 $status = (isset($this->passedArgs['status']))
 	? $this->passedArgs['status']
-	: Configure::read('Flour.Content.defaultStatus');
+	: Configure::read('Flour.Configuration.defaultStatus');
 
 $slug = (isset($this->passedArgs['slug']))
 	? $this->passedArgs['slug']
@@ -20,37 +20,33 @@ $tags = (isset($this->passedArgs['tags']))
 	? $this->passedArgs['tags']
 	: null;
 
-echo $this->Form->error('Content.model', array(
-	'notEmpty' => __('You must give a model to use.', true)
-));
-
-echo $this->Form->input('Content.type', array(
+echo $this->Form->input('Configuration.type', array(
 	'type' => 'select',
-	'options' => Configure::read('Flour.Content.types'),
+	'options' => Configure::read('Flour.Configuration.types'),
 	'default' => $type,
 ));
 
-echo $this->Form->input('Content.status', array(
+echo $this->Form->input('Configuration.status', array(
 	'type' => 'select',
-	'options' => Configure::read('Flour.Content.status'),
+	'options' => Configure::read('Flour.Configuration.status'),
 	'default' => $status,
 ));
 
-echo $this->Form->input('Content.name', array(
+echo $this->Form->input('Configuration.name', array(
 	'default' => $name,
 ));
 
-echo $this->Form->input('Content.slug', array(
+echo $this->Form->input('Configuration.slug', array(
 	'default' => $slug,
 	'errors' => array(
 		'notEmpty' => __('This field is required.', true)
 	)
 ));
 
-echo $this->Form->input('Content.description', array(
+echo $this->Form->input('Configuration.description', array(
 	'type' => 'textarea',
 ));
 
-echo $this->Form->input('Content.tags', array(
+echo $this->Form->input('Configuration.tags', array(
 	'default' => $tags,
 ));

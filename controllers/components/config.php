@@ -10,22 +10,6 @@
 class ConfigComponent extends Object 
 {
 /**
- * defaults
- *
- * @var array $_defaults
- * @access protected
- */
-	protected $_defaults = array(
-		'fullsearch',
-		'search',
-		'tags',
-		'date',
-		'from',
-		'to',
-		'status',
-	);
-
-/**
  * calling controller object
  *
  * @var Controller $Controller
@@ -50,7 +34,7 @@ class ConfigComponent extends Object
 	public function initialize(&$controller, $settings = array())
 	{
 		$this->Controller = $controller;
-		$this->Configuration = ClassRegistry::init('Configuration');
+		$this->Configuration = ClassRegistry::init('Flour.Configuration');
 	}
 
 /**
@@ -60,41 +44,7 @@ class ConfigComponent extends Object
  */
 	public function startup()
 	{
-		$configurations = $this->Configuration->find('autoload');
-		$this->write($configurations);
+		$this->Configuration->_writeConfiguration();
 	}
-
-	public function write($data = array())
-	{
-		foreach($data as $key => $value)
-		{
-			Configure::write($key, $value);
-		}
-	}
-
-
-/**
-* Reads settings from database and writes them using the Configure class
-* 
-* @return void
-* @access private
-*/
-	function _configureAppSettings() {
-		$settings = array();
-		$this->loadModel('Setting');
-		$Setting = $this->Setting;
-		if (($settings = Cache::read("settings.all")) === false)
-		{
-			$settings = $this->Setting->find('all');
-			Cache::write("settings.all", $settings);
-		}
-		foreach($settings as $_setting)
-		{
-			if ($_setting['Setting']['value'] !== null) {
-				Configure::write("{$_setting['Setting']['category']}.{$_setting['Setting']['setting']}", $_setting['Setting']['value']);
-			}
-		}
-	}
-
 
 }

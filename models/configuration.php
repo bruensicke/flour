@@ -2,6 +2,12 @@
 /**
  * Configuration Model
  * 
+ * type is one of the following:
+ * 
+ *   o  text  -  value is just a text-value
+ *   o  array -  value is json_encoded
+ *   o  collection - value is empty, you need collection_slug filled
+ * 
  * @package flour
  * @author Dirk Brünsicke
  * @version $Id$
@@ -34,7 +40,7 @@ class Configuration extends FlourAppModel
  * @access private
  */
 	var $validate = array(
-		'model' => array(
+		'category' => array(
 			'notEmpty' => array('rule' => 'notEmpty', 'required' => true),
 		),
 		'name' => array(
@@ -45,6 +51,57 @@ class Configuration extends FlourAppModel
 		),
 	);
 
+/**
+ * configurations
+ *
+ * @var array $configurations
+ * @access protected
+ */
+	protected $_config = array(
+	);
+
+/**
+ * cache flag, set to false to disable caching
+ *
+ * @var boolean $_cache
+ * @access protected
+ */
+	protected $_cache = true;
+
+
+/**
+ * called beforeSave, takes care of array-settings
+ *
+ * @return boolean True if the operation should continue, false if it should abort
+ * @access public
+ */
+	public function beforeSave($options)
+	{
+		//TODO: check on $type, on 'array' do explode("key:val\n") && json_encode
+		return true;
+	}
+
+/**
+ * called after save, deletes the cache
+ *
+ * @param boolean $created True if this save created a new record
+ * @return void
+ * @access public
+ */
+	public function afterSave($created)
+	{
+		Cache::delete('configuration.all');
+	}
+
+/**
+ * custom find method 'autoload'
+ *
+ * @param string $state 'before' or 'after'
+ * @param string $query 
+ * @param string $results 
+ * @return mixed based on $state, returns $query or $results
+ * @access public
+ */
 	public function _findAutoload($state, $query, $results = array())
 	{
 		if($state == 'before')
@@ -54,8 +111,8 @@ class Configuration extends FlourAppModel
 				$query['conditions'] = Set::merge(
 					$query['conditions'], 
 					array(
-						'Configuration.status >' => 1,
-						// 'Configuration.autoload' => 1,
+						'Configuration.status >=' => 1,
+						'Configuration.autoload' => 1,
 					)
 				);
 			}
@@ -63,7 +120,39 @@ class Configuration extends FlourAppModel
 		}
 		elseif($state == 'after')
 		{
-			return $results;
+			$output = array();
+			foreach($results as $index => $item)
+			{
+				extract($item['Configuration']);
+				$output[$category] = (isset($output[$category]))
+					? array()
+					: null;
+
+				$output[$category][$title] = $val;
+			}
+			return $output;
+		}
+	}
+
+/**
+* Reads settings from database and writes them using the Configure class
+* 
+* @return void
+* @access private
+*/
+	function _writeConfiguration()
+	{
+		if (($this->_config = Cache::read('configuration.all')) === false)
+		{
+			$this->_config = $this->find('autoload');
+			if($this->_cache === true) Cache::write('configuration.all', $this->_config);
+		}
+		foreach($this->_config as $category => $item)
+		{
+			foreach($item as $key => $val)
+			{
+				Configure::write($category.'.'.$key, $val);
+			}
 		}
 	}
 
