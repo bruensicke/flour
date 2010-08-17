@@ -32,5 +32,3 @@ echo $this->element('flour/content_start');
 
 echo $this->element('flour/content_stop');
 echo $form->end('Ok');
-
-?>
