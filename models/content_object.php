@@ -11,4 +11,3 @@ class ContentObject extends FlourAppModel
 {
 
 }
-?>

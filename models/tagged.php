@@ -48,7 +48,8 @@ class Tagged extends FlourAppModel {
  */
 	public $_findMethods = array(
 		'cloud' => true,
-		'tagged' => true);
+		'tagged' => true,
+	);
 
 /**
  * belongsTo associations
@@ -58,7 +59,9 @@ class Tagged extends FlourAppModel {
  */
 	public $belongsTo = array(
 		'Tag' => array(
-			'className' => 'Flour.Tag'));
+			'className' => 'Flour.Tag',
+		),
+	);
 
 /**
  * Returns a tag cloud
@@ -174,4 +177,3 @@ class Tagged extends FlourAppModel {
 	}
 
 }
-?>

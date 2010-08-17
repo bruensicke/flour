@@ -9,16 +9,24 @@
  **/
 class Content extends FlourAppModel
 {
-	var $actsAs = array(
+/**
+ * Attached behaviors
+ *
+ * @var array
+ * @access public
+ */
+	public $actsAs = array(
 		'Flour.Polymorphic',
 		'Flour.Taggable',
 	);
 
-	/**
-	 * @var array controls validation
-	 * @access private
-	 */
-	var $validate = array(
+/**
+ * Validation rules
+ *
+ * @var array
+ * @access public
+ */
+	public $validate = array(
 		'model' => array(
 			'notEmpty' => array('rule' => 'notEmpty', 'required' => true),
 		),
@@ -31,4 +39,3 @@ class Content extends FlourAppModel
 	);
 
 }
-?>

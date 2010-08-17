@@ -135,4 +135,3 @@ class Tag extends FlourAppModel {
 	}
 
 }
-?>
