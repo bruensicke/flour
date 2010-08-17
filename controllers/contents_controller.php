@@ -10,20 +10,32 @@
 class ContentsController extends FlourAppController
 {
 
-	var $paginate = array(
+/**
+ * controls pagination
+ *
+ * @var array $paginate
+ * @access public
+ */
+	public $paginate = array(
 		'Content' => array(
 			'limit' => 100,
 		)
 	);
 
 /**
- * lists all available contents
+ * lists all available contents, accepts a variety of named params
  *
+ * {{{
+ *	/contents/index/view:short #show all items with template 'short' (from item.ctp)
+ *	/contents/index/search:foo #find all items with 'foo'
+ *	/contents/index/tags:bar #find all items tagged 'bar'
+ * }}}
+ *
+ * @return void
  * @access public
  */
-	function admin_index()
+	public function admin_index()
 	{
-		// $conditions = $this->Search->buildConditions(array('Content.name'));
 		$conditions = $this->Search->buildConditions('Content');
 		$this->data = $this->paginate('Content', $conditions);
 		$this->set('tags', 
@@ -35,10 +47,11 @@ class ContentsController extends FlourAppController
 /**
  * View action
  *
- * @access public
  * @param integer $id ID of record
+ * @return void
+ * @access public
  */	
-	function admin_view($id = null)
+	public function admin_view($id = null)
 	{
 		if (!$id)
 		{
@@ -52,10 +65,21 @@ class ContentsController extends FlourAppController
 
 /**
  * add action
+ * Handles several named params for itself, like
+ * 
+ * {{{
+ *	/contents/add/type:foo #content of type 'foo'
+ *	/contents/add/status:2 #set status to 2
+ *	/contents/add/name:foo #pre-fill name with foo
+ *	/contents/add/slug:bar #pre-fill slug with bar
+ *	/contents/add/tags:baz #pre-fill tags with baz
+ *	/contents/add/name:foo/slug:bar/type:baz #pre-fill all fields accordingly
+ * }}}
  *
+ * @return void
  * @access public
  */	
-	function admin_add()
+	public function admin_add()
 	{
 		if(!empty($this->data))
 		{
@@ -101,10 +125,11 @@ class ContentsController extends FlourAppController
 /**
  * edit action
  *
- * @access public
  * @param integer $id ID of record
+ * @return void
+ * @access public
  */	
-	function admin_edit($id = null)
+	public function admin_edit($id = null)
 	{
 		if (!$id)
 		{
@@ -148,12 +173,12 @@ class ContentsController extends FlourAppController
 	}
 
 /**
- * View action
+ * delete action
  *
+ * @return void
  * @access public
- * @param integer $id ID of record
  */	
-	function admin_delete($id = null)
+	public function admin_delete($id = null)
 	{
 		if (!$id)
 		{
