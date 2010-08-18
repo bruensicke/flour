@@ -106,16 +106,13 @@ class Configuration extends FlourAppModel
 	{
 		if($state == 'before')
 		{
-			if (isset($query['conditions']) && is_array($query['conditions']))
-			{
-				$query['conditions'] = Set::merge(
-					$query['conditions'], 
-					array(
-						'Configuration.status >=' => 1,
-						'Configuration.autoload' => 1,
-					)
-				);
-			}
+			$query['conditions'] = Set::merge(
+				$query['conditions'], 
+				array(
+					'Configuration.status >=' => 1,
+					'Configuration.autoload' => 1,
+				)
+			);
 			return $query;
 		}
 		elseif($state == 'after')

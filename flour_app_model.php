@@ -9,30 +9,43 @@
  **/
 class FlourAppModel extends AppModel
 {
-	var $tablePrefix = 'flour_';
 
-	var $actsAs = array(
+/**
+ * table prefix for all FlourAppModels
+ *
+ * @var string tablePrefix
+ * @access public
+ */
+	public $tablePrefix = 'flour_';
+
+/**
+ * Attached behaviors
+ *
+ * @var array
+ * @access public
+ */
+	public $actsAs = array(
 		'Flour.Flexible',
-		// 'Flour.Editionable',
+		// 'Flour.Editionable', //TODO: develop editionable behavior
 	);
 
-	/**
-	 * flour beforeSave
-	 *
-	 * @access public
-	 */
-	function beforeSave()
+/**
+ * flour beforeSave
+ *
+ * @access public
+ */
+	public function beforeSave()
 	{		
 		$this->_addUserdata();
 		return true;
 	}
 	
-	/**
-	 * flour soft delete
-	 *
-	 * @access public
-	 */
-	function delete($id = null, $cascade = true) {
+/**
+ * flour soft delete
+ *
+ * @access public
+ */
+	public function delete($id = null, $cascade = true) {
 		if (!empty($id)) {
 			$this->id = $id;
 		}
@@ -53,12 +66,12 @@ class FlourAppModel extends AppModel
 		return $this->save($this->data);
 	}
 	
-	/**
-	 * flour undelete
-	 *
-	 * @access public
-	 */
-	function undelete($id) {
+/**
+ * flour undelete
+ *
+ * @access public
+ */
+	public function undelete($id) {
 		$this->id = $id;
 		if(!$this->hasField('deleted') || !$this->exists()){
 			return false;
@@ -71,15 +84,14 @@ class FlourAppModel extends AppModel
 		return $this->save($this->data);
 	}
 	
-	
-	/**
-	 * flour find
-	 *
-	 * @var array
-	 * @access private
-	 * @todo add missing params to fulfill the standard find() signature
-	 */
-	function find($type, $options = array())
+/**
+ * flour find
+ *
+ * @var array
+ * @access private
+ * @todo add missing params to fulfill the standard find() signature
+ */
+	public function find($type, $options = array())
 	{
 		if (!isset($options['conditions']) ) {
 			$options['conditions'] = array();
@@ -115,13 +127,13 @@ class FlourAppModel extends AppModel
 		return parent::find($type, $options);
 	}
 	
-	/**
-	 * flour find
-	 *
-	 * @var array
-	 * @access private
-	 * @todo add missing params to fulfill the standard find() signature
-	 */
+/**
+ * flour find
+ *
+ * @var array
+ * @access private
+ * @todo add missing params to fulfill the standard find() signature
+ */
 	function _setActive(&$options, &$type)
 	{
 		$this->_setValid($options, $type);
@@ -136,13 +148,13 @@ class FlourAppModel extends AppModel
 			: 'all';
 	}
 
-	/**
-	 * undocumented function
-	 *
-	 * @param string $options 
-	 * @param string $type 
-	 * @return void
-	 */
+/**
+ * undocumented function
+ *
+ * @param string $options 
+ * @param string $type 
+ * @return void
+ */
 	function _setCurrent(&$options, &$type) {
 		$this->_setValid($options, $type);
 		$options['conditions'] = array_merge(
@@ -160,14 +172,14 @@ class FlourAppModel extends AppModel
 		$type = 'first';
 	}
 	
-	/**
-	 * undocumented function
-	 *
-	 * @param string $options 
-	 * @param string $type 
-	 * @return void
-	 * @access public
-	 */
+/**
+ * undocumented function
+ *
+ * @param string $options 
+ * @param string $type 
+ * @return void
+ * @access public
+ */
 	function _setEditions(&$options, &$type) {
 		$slug = null;
 		
@@ -258,15 +270,15 @@ class FlourAppModel extends AppModel
 		return false;
 	}
 	
-	/**
-	 * Customized paginateCount method (copied from CakeDC Tags.Taggable Plugin)
-	 *
-	 * @param array
-	 * @param integer
-	 * @param array
-	 * @return 
-	 * @access public
-	 */
+/**
+ * Customized paginateCount method (copied from CakeDC Tags.Taggable Plugin)
+ *
+ * @param array
+ * @param integer
+ * @param array
+ * @return 
+ * @access public
+ */
 	public function paginateCount($conditions = array(), $recursive = 0, $extra = array()) {
 		$parameters = compact('conditions');
 		if ($recursive != $this->recursive) {
