@@ -26,6 +26,7 @@ echo $this->Form->error('Content.model', array(
 
 echo $this->Form->input('Content.type', array(
 	'type' => 'select',
+	'class' => 'auto_switch_type',
 	'options' => Configure::read('Flour.Content.types'),
 	'default' => $type,
 ));

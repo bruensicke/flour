@@ -176,5 +176,23 @@ class ConfigurationsController extends FlourAppController
 		);
 	}
 
+/**
+ * type renders the correct form-element as given in named param $type
+ *
+ * @return void
+ * @access public
+ */	
+	public function admin_type()
+	{
+		$type = $this->passedArgs['type'];
+		$this->autoLayout = false;
+		$this->autoRender = false;
+		Configure::write('debug', 0);
+		$element = String::insert(
+			Configure::read('Flour.Configuration.pattern'), 
+			array('type' => $type)
+		);
+		$this->render('/elements/'.$element);
+	}
 
 }

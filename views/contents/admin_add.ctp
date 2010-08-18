@@ -15,8 +15,11 @@ echo $this->element('flour/content_start');
 			//TODO: use panel-element instead of box (must be created before :)
 			echo $this->element('flour/box', array(
 				'caption' => __('Enter Content Details.', true),
-				'content' => $this->element('contents/type_'.$type),
-				'class' => 'box',
+				'class' => 'box type_details',
+				'content' => $this->element(
+					String::insert(Configure::read('Flour.Content.pattern'), 
+					array('type' => $type))
+				),
 			));
 
 		echo $this->Html->tag('/div'); //div.span-14
@@ -33,3 +36,19 @@ echo $this->element('flour/content_start');
 
 echo $this->element('flour/content_stop');
 echo $form->end('Ok');
+
+$url = Router::url(array('action' => 'type'), true);
+echo $this->Html->scriptBlock("$().ready(function(){
+	$('.auto_switch_type').change(function() {
+		type = $('.auto_switch_type').attr('value');
+		if(type=='') {
+			$('div.type_details').html('');
+		} else {
+			$.get('$url/type:' + type, function(data)
+			{
+				$('div.type_details').html(data);
+			});
+		}
+	});
+});");
+
