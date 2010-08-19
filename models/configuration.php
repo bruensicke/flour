@@ -133,9 +133,7 @@ class Configuration extends FlourAppModel
 				: $item;
 
 			extract($item);
-			$output[$category] = (isset($output[$category]))
-				? array()
-				: null;
+			if(!array_key_exists($category, $output)) $output[$category] = array();
 
 			switch($type)
 			{
@@ -143,6 +141,7 @@ class Configuration extends FlourAppModel
 					$valArray = array();
 					foreach($val as $index => $subitem)
 					{
+						if(empty($subitem['key'])) continue;
 						$valArray[$subitem['key']] = $subitem['val'];
 					}
 					$output[$category][$title] = $valArray;
