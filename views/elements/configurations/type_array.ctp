@@ -13,13 +13,15 @@ echo $this->Form->input('Configuration.title');
 echo $this->Form->hidden('Configuration.val'); //will be js-filled with Temp.key/val
 
 echo $this->Html->div('row');
-	echo $this->Form->input('Temp.0.key', array(
+	echo $this->Html->link( __('add', true), '#', array('class' => 'add'));
+	echo $this->Html->link( __('delete', true), '#', array('class' => 'del'));
+	echo $this->Form->input('Configuration.val.0.key', array(
 		'label' => __('Key', true),
 		'type' => 'text',
 		'class' => 'left',
 	));
 
-	echo $this->Form->input('Temp.0.val', array(
+	echo $this->Form->input('Configuration.val.0.val', array(
 		'label' => __('Value', true),
 		'type' => 'text',
 		'class' => 'right',
@@ -30,3 +32,31 @@ echo $this->Html->tag('/div'); //div.row
 echo $this->Form->input('Configuration.autoload', array(
 	'type' => 'checkbox',
 ));
+
+echo $this->Html->scriptBlock("$().ready(function(){
+	$('a.del').live('click', function(){
+		$(this).parent().remove();
+		renumber();
+		return false;
+	});
+	$('a.add').live('click', function(){
+		var clon = $(this).parent().clone().insertAfter($(this).parent());
+		renumber();
+		return false;
+	});
+	function renumber()
+	{
+		var i = 0;
+		$('.row').each(function(){
+			var inputs = $(this).find('input');
+			inputs.each(function(){
+				name = $(this).attr('name');
+				name = i; //TODO: replace name with counting number
+				$(this).attr('name', name);
+				console.log(name);
+			});
+			i++;
+		});
+	}
+});");
+
