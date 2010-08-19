@@ -14,8 +14,11 @@ echo $this->element('flour/content_start');
 			//TODO: use panel-element instead of box (must be created before :)
 			echo $this->element('flour/box', array(
 				'caption' => __('Enter Configuration Details.', true),
-				'content' => $this->element('configurations/type_'.$type),
-				'class' => 'box',
+				'class' => 'box type_details',
+				'content' => $this->element(
+					String::insert(Configure::read('Flour.Configuration.pattern'), 
+					array('type' => $type))
+				),
 			));
 
 		echo $this->Html->tag('/div'); //div.span-14

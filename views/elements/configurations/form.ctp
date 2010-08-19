@@ -60,10 +60,12 @@ echo $this->Form->input('Configuration.grop_id', array());
 */
 
 echo $this->Form->input('Configuration.name', array(
+	'class' => 'slugify',
 	'default' => $name,
 ));
 
 echo $this->Form->input('Configuration.slug', array(
+	'class' => 'slug',
 	'default' => $slug,
 	'errors' => array(
 		'notEmpty' => __('This field is required.', true)

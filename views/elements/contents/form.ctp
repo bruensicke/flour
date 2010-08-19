@@ -38,10 +38,12 @@ echo $this->Form->input('Content.status', array(
 ));
 
 echo $this->Form->input('Content.name', array(
+	'class' => 'slugify',
 	'default' => $name,
 ));
 
 echo $this->Form->input('Content.slug', array(
+	'class' => 'slug',
 	'default' => $slug,
 	'errors' => array(
 		'notEmpty' => __('This field is required.', true)
