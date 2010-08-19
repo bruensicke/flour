@@ -1,6 +1,7 @@
 <?php
 $url = Router::url(array('action' => 'type'), true);
 echo $this->Html->scriptBlock("$().ready(function(){
+	$('.elastic').elastic();
 	$('.slugify').slug({slug:'slug', hide: false});
 	$('.auto_switch_type').change(function() {
 		type = $('.auto_switch_type').attr('value');

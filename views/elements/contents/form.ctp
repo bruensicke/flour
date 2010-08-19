@@ -52,6 +52,7 @@ echo $this->Form->input('Content.slug', array(
 
 echo $this->Form->input('Content.description', array(
 	'type' => 'textarea',
+	'class' => 'description elastic',
 ));
 
 echo $this->Form->input('Content.tags', array(

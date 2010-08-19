@@ -6,4 +6,5 @@ echo $this->Form->input('ContentObject.title');
 
 echo $this->Form->input('ContentObject.body', array(
 	'type' => 'textarea',
+	'class' => 'elastic',
 ));

@@ -6,5 +6,6 @@ echo $this->Html->css(array(
 echo $this->Html->script(array(
 	'/flour/js/jquery',
 	'/flour/js/jquery.slug',
+	'/flour/js/jquery.elastic',
 ));
 

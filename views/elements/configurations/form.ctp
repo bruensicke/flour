@@ -82,6 +82,7 @@ echo $this->Form->input('Configuration.status', array(
 
 echo $this->Form->input('Configuration.description', array(
 	'type' => 'textarea',
+	'class' => 'description elastic',
 ));
 
 echo $this->Form->input('Configuration.tags', array(
