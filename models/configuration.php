@@ -68,19 +68,6 @@ class Configuration extends FlourAppModel
  */
 	protected $_cache = true;
 
-
-/**
- * called beforeSave, takes care of array-settings
- *
- * @return boolean True if the operation should continue, false if it should abort
- * @access public
- */
-	public function beforeSave($options)
-	{
-		//TODO: check on $type, on 'array' do explode("key:val\n") && json_encode
-		return true;
-	}
-
 /**
  * called after save, deletes the cache
  *
@@ -117,18 +104,57 @@ class Configuration extends FlourAppModel
 		}
 		elseif($state == 'after')
 		{
-			$output = array();
-			foreach($results as $index => $item)
-			{
-				extract($item['Configuration']);
-				$output[$category] = (isset($output[$category]))
-					? array()
-					: null;
-
-				$output[$category][$title] = $val;
-			}
-			return $output;
+			return $this->extract($results);
 		}
+	}
+
+/**
+ * extracts an array in the following structure:
+ * 
+ * {{{
+ * 
+ * }}}
+ *
+ * @param array $data results from a find-call 
+ * @return array list of key => values, in a nested array of categories
+ * @access public
+ */
+	public function extract($data = array())
+	{
+		$data = isset($data[$this->alias])
+			? $data[$this->alias]
+			: $data;
+
+		$output = array();
+		foreach($data as $index => $item)
+		{
+			$item = (isset($item[$this->alias]))
+				? $item[$this->alias]
+				: $item;
+
+			extract($item);
+			$output[$category] = (isset($output[$category]))
+				? array()
+				: null;
+
+			switch($type)
+			{
+				case 'array':
+					$valArray = array();
+					foreach($val as $index => $subitem)
+					{
+						$valArray[$subitem['key']] = $subitem['val'];
+					}
+					$output[$category][$title] = $valArray;
+					break;
+				case 'text':
+				default:
+					$output[$category][$title] = $val;
+					break;
+			}
+			
+		}
+		return $output;
 	}
 
 /**
