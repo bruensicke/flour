@@ -8,6 +8,14 @@ $status = (isset($this->passedArgs['status']))
 	? $this->passedArgs['status']
 	: Configure::read('Flour.Configuration.defaultStatus');
 
+$autoload = (isset($this->passedArgs['autoload']))
+	? $this->passedArgs['autoload']
+	: Configure::read('Flour.Configuration.defaultAutoload');
+
+$category = (isset($this->passedArgs['category']))
+	? $this->passedArgs['category']
+	: Configure::read('Flour.Configuration.defaultCategory');
+
 $slug = (isset($this->passedArgs['slug']))
 	? $this->passedArgs['slug']
 	: null;
@@ -20,8 +28,15 @@ $tags = (isset($this->passedArgs['tags']))
 	? $this->passedArgs['tags']
 	: null;
 
+echo $this->Form->input('Configuration.category', array(
+	'type' => 'select',
+	'options' => Configure::read('Flour.Configuration.categories'),
+	'default' => $category,
+));
+
 echo $this->Form->input('Configuration.type', array(
 	'type' => 'select',
+	'class' => 'auto_switch_type',
 	'options' => Configure::read('Flour.Configuration.types'),
 	'default' => $type,
 ));
@@ -31,6 +46,18 @@ echo $this->Form->input('Configuration.status', array(
 	'options' => Configure::read('Flour.Configuration.status'),
 	'default' => $status,
 ));
+
+echo $this->Form->input('Configuration.autoload', array(
+	'type' => 'select',
+	'options' => Configure::read('Flour.Configuration.autoload'),
+	'default' => $autoload,
+));
+
+//fields for finding the specific user / or group
+/*
+echo $this->Form->input('Configuration.user_id', array());
+echo $this->Form->input('Configuration.grop_id', array());
+*/
 
 echo $this->Form->input('Configuration.name', array(
 	'default' => $name,

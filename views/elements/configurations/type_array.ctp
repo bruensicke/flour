@@ -1,15 +1,5 @@
 <?php
-$category = (isset($this->passedArgs['category']))
-	? $this->passedArgs['category']
-	: Configure::read('Flour.Configuration.defaultCategory');
 
-echo $this->Form->input('Configuration.category', array(
-	'type' => 'select',
-	'options' => Configure::read('Flour.Configuration.categories'),
-	'default' => $category,
-));
-
-echo $this->Form->input('Configuration.title');
 echo $this->Form->hidden('Configuration.val'); //will be js-filled with Temp.key/val
 
 $size = (isset($this->data['Configuration']['val']) && !empty($this->data['Configuration']['val']))
@@ -34,10 +24,6 @@ for ($i = 0; $i < $size; $i++)
 		));
 	echo $this->Html->tag('/div'); //div.row
 }
-
-echo $this->Form->input('Configuration.autoload', array(
-	'type' => 'checkbox',
-));
 
 echo $this->Html->scriptBlock("$().ready(function(){
 	$('a.del').live('click', function(){
