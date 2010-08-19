@@ -36,10 +36,11 @@ class Configuration extends FlourAppModel
 	);
 
 /**
- * @var array controls validation
- * @access private
+ * controls validation
+ * @var array
+ * @access public
  */
-	var $validate = array(
+	public $validate = array(
 		'category' => array(
 			'notEmpty' => array('rule' => 'notEmpty', 'required' => true),
 		),
@@ -49,7 +50,16 @@ class Configuration extends FlourAppModel
 		'slug' => array(
 			'notEmpty' => array('rule' => 'notEmpty', 'required' => true),
 		),
-	);
+/*		'type' => array(
+			'notEmpty' => array('rule' => 'notEmpty', 'required' => true),
+		),
+		'status' => array(
+			'notEmpty' => array('rule' => 'notEmpty', 'required' => true),
+		),
+		'autoload' => array(
+			'notEmpty' => array('rule' => 'notEmpty', 'required' => true),
+		),
+*/	);
 
 /**
  * configurations

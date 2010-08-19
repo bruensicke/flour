@@ -1,4 +1,9 @@
 <?php
+//give $full = true to show all fields
+$full = (isset($full))
+	? $full
+	: false;
+
 //retrieve the content_type to be used
 $type = (isset($this->passedArgs['type']))
 	? $this->passedArgs['type']
@@ -28,24 +33,34 @@ $tags = (isset($this->passedArgs['tags']))
 	? $this->passedArgs['tags']
 	: null;
 
-echo $this->Form->input('Configuration.category', array(
-	'type' => 'select',
-	'options' => Configure::read('Flour.Configuration.categories'),
-	'default' => $category,
-));
+if($full)
+{
+	echo $this->Form->input('Configuration.category', array(
+		'type' => 'select',
+		'options' => Configure::read('Flour.Configuration.categories'),
+		'default' => $category,
+	));
 
-echo $this->Form->input('Configuration.type', array(
-	'type' => 'select',
-	'class' => 'auto_switch_type',
-	'options' => Configure::read('Flour.Configuration.types'),
-	'default' => $type,
-));
+	echo $this->Form->input('Configuration.name', array(
+		'class' => 'slugify',
+		'default' => $name,
+	));
 
-echo $this->Form->input('Configuration.status', array(
-	'type' => 'select',
-	'options' => Configure::read('Flour.Configuration.status'),
-	'default' => $status,
-));
+	echo $this->Form->input('Configuration.slug', array(
+		'class' => 'slug',
+		'default' => $slug,
+		'errors' => array(
+			'notEmpty' => __('This field is required.', true)
+		)
+	));
+
+	echo $this->Form->input('Configuration.type', array(
+		'type' => 'select',
+		'class' => 'auto_switch_type',
+		'options' => Configure::read('Flour.Configuration.types'),
+		'default' => $type,
+	));
+}
 
 echo $this->Form->input('Configuration.autoload', array(
 	'type' => 'select',
@@ -56,20 +71,13 @@ echo $this->Form->input('Configuration.autoload', array(
 //fields for finding the specific user / or group
 /*
 echo $this->Form->input('Configuration.user_id', array());
-echo $this->Form->input('Configuration.grop_id', array());
+echo $this->Form->input('Configuration.group_id', array());
 */
 
-echo $this->Form->input('Configuration.name', array(
-	'class' => 'slugify',
-	'default' => $name,
-));
-
-echo $this->Form->input('Configuration.slug', array(
-	'class' => 'slug',
-	'default' => $slug,
-	'errors' => array(
-		'notEmpty' => __('This field is required.', true)
-	)
+echo $this->Form->input('Configuration.status', array(
+	'type' => 'select',
+	'options' => Configure::read('Flour.Configuration.status'),
+	'default' => $status,
 ));
 
 echo $this->Form->input('Configuration.description', array(
