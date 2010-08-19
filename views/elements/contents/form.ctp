@@ -57,4 +57,5 @@ echo $this->Form->input('Content.description', array(
 
 echo $this->Form->input('Content.tags', array(
 	'default' => $tags,
+	'class' => 'tags',
 ));

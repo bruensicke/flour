@@ -87,4 +87,5 @@ echo $this->Form->input('Configuration.description', array(
 
 echo $this->Form->input('Configuration.tags', array(
 	'default' => $tags,
+	'class' => 'tags',
 ));
