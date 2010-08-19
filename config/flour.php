@@ -55,7 +55,7 @@ Configure::write('Flour.Configuration.status', array(
 Configure::write('Flour.Configuration.defaultAutoload', 0);
 Configure::write('Flour.Configuration.autoload', array(
 	'0' => __('never', true),
-	'1' => __('just for me', true),
+	'1' => __('for me', true),
 	// '2' => __('for specific user', true),
 	'3' => __('for my group', true),
 	// '4' => __('for specific group', true),

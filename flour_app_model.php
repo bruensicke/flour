@@ -249,24 +249,39 @@ class FlourAppModel extends AppModel
 
 	function _addUserData()
 	{
-		$user = $this->_getUser();
+		$user_id = $this->_getUser('id');
 		if(!$user) return false;
 		
 		if(!isset($this->data[$this->alias][$this->primaryKey])) {
-			$this->data[$this->alias]['created_by'] = $user;
+			$this->data[$this->alias]['created_by'] = $user_id;
 		}
 		
-		$this->data[$this->alias]['modified_by'] = $user;
+		$this->data[$this->alias]['modified_by'] = $user_id;
 	}
 
-	function _getUser()
+	function _getUser($field = null)
 	{
-		$user = Configure::read('App.User.id');
-		if(!empty($user)) return $user;
+		$user = Configure::read('App.User');
+		if(!empty($user))
+			return (isset($field))
+				? $user[$field]
+				: $user;
 		
+		$user = Configure::read('Auth.User');
+		if(!empty($user))
+			return (isset($field))
+				? $user[$field]
+				: $user;
+
+/*
+		//TODO: find UserClass, ask for user there.
+		if(get_declared_classes())
 		$user = Configure::read('Auth.User.id');
-		if(!empty($user)) return $user;
-		
+		if(!empty($user))
+			return (isset($field))
+				? $user[$field]
+				: $user;
+*/
 		return false;
 	}
 	

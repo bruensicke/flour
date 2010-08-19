@@ -94,17 +94,17 @@ class Configuration extends FlourAppModel
 		if($state == 'before')
 		{
 			$query['conditions'] = Set::merge(
-				$query['conditions'], 
+				$query['conditions'],
 				array(
 					'Configuration.status >=' => 1,
-					'Configuration.autoload' => 1,
+					'Configuration.autoload >' => 0,
 				)
 			);
 			return $query;
 		}
 		elseif($state == 'after')
 		{
-			return $this->extract($results);
+			return $results;
 		}
 	}
 
@@ -112,9 +112,19 @@ class Configuration extends FlourAppModel
  * extracts an array in the following structure:
  * 
  * {{{
- * 
+ *     'App' => array(
+ *         'foo.name' => 'baz',
+ *         'bar.name' => 'foobarbaz',
+ *     ),
+ *     'Flour' => array(
+ *         'foo2.name' => 'baz2',
+ *         'bar2.name' => 'foobarbaz2',
+ *     ),
  * }}}
  *
+ * all set options are specific per user, regarding the 
+ * autoload-option and current user/group id.
+ * 
  * @param array $data results from a find-call 
  * @return array list of key => values, in a nested array of categories
  * @access public
@@ -126,32 +136,65 @@ class Configuration extends FlourAppModel
 			: $data;
 
 		$output = array();
+		$user = $this->_getUser();
 		foreach($data as $index => $item)
 		{
+			//unwrap $item
 			$item = (isset($item[$this->alias]))
 				? $item[$this->alias]
 				: $item;
 
+			$continue = false;
 			extract($item);
-			if(!array_key_exists($category, $output)) $output[$category] = array();
-
-			switch($type)
+			switch($autoload)
 			{
-				case 'array':
-					$valArray = array();
-					foreach($val as $index => $subitem)
-					{
-						if(empty($subitem['key'])) continue;
-						$valArray[$subitem['key']] = $subitem['val'];
-					}
-					$output[$category][$title] = $valArray;
+				case 1: //for myself
+				case 2: //for specific user
+					$continue = ($user_id == $user['id'])
+						? true
+						: false;
 					break;
-				case 'text':
+				
+				case 3: //for my group
+				case 4: //for specific group
+					$continue = ($group_id == $user['group_id'])
+						? true
+						: false;
+
+				case 9:
+					$continue = true;
+					break;
+				
 				default:
-					$output[$category][$title] = $val;
-					break;
+					$continue = false;
 			}
-			
+
+			if($continue)
+			{
+				//create category array, if necessary
+				if(!array_key_exists($category, $output))
+				{
+					$output[$category] = array();
+				}
+
+				//handle every type different
+				switch($type)
+				{
+					case 'array':
+						$valArray = array();
+						foreach($val as $index => $subitem)
+						{
+							if(empty($subitem['key'])) continue;
+							$valArray[$subitem['key']] = $subitem['val'];
+						}
+						$output[$category][$name] = $valArray;
+						break;
+					case 'text':
+					default:
+						$output[$category][$name] = $val;
+						break;
+				}
+			}
 		}
 		return $output;
 	}
@@ -164,12 +207,16 @@ class Configuration extends FlourAppModel
 */
 	function _writeConfiguration()
 	{
+		$this->_cache = (Configure::read())
+			? false
+			: true;
 		if (($this->_config = Cache::read('configuration.all')) === false)
 		{
 			$this->_config = $this->find('autoload');
 			if($this->_cache === true) Cache::write('configuration.all', $this->_config);
 		}
-		foreach($this->_config as $category => $item)
+		$this->_currentConfig = $this->extract($this->_config);
+		foreach($this->_currentConfig as $category => $item)
 		{
 			foreach($item as $key => $val)
 			{
