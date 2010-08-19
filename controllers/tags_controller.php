@@ -149,4 +149,22 @@ class TagsController extends FlourAppController {
 		}
 		$this->redirect(array('action' => 'index'));
 	}
+
+
+	public function admin_get()
+	{
+		$type = $_GET['q'];
+		$this->autoLayout = false;
+		$this->autoRender = false;
+		$data = $this->Tag->find('list');
+		$tags = array();
+		foreach($data as $id => $tag)
+		{
+			$tags[] = array('id' => $id, 'name' => $tag);
+		}
+		Configure::write('debug', 0);
+		header('Content-type: application/json');
+		echo json_encode($tags);
+		exit;
+	}
 }

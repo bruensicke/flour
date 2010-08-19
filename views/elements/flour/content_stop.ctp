@@ -1,6 +1,9 @@
 <?php
 $url = Router::url(array('action' => 'type'), true);
+$tags_url = Router::url(array('controller' => 'tags', 'action' => 'get'), true);
 echo $this->Html->scriptBlock("$().ready(function(){
+	$('.tags').tokenInput('$tags_url', {});
+
 	$('.elastic').elastic();
 	$('.slugify').slug({slug:'slug', hide: false});
 	$('.auto_switch_type').change(function() {
