@@ -6,26 +6,39 @@ $size = (isset($this->data['Configuration']['val']) && !empty($this->data['Confi
 	? count($this->data['Configuration']['val'])
 	: 1;
 
-for ($i = 0; $i < $size; $i++)
-{
-	echo $this->Html->div('row');
-		echo $this->Html->link( __('[+]', true), '#', array('class' => 'add'));
-		echo $this->Html->link( __('[-]', true), '#', array('class' => 'del'));
-		echo $this->Form->input("Configuration.val.$i.key", array(
-			'label' => __('Key', true),
-			'type' => 'text',
-			'class' => 'left',
-		));
+echo $this->Html->div('rows');
+	for ($i = 0; $i < $size; $i++)
+	{
+		echo $this->Html->div('row');
+			echo $this->Html->link( __('[+]', true), '#', array('class' => 'add'));
+			echo $this->Html->link( __('[-]', true), '#', array('class' => 'del'));
+			echo $this->Form->input("Configuration.val.$i.key", array(
+				'label' => __('Key', true),
+				'type' => 'text',
+				'class' => 'left',
+			));
 
-		echo $this->Form->input("Configuration.val.$i.val", array(
-			'label' => __('Value', true),
-			'type' => 'text',
-			'class' => 'right',
-		));
-	echo $this->Html->tag('/div'); //div.row
-}
+			echo $this->Form->input("Configuration.val.$i.val", array(
+				'label' => __('Value', true),
+				'type' => 'text',
+				'class' => 'right',
+			));
+		echo $this->Html->tag('/div'); //div.row
+	}
+echo $this->Html->tag('/div'); //div.rows
 
+$style = <<<HTML
+div.placeholder { background: yellow; height: 50px; }
+HTML;
+
+
+echo $this->Html->tag('style', $style);
 echo $this->Html->scriptBlock("$().ready(function(){
+	$('.rows').sortable({
+		placeholder: 'placeholder',
+		update: function(){ renumber(); }
+	});
+
 	$('a.del').live('click', function(){
 		$(this).parent().remove();
 		renumber();
@@ -36,6 +49,7 @@ echo $this->Html->scriptBlock("$().ready(function(){
 		renumber();
 		return false;
 	});
+
 	function renumber()
 	{
 		var i = 0;
@@ -47,6 +61,7 @@ echo $this->Html->scriptBlock("$().ready(function(){
 			});
 			i++;
 		});
+		alert('done');
 	}
 });");
 
