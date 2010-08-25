@@ -3,6 +3,23 @@
 
 
 /**
+ * Activity
+ */
+
+//types
+Configure::write('Flour.Activity.types', array(
+	'options' => array(
+		'object_created' => __('Created object \':name\' [:id]', true),
+		'object_updated' => __('Updated object \':name\' [:id]', true),
+		'object_deleted' => __('Deleted object \':name\' [:id]', true),
+		'user_loggedin' => __('user \':User.name\' logged in via \':User.loginType\'.', true),
+		'user_loggedout' => __('user \':User.name\' logged out.', true),
+	),
+));
+
+
+
+/**
  * Contents
  */
 
