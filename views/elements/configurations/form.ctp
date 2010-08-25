@@ -7,19 +7,19 @@ $full = (isset($full))
 //retrieve the content_type to be used
 $type = (isset($this->passedArgs['type']))
 	? $this->passedArgs['type']
-	: Configure::read('Flour.Configuration.defaultType');
+	: Configure::read('Flour.Configuration.types.default');
 
 $status = (isset($this->passedArgs['status']))
 	? $this->passedArgs['status']
-	: Configure::read('Flour.Configuration.defaultStatus');
+	: Configure::read('Flour.Configuration.status.default');
 
 $autoload = (isset($this->passedArgs['autoload']))
 	? $this->passedArgs['autoload']
-	: Configure::read('Flour.Configuration.defaultAutoload');
+	: Configure::read('Flour.Configuration.autoload.default');
 
 $category = (isset($this->passedArgs['category']))
 	? $this->passedArgs['category']
-	: Configure::read('Flour.Configuration.defaultCategory');
+	: Configure::read('Flour.Configuration.categories.default');
 
 $slug = (isset($this->passedArgs['slug']))
 	? $this->passedArgs['slug']
@@ -37,7 +37,7 @@ if($full)
 {
 	echo $this->Form->input('Configuration.category', array(
 		'type' => 'select',
-		'options' => Configure::read('Flour.Configuration.categories'),
+		'options' => Configure::read('Flour.Configuration.categories.options'),
 		'default' => $category,
 	));
 
@@ -57,14 +57,14 @@ if($full)
 	echo $this->Form->input('Configuration.type', array(
 		'type' => 'select',
 		'class' => 'auto_switch_type',
-		'options' => Configure::read('Flour.Configuration.types'),
+		'options' => Configure::read('Flour.Configuration.types.options'),
 		'default' => $type,
 	));
 }
 
 echo $this->Form->input('Configuration.autoload', array(
 	'type' => 'select',
-	'options' => Configure::read('Flour.Configuration.autoload'),
+	'options' => Configure::read('Flour.Configuration.autoload.options'),
 	'default' => $autoload,
 ));
 
@@ -76,7 +76,7 @@ echo $this->Form->input('Configuration.group_id', array());
 
 echo $this->Form->input('Configuration.status', array(
 	'type' => 'select',
-	'options' => Configure::read('Flour.Configuration.status'),
+	'options' => Configure::read('Flour.Configuration.status.options'),
 	'default' => $status,
 ));
 

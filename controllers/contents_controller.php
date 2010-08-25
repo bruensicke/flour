@@ -216,7 +216,7 @@ class ContentsController extends FlourAppController
 		$this->autoRender = false;
 		Configure::write('debug', 0);
 		$element = String::insert(
-			Configure::read('Flour.Content.pattern'), 
+			Configure::read('Flour.Content.types.pattern'), 
 			array('type' => $type)
 		);
 		$this->render('/elements/'.$element);

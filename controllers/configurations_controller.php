@@ -189,7 +189,7 @@ class ConfigurationsController extends FlourAppController
 		$this->autoRender = false;
 		Configure::write('debug', 0);
 		$element = String::insert(
-			Configure::read('Flour.Configuration.pattern'), 
+			Configure::read('Flour.Configuration.types.pattern'), 
 			array('type' => $type)
 		);
 		$this->render('/elements/'.$element);

@@ -2,11 +2,11 @@
 //retrieve the content_type to be used
 $type = (isset($this->passedArgs['type']))
 	? $this->passedArgs['type']
-	: Configure::read('Flour.Content.defaultType');
+	: Configure::read('Flour.Content.types.default');
 
 $status = (isset($this->passedArgs['status']))
 	? $this->passedArgs['status']
-	: Configure::read('Flour.Content.defaultStatus');
+	: Configure::read('Flour.Content.status.default');
 
 $slug = (isset($this->passedArgs['slug']))
 	? $this->passedArgs['slug']
@@ -27,13 +27,13 @@ echo $this->Form->error('Content.model', array(
 echo $this->Form->input('Content.type', array(
 	'type' => 'select',
 	'class' => 'auto_switch_type',
-	'options' => Configure::read('Flour.Content.types'),
+	'options' => Configure::read('Flour.Content.types.options'),
 	'default' => $type,
 ));
 
 echo $this->Form->input('Content.status', array(
 	'type' => 'select',
-	'options' => Configure::read('Flour.Content.status'),
+	'options' => Configure::read('Flour.Content.status.options'),
 	'default' => $status,
 ));
 

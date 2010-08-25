@@ -18,7 +18,7 @@ echo $this->element('flour/content_start');
 				'content' => array(
 					$this->element('configurations/form_head'),
 					$this->Html->div('type_details', $this->element(
-						String::insert(Configure::read('Flour.Configuration.pattern'), 
+						String::insert(Configure::read('Flour.Configuration.types.pattern'), 
 						array('type' => $type))
 					)),
 				),

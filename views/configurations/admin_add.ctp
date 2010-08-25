@@ -5,7 +5,7 @@ $this->description = __('Add new Configuration.', true);
 //switch type on named-param
 $type = (isset($this->passedArgs['type']))
 	? $this->passedArgs['type']
-	: Configure::read('Flour.Configuration.defaultType');
+	: Configure::read('Flour.Configuration.types.default');
 
 echo $this->Form->create('Configuration', array('action' => $this->action));
 echo $this->element('flour/content_start');
@@ -19,7 +19,7 @@ echo $this->element('flour/content_start');
 				'content' => array(
 					$this->element('configurations/form_head'),
 					$this->Html->div('type_details', $this->element(
-						String::insert(Configure::read('Flour.Configuration.pattern'), 
+						String::insert(Configure::read('Flour.Configuration.types.pattern'), 
 						array('type' => $type))
 					)),
 				),
