@@ -2,6 +2,10 @@
 /**
  * Content Model
  * 
+ * Every kind of model can be an item in the content library.
+ * The library itself can be queried through various ways, giving
+ * access to every item regarding the state of editions.
+ * 
  * @package flour
  * @author Dirk Brünsicke
  * @version $Id$

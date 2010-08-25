@@ -4,6 +4,7 @@
  * 
  * type is one of the following:
  * 
+ *   o  bool  -  value is a boolean value false / true (0 / 1)
  *   o  text  -  value is just a text-value
  *   o  array -  value is json_encoded
  *   o  collection - value is empty, you need collection_slug filled
