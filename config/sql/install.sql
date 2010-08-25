@@ -1,7 +1,10 @@
 CREATE TABLE IF NOT EXISTS `flour_activities` (
 	`id` CHAR(36) NOT NULL,
-	`user_id` CHAR(36) NULL,
+	`user_id` CHAR(36) DEFAULT NULL,
+	`group_id` CHAR(36) DEFAULT NULL,
 	`type` VARCHAR(255) NOT NULL,
+	`model` VARCHAR(120) DEFAULT NULL,
+	`foreign_id` CHAR(36) DEFAULT NULL,
 	`status` VARCHAR(40) NOT NULL,
 	`message` TEXT NOT NULL,
 	`tags` VARCHAR(255) NOT NULL,
