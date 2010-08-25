@@ -13,6 +13,7 @@
  **/
 class Content extends FlourAppModel
 {
+
 /**
  * Attached behaviors
  *

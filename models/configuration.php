@@ -2,7 +2,9 @@
 /**
  * Configuration Model
  * 
- * type is one of the following:
+ * Configurations are database driven Configures.
+ * Each Configurations stores a value under a key.
+ * The type of the value can be one of the following:
  * 
  *   o  bool  -  value is a boolean value false / true (0 / 1)
  *   o  text  -  value is just a text-value
@@ -16,6 +18,7 @@
  **/
 class Configuration extends FlourAppModel
 {
+
 /**
  * Attached behaviors
  *
