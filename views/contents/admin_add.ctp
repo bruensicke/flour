@@ -5,7 +5,7 @@ $this->description = __('Add new Content.', true);
 //switch type on named-param
 $type = (isset($this->passedArgs['type']))
 	? $this->passedArgs['type']
-	: Configure::read('Flour.Content.defaultType');
+	: Configure::read('Flour.Content.types.default');
 
 echo $this->Form->create('Content', array('action' => $this->action));
 echo $this->element('flour/content_start');
@@ -17,7 +17,7 @@ echo $this->element('flour/content_start');
 				'caption' => __('Enter Content Details.', true),
 				'class' => 'box type_details',
 				'content' => $this->element(
-					String::insert(Configure::read('Flour.Content.pattern'), 
+					String::insert(Configure::read('Flour.Content.types.pattern'), 
 					array('type' => $type))
 				),
 			));
