@@ -7,7 +7,7 @@ $size = (isset($this->data['Configuration']['val']) && !empty($this->data['Confi
 	: 2;
 
 echo $this->Html->div('clearfix');
-	echo $this->Html->div('left control', '&nbsp;');
+	echo $this->Html->div('left control', $this->Html->div('del', ''));
 	echo $this->Html->div('left', __('Key', true));
 	echo $this->Html->div('left', __('Value', true));
 echo $this->Html->tag('/div'); //div.row
@@ -24,7 +24,6 @@ echo $this->Html->div('rows');
 
 			echo $this->Html->div('left key');
 				echo $this->Form->input("Configuration.val.$i.key", array(
-					// 'label' => __('Key', true),
 					'label' => false,
 					'type' => 'text',
 					'class' => 'left',
@@ -32,13 +31,11 @@ echo $this->Html->div('rows');
 			echo $this->Html->tag('/div'); //div.left
 
 			echo $this->Html->div('right control');
-				// echo $this->Html->div('handle', $this->Html->image('/flour/img/ico_move.png'));
 				echo $this->Html->div('handle', '');
 			echo $this->Html->tag('/div'); //div.right
 
 			echo $this->Html->div('right value');
 				echo $this->Form->input("Configuration.val.$i.val", array(
-					// 'label' => __('Value', true),
 					'label' => false,
 					'type' => 'text',
 					'class' => 'right',

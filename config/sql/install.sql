@@ -14,6 +14,29 @@ CREATE TABLE IF NOT EXISTS `flour_activities` (
 	KEY `idx_type` (`type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `flour_collection_items` (
+	`id` CHAR(36) NOT NULL,
+	`user_id` CHAR(36) DEFAULT NULL,
+	`group_id` CHAR(36) DEFAULT NULL,
+	`type` VARCHAR(255) NOT NULL,
+	`name` VARCHAR(255) NOT NULL,
+	`val` TEXT NOT NULL,
+	`status` INT(3) DEFAULT '0',
+	`locale` VARCHAR(10) DEFAULT NULL,
+	`slug` VARCHAR(255) NOT NULL DEFAULT '',
+	`description` TINYTEXT,
+	`tags` VARCHAR(255) NOT NULL,
+	`valid_from` DATETIME DEFAULT NULL,
+	`valid_to` DATETIME DEFAULT NULL,
+	`created` DATETIME NOT NULL,
+	`created_by` CHAR(36) NOT NULL,
+	`modified` DATETIME DEFAULT NULL,
+	`modified_by` CHAR(36) DEFAULT NULL,
+	`deleted` DATETIME DEFAULT NULL,
+	`deleted_by` CHAR(36) DEFAULT NULL,
+	PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `flour_collections` (
 	`id` CHAR(36) NOT NULL,
 	`user_id` CHAR(36) DEFAULT NULL,

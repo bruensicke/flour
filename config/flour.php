@@ -19,6 +19,36 @@ Configure::write('Flour.Activity.types', array(
 
 
 
+
+/**
+ * Collections / CollectionItems
+ */
+
+//status
+Configure::write('Flour.Collection.status', array(
+	'default' => 1,
+	'options' => array(
+		'0' => __('offline', true),
+		'1' => __('draft', true),
+		'2' => __('online', true),
+	),
+));
+
+//types
+Configure::write('Flour.CollectionItem.types', array(
+	'pattern' => 'collection_items/type_:type',
+	'default' => 'text',
+	'options' => array(
+		'bool' => __('Switch', true),
+		'text' => __('Textfield', true), // ONE key => value pair
+		'array' => __('Array', true), // nested array with unlimited amount of key => value pairs
+		// 'collection' => __('Collection', true), // a referenced collection with all its data under a key.
+	),
+));
+
+
+
+
 /**
  * Contents
  */
@@ -42,6 +72,7 @@ Configure::write('Flour.Content.types', array(
 		'blog' => __('Blogpost', true),
 	),
 ));
+
 
 
 

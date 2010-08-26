@@ -1,10 +1,10 @@
 <?php
+$types = Configure::read('Flour.CollectionItem.types.options');
 
-echo $this->Form->hidden('Configuration.val'); //will be js-filled with Temp.key/val
+$size = (isset($this->data['ConfigurationItem']) && !empty($this->data['ConfigurationItem']))
+	? count($this->data['ConfigurationItem'])
+	: 1;
 
-$size = (isset($this->data['Configuration']['val']) && !empty($this->data['Configuration']['val']))
-	? count($this->data['Configuration']['val'])
-	: 2;
 
 echo $this->Html->div('clearfix');
 	echo $this->Html->div('left control', '&nbsp;');
@@ -12,42 +12,44 @@ echo $this->Html->div('clearfix');
 	echo $this->Html->div('left', __('Value', true));
 echo $this->Html->tag('/div'); //div.row
 
-echo $this->Html->div('rows');
+echo $this->Html->div('rows items');
 	for ($i = 0; $i < $size; $i++)
 	{
-		echo $this->Html->div('row clearfix');
-
-			echo $this->Html->div('left control');
-				echo $this->Html->div('add', '');
-				echo $this->Html->div('del', '');
-			echo $this->Html->tag('/div'); //div.left
-
-			echo $this->Html->div('left key');
-				echo $this->Form->input("Configuration.val.$i.key", array(
-					// 'label' => __('Key', true),
-					'label' => false,
-					'type' => 'text',
-					'class' => 'left',
-				));
-			echo $this->Html->tag('/div'); //div.left
-
-			echo $this->Html->div('right control');
-				// echo $this->Html->div('handle', $this->Html->image('/flour/img/ico_move.png'));
-				echo $this->Html->div('handle', '');
-			echo $this->Html->tag('/div'); //div.right
-
-			echo $this->Html->div('right value');
-				echo $this->Form->input("Configuration.val.$i.val", array(
-					// 'label' => __('Value', true),
-					'label' => false,
-					'type' => 'text',
-					'class' => 'right',
-				));
-			echo $this->Html->tag('/div'); //div.right
-
-		echo $this->Html->tag('/div'); //div.row
+		$type = (isset($this->data['ConfigurationItem'][$i]['type']))
+			? $this->data['ConfigurationItem'][$i]['type']
+			: Configure::read('Flour.CollectionItem.types.default');
+		
+		echo $this->Html->div('row clearfix type_'.$type, $this->element(
+			String::insert(Configure::read('Flour.CollectionItem.types.pattern'), 
+			array('type' => $type))
+		));
 	}
 echo $this->Html->tag('/div'); //div.rows
+
+echo $this->Html->div('clearfix');
+	echo $this->Html->div('left');
+		echo $this->Form->input("CollectionRow.type", array(
+			'label' => false,
+			'type' => 'select',
+			'class' => 'row_type_select',
+			'options' => Configure::read('Flour.CollectionItem.types.options'),
+			'default' => Configure::read('Flour.CollectionItem.types.default'),
+		));
+	echo $this->Html->tag('/div'); //div.left
+	echo $this->Html->div('left', $this->Html->div('addrow', ''));
+echo $this->Html->tag('/div'); //div.row
+
+
+echo $this->Html->div('hideme');
+foreach($types as $type => $name)
+{
+	echo $this->Html->div('row clearfix type_'.$type, $this->element(
+		String::insert(Configure::read('Flour.CollectionItem.types.pattern'), 
+		array('type' => $type))
+	));
+}
+echo $this->Html->tag('/div'); //div.hideme
+
 
 $style = <<<HTML
 div.clearfix,
@@ -65,6 +67,8 @@ div.row { border-bottom: 1px solid #ddd; }
 div.left { float: left; width: 40%; }
 div.right { float: right; width: 40%; }
 
+div.type_array div.rows { border-color: #eee; }
+
 div.control { width: 44px; }
 div.key { width: 40%; }
 div.value { width: 40%; }
@@ -72,12 +76,13 @@ div.value { width: 40%; }
 div.placeholder { padding: 0; background: #ddd; padding-bottom: 1px; }
 HTML;
 
-$style .= ".add { height: 20px; margin: 2px; background: url('{$this->base}/flour/img/ico_plus.png') no-repeat center; }";
+$style .= ".add, .addrow { height: 20px; margin: 2px; background: url('{$this->base}/flour/img/ico_plus.png') no-repeat center; }";
 $style .= ".del { height: 20px; margin: 1px; background: url('{$this->base}/flour/img/ico_minus.png') no-repeat center; }";
 $style .= ".handle { cursor: move; height: 44px; border-left: 1px solid #ddd; background: url('{$this->base}/flour/img/ico_move.png') no-repeat center; }";
 
 echo $this->Html->tag('style', $style);
 echo $this->Html->scriptBlock("$().ready(function(){
+	$('.hideme').hide();
 	$('.rows').sortable({
 		axis: 'y',
 		placeholder: 'placeholder',
@@ -92,6 +97,12 @@ echo $this->Html->scriptBlock("$().ready(function(){
 		$(this).parents('div.row').remove();
 		renumber();
 	});
+	$('.addrow').live('click', function(){
+		var type = $('.row_type_select').val();
+		var clon = $('.hideme > .row.type_' + type).clone().appendTo('.rows.items');
+		console.log(clon);
+		renumber();
+	});
 	$('.add').live('click', function(){
 		var clon = $(this).parents('div.row').clone().insertAfter($(this).parents('div.row'));
 		renumber();
@@ -99,7 +110,7 @@ echo $this->Html->scriptBlock("$().ready(function(){
 	function renumber()
 	{
 		var i = 0;
-		$('.row').each(function(){
+		$('div.rows div.row').each(function(){
 			var inputs = $(this).find('input');
 			inputs.each(function(){
 				var name = $(this).attr('name');
