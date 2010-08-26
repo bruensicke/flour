@@ -1,9 +1,13 @@
 <?php
+$i = (isset($i))
+	? $i
+	: 0;
 
-echo $this->Form->hidden('Configuration.val'); //will be js-filled with Temp.key/val
+// echo $this->Form->hidden('CollectionItem.val'); //will be js-filled with Temp.key/val
+echo $this->Form->hidden("CollectionItem.$i.id");
 
-$size = (isset($this->data['Configuration']['val']) && !empty($this->data['Configuration']['val']))
-	? count($this->data['Configuration']['val'])
+$size = (isset($this->data['CollectionItem']['val']) && !empty($this->data['CollectionItem']['val']))
+	? count($this->data['CollectionItem']['val'])
 	: 2;
 
 echo $this->Html->div('clearfix');
@@ -23,7 +27,7 @@ echo $this->Html->div('rows');
 			echo $this->Html->tag('/div'); //div.left
 
 			echo $this->Html->div('left key');
-				echo $this->Form->input("Configuration.val.$i.key", array(
+				echo $this->Form->input("CollectionItem.val.$i.key", array(
 					'label' => false,
 					'type' => 'text',
 					'class' => 'left',
@@ -35,7 +39,7 @@ echo $this->Html->div('rows');
 			echo $this->Html->tag('/div'); //div.right
 
 			echo $this->Html->div('right value');
-				echo $this->Form->input("Configuration.val.$i.val", array(
+				echo $this->Form->input("CollectionItem.val.$i.val", array(
 					'label' => false,
 					'type' => 'text',
 					'class' => 'right',
@@ -72,7 +76,7 @@ HTML;
 $style .= ".add { height: 20px; margin: 2px; background: url('{$this->base}/flour/img/ico_plus.png') no-repeat center; }";
 $style .= ".del { height: 20px; margin: 1px; background: url('{$this->base}/flour/img/ico_minus.png') no-repeat center; }";
 $style .= ".handle { cursor: move; height: 44px; border-left: 1px solid #ddd; background: url('{$this->base}/flour/img/ico_move.png') no-repeat center; }";
-
+/*
 echo $this->Html->tag('style', $style);
 echo $this->Html->scriptBlock("$().ready(function(){
 	$('.rows').sortable({
@@ -106,4 +110,4 @@ echo $this->Html->scriptBlock("$().ready(function(){
 		});
 	}
 });");
-
+*/

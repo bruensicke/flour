@@ -1,10 +1,9 @@
 <?php
 $types = Configure::read('Flour.CollectionItem.types.options');
 
-$size = (isset($this->data['ConfigurationItem']) && !empty($this->data['ConfigurationItem']))
-	? count($this->data['ConfigurationItem'])
+$size = (isset($this->data['CollectionItem']) && !empty($this->data['CollectionItem']))
+	? count($this->data['CollectionItem'])
 	: 1;
-
 
 echo $this->Html->div('clearfix');
 	echo $this->Html->div('left control', '&nbsp;');
@@ -15,14 +14,19 @@ echo $this->Html->tag('/div'); //div.row
 echo $this->Html->div('rows items');
 	for ($i = 0; $i < $size; $i++)
 	{
-		$type = (isset($this->data['ConfigurationItem'][$i]['type']))
-			? $this->data['ConfigurationItem'][$i]['type']
+		$type = (isset($this->data['CollectionItem'][$i]['type']))
+			? $this->data['CollectionItem'][$i]['type']
 			: Configure::read('Flour.CollectionItem.types.default');
-		
-		echo $this->Html->div('row clearfix type_'.$type, $this->element(
-			String::insert(Configure::read('Flour.CollectionItem.types.pattern'), 
-			array('type' => $type))
-		));
+
+		echo $this->Html->div('row clearfix type_'.$type,
+			$this->element(
+				String::insert(
+					Configure::read('Flour.CollectionItem.types.pattern'), 
+					array('type' => $type)
+				),
+				array('i' => $i)
+			)
+		);
 	}
 echo $this->Html->tag('/div'); //div.rows
 
@@ -40,15 +44,6 @@ echo $this->Html->div('clearfix');
 echo $this->Html->tag('/div'); //div.row
 
 
-echo $this->Html->div('hideme');
-foreach($types as $type => $name)
-{
-	echo $this->Html->div('row clearfix type_'.$type, $this->element(
-		String::insert(Configure::read('Flour.CollectionItem.types.pattern'), 
-		array('type' => $type))
-	));
-}
-echo $this->Html->tag('/div'); //div.hideme
 
 
 $style = <<<HTML
@@ -110,7 +105,7 @@ echo $this->Html->scriptBlock("$().ready(function(){
 	function renumber()
 	{
 		var i = 0;
-		$('div.rows div.row').each(function(){
+		$('div.rows.items div.row').each(function(){
 			var inputs = $(this).find('input');
 			inputs.each(function(){
 				var name = $(this).attr('name');

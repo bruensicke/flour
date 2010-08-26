@@ -3,7 +3,11 @@ $this->title = __('Collections', true);
 $this->description = __('Add new Collection.', true);
 
 echo $this->Form->create('Collection', array('action' => $this->action));
+echo $this->Form->hidden('Collection.id');
+
 echo $this->element('flour/content_start');
+
+	echo $this->Html->div('span-24', $this->element('flour/editions'));
 
 		echo $this->Html->div('span-14');
 

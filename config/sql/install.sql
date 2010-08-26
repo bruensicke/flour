@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS `flour_activities` (
 
 CREATE TABLE IF NOT EXISTS `flour_collection_items` (
 	`id` CHAR(36) NOT NULL,
+	`collection_id` CHAR(36) NOT NULL,
 	`user_id` CHAR(36) DEFAULT NULL,
 	`group_id` CHAR(36) DEFAULT NULL,
 	`type` VARCHAR(255) NOT NULL,

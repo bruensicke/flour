@@ -250,7 +250,7 @@ class FlourAppModel extends AppModel
 	function _addUserData()
 	{
 		$user_id = $this->_getUser('id');
-		if(!$user) return false;
+		if(!$user_id) return false;
 		
 		if(!isset($this->data[$this->alias][$this->primaryKey])) {
 			$this->data[$this->alias]['created_by'] = $user_id;

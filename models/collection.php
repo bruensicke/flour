@@ -42,9 +42,6 @@ class Collection extends FlourAppModel
  * @access public
  */
 	public $validate = array(
-		'model' => array(
-			'notEmpty' => array('rule' => 'notEmpty', 'required' => true),
-		),
 		'name' => array(
 			'notEmpty' => array('rule' => 'notEmpty', 'required' => true),
 		),

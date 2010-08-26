@@ -84,23 +84,25 @@ class CollectionsController extends FlourAppController
 	{
 		if(!empty($this->data))
 		{
-			$this->Collection->create($this->data);
-			if($this->Collection->validates())
+			$this->Collection->create();
+			$valid = $this->Collection->saveAll($this->data, array('validate' => 'only'));
+			if(!$valid)
 			{
-				if($this->Collection->save(null, false))
-				{
-					$id = $this->Collection->getInsertID();
-					$this->Flash->success(
-						__('Collection :Collection.name saved.', true),
-						array('action' => 'edit', $id)
-					);
-				} else {
-					$this->Flash->error(
-						__('Collection :Collection.name could not be saved.', true)
-					);
-				}
+				return;
+			}
+			$saved = $this->Collection->saveAll($this->data, array('validate' => false));
+			if($saved)
+			{
+				$id = $this->Collection->getInsertID();
+				$this->Flash->success(
+					__('Collection :Collection.name saved.', true),
+					array('action' => 'edit', $id)
+				);
 			} else {
-				//validation errors
+				$this->Flash->error(
+					__('Collection :Collection.name could not be saved.', true),
+					$this->referer(array('action' => 'index'))
+				);
 			}
 		}
 	}
@@ -123,26 +125,28 @@ class CollectionsController extends FlourAppController
 		}
 		if(!empty($this->data))
 		{
-			$this->Collection->create($this->data);
-			if($this->Collection->validates())
+			$valid = $this->Collection->saveAll($this->data, array('validate' => 'only'));
+			if(!$valid)
 			{
-				if($this->Collection->save(null, false))
-				{
-					$this->Flash->success(
-						__('Collection :Collection.name saved.', true),
-						array('action' => 'edit', $id)
-					);
-				} else {
-					$this->Flash->error(
-						__('Collection :Collection.name could not be saved.', true)
-					);
-				}
-			} else {
-				//validation errors
+				return;
 			}
+			$saved = $this->Collection->saveAll($this->data, array('validate' => false));
+			if($saved)
+			{
+				$id = $this->Collection->getInsertID();
+				$this->Flash->success(
+					__('Collection :Collection.name saved.', true),
+					array('action' => 'edit', $id)
+				);
+			} else {
+				$this->Flash->error(
+					__('Collection :Collection.name could not be saved.', true),
+					$this->referer(array('action' => 'index'))
+				);
+			}
+		} else {
+			$this->data = $this->Collection->read(null, $id);
 		}
-		$this->data = $this->Collection->read(null, $id);
-		$this->set('type', $this->data['Collection']['type']);
 		$this->set('editions', $this->Collection->find('editions'));
 	}
 

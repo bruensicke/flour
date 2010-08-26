@@ -31,13 +31,13 @@ class CollectionItem extends FlourAppModel
  * @access public
  */
 	public $validate = array(
-		'model' => array(
+		'type' => array(
 			'notEmpty' => array('rule' => 'notEmpty', 'required' => true),
 		),
 		'name' => array(
 			'notEmpty' => array('rule' => 'notEmpty', 'required' => true),
 		),
-		'slug' => array(
+		'val' => array(
 			'notEmpty' => array('rule' => 'notEmpty', 'required' => true),
 		),
 	);
