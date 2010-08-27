@@ -3,8 +3,8 @@ $i = (isset($i))
 	? $i
 	: 0;
 
-echo $this->Form->hidden("CollectionItem.$i.id");
 echo $this->Form->hidden("CollectionItem.$i.type", array('value' => 'bool'));
+echo $this->Form->hidden("CollectionItem.$i.sequence", array('value' => $i));
 
 echo $this->Html->div('left control');
 	echo $this->Html->div('del', '');

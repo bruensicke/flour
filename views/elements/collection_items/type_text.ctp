@@ -3,10 +3,10 @@ $i = (isset($i))
 	? $i
 	: 0;
 
-echo $this->Form->hidden("CollectionItem.$i.id");
 echo $this->Form->hidden("CollectionItem.$i.type", array('value' => 'text'));
+echo $this->Form->hidden("CollectionItem.$i.sequence", array('value' => $i));
 
-echo $this->Html->div('left control', $this->Html->div('del', ''));
+echo $this->Html->div('left control', $this->Html->div('delrow', ''));
 
 echo $this->Html->div('left key');
 	echo $this->Form->input("CollectionItem.$i.name", array(

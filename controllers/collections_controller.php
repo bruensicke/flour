@@ -133,10 +133,9 @@ class CollectionsController extends FlourAppController
 			$saved = $this->Collection->saveAll($this->data, array('validate' => false));
 			if($saved)
 			{
-				$id = $this->Collection->getInsertID();
 				$this->Flash->success(
 					__('Collection :Collection.name saved.', true),
-					array('action' => 'edit', $id)
+					array('action' => 'edit', $this->Collection->id)
 				);
 			} else {
 				$this->Flash->error(

@@ -72,7 +72,7 @@ div.placeholder { padding: 0; background: #ddd; padding-bottom: 1px; }
 HTML;
 
 $style .= ".add, .addrow { height: 20px; margin: 2px; background: url('{$this->base}/flour/img/ico_plus.png') no-repeat center; }";
-$style .= ".del { height: 20px; margin: 1px; background: url('{$this->base}/flour/img/ico_minus.png') no-repeat center; }";
+$style .= ".del, .delrow { height: 20px; margin: 1px; background: url('{$this->base}/flour/img/ico_minus.png') no-repeat center; }";
 $style .= ".handle { cursor: move; height: 44px; border-left: 1px solid #ddd; background: url('{$this->base}/flour/img/ico_move.png') no-repeat center; }";
 
 echo $this->Html->tag('style', $style);
@@ -84,7 +84,7 @@ echo $this->Html->scriptBlock("$().ready(function(){
 		forcePlaceholderSize: true,
 		update: function(){ renumber(); }
 	});
-	$('.del').live('click', function(){
+	$('.delrow').live('click', function(){
 		var size = $('div.row').length;
 		if(size == 1) return;
 		var agree = confirm('Are you sure?');
@@ -95,11 +95,6 @@ echo $this->Html->scriptBlock("$().ready(function(){
 	$('.addrow').live('click', function(){
 		var type = $('.row_type_select').val();
 		var clon = $('.hideme > .row.type_' + type).clone().appendTo('.rows.items');
-		console.log(clon);
-		renumber();
-	});
-	$('.add').live('click', function(){
-		var clon = $(this).parents('div.row').clone().insertAfter($(this).parents('div.row'));
 		renumber();
 	});
 	function renumber()
@@ -111,6 +106,7 @@ echo $this->Html->scriptBlock("$().ready(function(){
 				var name = $(this).attr('name');
 				$(this).attr('name', name.replace(/\[\d+\]/g, '[' + i + ']'));
 			});
+			$(this).find('input[name*=\'sequence\']').setValue(i);
 			i++;
 		});
 	}

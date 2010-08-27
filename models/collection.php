@@ -32,6 +32,8 @@ class Collection extends FlourAppModel
 		'CollectionItem' => array(
 			'className' => 'Flour.CollectionItem',
 			'foreignKey' => 'collection_id',
+			'dependent' => true,
+			'order' => 'CollectionItem.sequence ASC',
 		)
 	);
 
@@ -49,5 +51,24 @@ class Collection extends FlourAppModel
 			'notEmpty' => array('rule' => 'notEmpty', 'required' => true),
 		),
 	);
+
+/**
+ * beforeSave callback, will be fired on save
+ *
+ * @param array $options 
+ * @return bool returns true to continue with save-operation, false stops the save.
+ * @access public
+ */
+	public function beforeSave($options = array())
+	{
+		if(!empty($this->id))
+		{
+			$conditions = array(
+				'CollectionItem.collection_id' => $this->id,
+			);
+			$this->CollectionItem->deleteAll($conditions);
+		}
+		return true;
+	}
 
 }

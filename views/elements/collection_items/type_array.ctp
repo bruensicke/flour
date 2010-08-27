@@ -4,7 +4,8 @@ $i = (isset($i))
 	: 0;
 
 // echo $this->Form->hidden('CollectionItem.val'); //will be js-filled with Temp.key/val
-echo $this->Form->hidden("CollectionItem.$i.id");
+echo $this->Form->hidden("CollectionItem.$i.type", array('value' => 'array'));
+echo $this->Form->hidden("CollectionItem.$i.sequence", array('value' => $i));
 
 $size = (isset($this->data['CollectionItem']['val']) && !empty($this->data['CollectionItem']['val']))
 	? count($this->data['CollectionItem']['val'])
