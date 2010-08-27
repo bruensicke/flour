@@ -16,10 +16,7 @@ echo $this->element('flour/content_start');
 			echo $this->element('flour/box', array(
 				'caption' => __('Enter Content Details.', true),
 				'class' => 'box type_details',
-				'content' => $this->element(
-					String::insert(Configure::read('Flour.Content.types.pattern'), 
-					array('type' => $type))
-				),
+				'content' => $this->element('contents/form_type', array('type' => $type)),
 			));
 
 		echo $this->Html->tag('/div'); //div.span-14
@@ -28,8 +25,8 @@ echo $this->element('flour/content_start');
 			//TODO: use panel-element instead of box (must be created before :)
 			echo $this->element('flour/box', array(
 				'caption' => __('Control Content', true),
-				'content' => $this->element('contents/form'),
 				'class' => 'box',
+				'content' => $this->element('contents/form'),
 			));
 
 		echo $this->Html->tag('/div'); //div.span-10 last
