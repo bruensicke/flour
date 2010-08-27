@@ -71,6 +71,7 @@ class FlexibleBehavior extends ModelBehavior
 
 		$class = pluginSplit($this->settings[$Model->alias]['with']);
 		$base = array(
+			'hideFields' => true,
 			'className' => $this->settings[$Model->alias]['with'],
 			'modelName' => $class[1],
 			'schema' => $Model->schema(),
@@ -108,6 +109,10 @@ class FlexibleBehavior extends ModelBehavior
 			foreach ($item[$modelName] as $field)
 			{
 				$results[$i][$Model->alias][$field['name']] = $field['val'];
+				if($hideFields)
+				{
+					unset($results[$i][$modelName]);
+				}
 			}
 		}
 		$results = $this->unserialize_items($results); //will convert JSON Strings back to arrays
