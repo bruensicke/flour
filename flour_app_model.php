@@ -156,10 +156,28 @@ class FlourAppModel extends AppModel
  * @return void
  */
 	function _setCurrent(&$options, &$type) {
+		$slug = null;
 		$this->_setValid($options, $type);
+
+		// find all editions with inherited id
+		if(isset($this->id)) {
+			$slug = $this->field('slug');
+		}
+		
+		// find all editions with same slug by reference id:
+		if(isset($options['conditions'][$this->alias.'.'.$this->primaryKey])) {
+			$slug = $this->field('slug', $options['conditions']);
+		}
+		
+		// find all editions with given slug
+		if(isset($options['conditions'][$this->alias.'.slug'])) {
+			$slug = $options['conditions'][$this->alias.'.slug'];
+		}
+
 		$options['conditions'] = array_merge(
 			$options['conditions'],
 			array(
+				$this->alias.'.slug' => $slug,
 				$this->alias.'.status >' => 0,
 			)
 		);
