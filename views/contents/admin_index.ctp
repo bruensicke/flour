@@ -7,6 +7,7 @@ echo $this->Html->link(__('Add', true), array('controller' => 'contents', 'actio
 echo $this->element('flour/content_start');
 
 echo $this->element('flour/iterator', array(
+	'caption' => __('Contents', true),
 	'element' => 'contents/item',
 	'search' => true,
 ));
