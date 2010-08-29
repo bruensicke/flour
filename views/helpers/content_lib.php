@@ -68,12 +68,12 @@ class ContentLibHelper extends AppHelper
  */
 	public function render($slug, $template = 'contents/item', $data = array())
 	{
-		$data = $this->get($slug);
+		$row_data = $this->get($slug);
 		return $this->_View->element($template,
 			array_merge(
 				$data,
 				array(
-					'row' => $data,
+					'row' => $row_data,
 				)
 			)
 		);
@@ -82,6 +82,12 @@ class ContentLibHelper extends AppHelper
 /**
  * prints out the correct form for a given $type.
  * You can pass in $data into the element to control its behavior
+ * 
+ * Put all your custom types below view/elements/contents/ and name them type_foo.ctp
+ * To access types within a plugin, you have to pass 'plugin' => 'my_plugin' within $data.
+ * 
+ * $options are keys to control behavior of the output. Keys are:
+ *  o  full     -  set to true, to also return the generic form-controls.
  *
  * @param string $type name of the specific type you want to render, e.g. 'blog' or 'article'
  * @param array $data array with data to be passed into the element
@@ -91,15 +97,21 @@ class ContentLibHelper extends AppHelper
  */
 	public function form($type = null, $data = array(), $options = array())
 	{
-		$options['plugin'] = 'flour';
+		$data['plugin'] = (isset($data['plugin']))
+			? $data['plugin']
+			: 'flour';
 
-		$out = $this->_View->element(
+		$out = (isset($options['full']) && $options['full'] === true)
+			? $this->_View->element('contents/form', array('plugin' => 'flour'))
+			: '';
+
+		$out .= $this->_View->element(
 			String::insert(Configure::read('Flour.Content.types.pattern'),
 				array(
 					'type' => $type,
 				)
 			),
-			array_merge($options, $data)
+			$data
 		);
 		
 		return $out;
