@@ -99,7 +99,7 @@ class ContentLibHelper extends AppHelper
 					'type' => $type,
 				)
 			),
-			array_merge($data, $options)
+			array_merge($options, $data)
 		);
 		
 		return $out;
