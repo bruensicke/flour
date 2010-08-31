@@ -62,7 +62,7 @@ $group_class = (isset($group_class))
 
 $group_header = (isset($group_header))
 	? $group_header 
-	: $this->Html->div($group_class.' :group_name', ':group_name');
+	: $this->Html->div($group_class.' group_:group_name', ':group_name');
 
 $group_footer = (isset($group_footer))
 	? $group_footer 
@@ -216,11 +216,8 @@ if(!empty($search))
 			if($group)
 			{
 				$temp = Set::flatten($row);
-				if($temp[$group] != $current_group)
-				{
-					$current_group = $temp[$group];
-					$rows[$current_group] = array();
-				}
+				$current_group = $temp[$group];
+				if(!isset($rows[$current_group])) $rows[$current_group] = array();
 
 				$rows[$current_group][] = $this->element($element,
 					array_merge(
