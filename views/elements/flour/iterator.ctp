@@ -93,6 +93,10 @@ $class = (isset($class))
 	? $class
 	: null;
 
+$items_class = (isset($items_class))
+	? $items_class
+	: 'items';
+
 $btnbar = (isset($btnbar))
 	? $btnbar
 	: null;
@@ -195,6 +199,7 @@ if(!empty($search))
 	if(count($data))
 	{
 		$rows = array();
+		$content = array();
 		$i = 0;
 
 		foreach($data as $ind => $row)
@@ -253,7 +258,6 @@ if(!empty($search))
 
 		if($group)
 		{
-			$content = array();
 			foreach($rows as $group_name => $rows)
 			{
 				$content[] = String::insert($group_header, array('group_name' => $group_name));
@@ -262,11 +266,12 @@ if(!empty($search))
 				$content[] = String::insert($group_items_after, array('group_name' => $group_name));
 				$content[] = String::insert($group_footer, array('group_name' => $group_name));
 			}
-			$content = implode($connector, $content);
 		} else {
-			$content = $header.str_replace('{{rows}}', implode($connector, $rows), $template).$footer;
+			$content[] = $header;
+			$content[] = str_replace('{{rows}}', implode($connector, $rows), $template);
+			$content[] = $footer;
 		}
-
+		$content = implode($connector, $content);
 
 	} else {
 		$content = $empty;
@@ -285,7 +290,7 @@ if(!empty($search))
 		);
 	}
 
-	$box_content[] = $this->Html->div('items', $content);
+	$box_content[] = $this->Html->div($items_class, $content);
 
 	//paginator
 	$footer = (isset($this->Paginator) && is_object($this->Paginator))
