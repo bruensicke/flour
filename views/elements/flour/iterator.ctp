@@ -154,7 +154,9 @@ if(!empty($search))
 		$btnbar_content[] = $this->Form->hidden('Flour.search', array('value' => 1));
 		if($preserveNamedParams && isset($this->params['named']) && !empty($this->params['named']))
 		{
-			$btnbar_content[] = $this->Form->hidden('Flour.params', array('value' => json_encode($this->params['named'])));
+			$searchParams = $this->params['named'];
+			unset($searchParams['page']);
+			$btnbar_content[] = $this->Form->hidden('Flour.params', array('value' => json_encode($searchParams)));
 		}
 		$btnbar_content[] = $this->Form->input('Flour.search', array(
 			'label' => false,
@@ -182,14 +184,16 @@ if(!empty($search))
 	//filters
 	if(!empty($filters))
 	{
+		$hereParsed = Router::parse((str_replace($this->base, '', $this->here)));
+		$here = array_merge(array('controller' => $hereParsed['controller'], 'action' => $hereParsed['action']), $hereParsed['named']);
+		unset($here['page']);
 		//prepare filters
 		$merge = $filter = array(); //prepare an array that will fit together search-conditions
 		if(!empty($this->params['named']['search'])) $merge['search'] = $this->params['named']['search']; //add searchterm, if entered
 		if(!empty($this->params['named']['date'])) $merge['date'] = $this->params['named']['date']; //add from_date, if entered
-		
 		foreach($filters as $name => $link)
 		{
-			$active = (Router::url(array_merge($link, $merge)) == $this->here) ? 'active' : null;
+			$active = (array_merge($link, $merge) == $here) ? 'active' : null;
 			$filter[] = $this->Html->link( $name, array_merge($link, $merge), array('class' => $active));
 		}
 		$filters = $filter;
