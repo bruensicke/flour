@@ -47,6 +47,40 @@ $filters = (isset($filters))
 	? $filters
 	: null;
 
+/* Grouping */
+$group = (isset($group))
+	? $group
+	: null;
+
+$current_group = (isset($current_group))
+	? $current_group
+	: '';
+
+$group_class = (isset($group_class))
+	? $group_class
+	: 'group';
+
+$group_header = (isset($group_header))
+	? $group_header 
+	: $this->Html->div($group_class.' :group_name', ':group_name');
+
+$group_footer = (isset($group_footer))
+	? $group_footer 
+	: '';
+
+$group_items_class = (isset($group_items_class))
+	? $group_items_class
+	: 'group_items';
+
+$group_items_before = (isset($group_items_before))
+	? $group_items_before
+	: $this->Html->div($group_items_class);
+
+$group_items_after = (isset($group_items_after))
+	? $group_items_after
+	: $this->Html->tag('/div');
+
+/* Displayment */
 $label = (isset($label))
 	? $label
 	: null;
@@ -165,22 +199,51 @@ if(!empty($search))
 
 		foreach($data as $ind => $row)
 		{
+			
 			$row = (isset($prefix))
 				? array($prefix => $row)
 				: $row;
 
-			$rows[] = $this->element($element,
-				array_merge(
-					$row_options, 
-					array(
-						'row' => $row,
-						'i' => $i++,
-						'even' => ($i % 2)
-							? 'even'
-							: 'odd'
+			if($group)
+			{
+				$temp = Set::flatten($row);
+				if($temp[$group] != $current_group)
+				{
+					$current_group = $temp[$group];
+					$rows[$current_group] = array();
+				}
+
+				$rows[$current_group][] = $this->element($element,
+					array_merge(
+						$row_options, 
+						array(
+							'row' => $row,
+							'group' => $current_group,
+							'i' => $i++,
+							'even' => ($i % 2)
+								? 'even'
+								: 'odd'
+						)
 					)
-				)
-			);
+				);
+
+			} else {
+
+				$rows[] = $this->element($element,
+					array_merge(
+						$row_options, 
+						array(
+							'row' => $row,
+							'i' => $i++,
+							'even' => ($i % 2)
+								? 'even'
+								: 'odd'
+						)
+					)
+				);
+
+			}
+
 		}
 
 		//insertion of item-template in main-template
@@ -188,7 +251,22 @@ if(!empty($search))
 			? "\n"
 			: '';
 
-		$content = $header.str_replace('{{rows}}', implode($connector, $rows), $template).$footer;
+		if($group)
+		{
+			$content = array();
+			foreach($rows as $group_name => $rows)
+			{
+				$content[] = String::insert($group_header, array('group_name' => $group_name));
+				$content[] = String::insert($group_items_before, array('group_name' => $group_name));
+				$content[] = str_replace('{{rows}}', implode($connector, $rows), $template);
+				$content[] = String::insert($group_items_after, array('group_name' => $group_name));
+				$content[] = String::insert($group_footer, array('group_name' => $group_name));
+			}
+			$content = implode($connector, $content);
+		} else {
+			$content = $header.str_replace('{{rows}}', implode($connector, $rows), $template).$footer;
+		}
+
 
 	} else {
 		$content = $empty;

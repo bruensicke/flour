@@ -37,7 +37,8 @@ class ConfigurationsController extends FlourAppController
 	public function admin_index()
 	{
 		$conditions = $this->Search->buildConditions('Configuration');
-		$this->data = $this->Configuration->find('all', compact('conditions'));
+		$order = 'Configuration.category ASC';
+		$this->data = $this->Configuration->find('all', compact('conditions', 'order'));
 		$this->set('tags', 
 			$this->Configuration->Tagged->find('cloud', array(
 				'model' => 'Configuration',
