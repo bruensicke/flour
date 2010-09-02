@@ -19,8 +19,6 @@ CREATE TABLE IF NOT EXISTS `flour_collection_items` (
 	`user_id` CHAR(36) DEFAULT NULL,
 	`group_id` CHAR(36) DEFAULT NULL,
 	`collection_id` CHAR(36) NOT NULL,
-	`user_id` CHAR(36) DEFAULT NULL,
-	`group_id` CHAR(36) DEFAULT NULL,
 	`type` VARCHAR(255) NOT NULL,
 	`sequence` INT(7) NOT NULL,
 	`name` VARCHAR(255) NOT NULL,
