@@ -65,6 +65,5 @@ if($template == 'admin')
 		'App' => Configure::read('App'),
 		'Flour' => Configure::read('Flour'),
 	);
-	debug($data);
 	echo String::insert($this->element('/flour/box', $element_data), Set::flatten($data));
 }
