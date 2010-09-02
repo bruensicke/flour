@@ -185,15 +185,18 @@ class ConfigurationsController extends FlourAppController
  */	
 	public function admin_type()
 	{
-		$type = $this->passedArgs['type'];
-		$this->autoLayout = false;
-		$this->autoRender = false;
-		Configure::write('debug', 0);
+
+		//which type to render
+		$type = (isset($this->passedArgs['type']))
+			? $this->passedArgs['type']
+			: Configure::read('Flour.Content.types.default');
+
+		$this->set($this->passedArgs);
 		$element = String::insert(
 			Configure::read('Flour.Configuration.types.pattern'), 
 			array('type' => $type)
 		);
-		$this->render('/elements/'.$element);
+		$this->render('/elements/'.$element, 'ajax');
 	}
 
 }
