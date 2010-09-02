@@ -124,3 +124,44 @@ Configure::write('Flour.Configuration.categories', array(
 	),
 ));
 
+
+
+
+/**
+ * Widgets
+ */
+
+//status
+Configure::write('Flour.Widget.status', array(
+	'default' => 1,
+	'options' => array(
+		'0' => __('offline', true),
+		'1' => __('draft', true),
+		'2' => __('online', true),
+	),
+));
+
+//types
+Configure::write('Flour.Widget.types', array(
+	'pattern' => 'widgets/type_:type',
+	'default' => 'html',
+	'options' => array(
+		'html' => __('Text', true),
+		'element' => __('Element', true),
+		'box' => __('Box', true),
+	),
+));
+
+//templates
+Configure::write('Flour.Widget.templates', array(
+	'pattern' => 'widgets/template_:template',
+	'default' => 'full',
+	'options' => array(
+		'full' => __('Full width column', true),
+		'half' => __('2 half-width columns', true),
+	),
+));
+
+
+
+
