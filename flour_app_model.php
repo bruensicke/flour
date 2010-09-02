@@ -156,11 +156,14 @@ class FlourAppModel extends AppModel
  * @return void
  */
 	function _setCurrent(&$options, &$type) {
-		$slug = null;
+		$slug = (isset($options['slug']))
+			? $options['slug']
+			: null;
+
 		$this->_setValid($options, $type);
 
 		// find all editions with inherited id
-		if(isset($this->id)) {
+		if(isset($this->id) && empty($slug)) {
 			$slug = $this->field('slug');
 		}
 		
