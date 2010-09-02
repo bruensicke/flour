@@ -7,7 +7,7 @@ echo $this->Form->hidden("CollectionItem.$i.type", array('value' => 'bool'));
 echo $this->Form->hidden("CollectionItem.$i.sequence", array('value' => $i));
 
 echo $this->Html->div('left control');
-	echo $this->Html->div('del', '');
+	echo $this->Html->div('delrow', '');
 echo $this->Html->tag('/div'); //div.left
 
 echo $this->Html->div('left key');
