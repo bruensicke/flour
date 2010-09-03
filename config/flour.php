@@ -144,6 +144,7 @@ Configure::write('Flour.Widget.status', array(
 //types
 Configure::write('Flour.Widget.types', array(
 	'pattern' => 'widgets/type_:type',
+	'class' => 'widget type_:type :class',
 	'default' => 'html',
 	'options' => array(
 		'html' => __('Text', true),

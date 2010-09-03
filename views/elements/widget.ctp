@@ -1,6 +1,11 @@
 <?php
 
 //which widget to use, defaults to 'generic'
+$class = (isset($class))
+	? $class 
+	: Configure::read('Flour.Widget.types.class');
+
+//which widget to use, defaults to 'generic'
 $type = (isset($type))
 	? $type 
 	: Configure::read('Flour.Widget.types.default');
@@ -25,12 +30,14 @@ $footer = (isset($footer))
 	? $footer 
 	: '';
 
+// debug($class);
+// $class = String::insert($class, array('type' => $type, 'class' => $widget_data['class']));
+
+
 echo $header;
-echo $this->element(
-	String::insert(Configure::read('Flour.Widget.types.pattern'), array('type' => $type)),
-	array(
-		'data' => $widget_data,
-		'template' => $template,
-	)
-);
+	echo $this->Html->div($class, $this->element($this->Widget->element($type), array(
+			'data' => $widget_data,
+			'template' => $template,
+		)
+	));
 echo $footer;

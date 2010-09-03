@@ -202,6 +202,17 @@ class WidgetHelper extends AppHelper
 	}
 
 /**
+ * returns full name of element of widget for a given $type. 
+ *
+ * @return string full name of element, to be used in $this->element();
+ * @access public
+ */
+	public function element($type)
+	{
+		return String::insert(Configure::read('Flour.Widget.types.pattern'), array('type' => $type));
+	}
+
+/**
  * adds $html to output array, used by $this->rows();
  *
  * @param string $html
