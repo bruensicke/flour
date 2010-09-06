@@ -110,7 +110,7 @@ Configure::write('Flour.Configuration.types', array(
 	'options' => array(
 		'bool' => __('Switch', true),
 		'text' => __('Textfield', true),
-		'array' => __('Array', true),
+		// 'array' => __('Array', true), //TODO: fix js on this one.
 		// 'collection' => __('Collection', true), //TODO: later
 	),
 ));
