@@ -87,7 +87,7 @@ class WidgetHelper extends AppHelper
 		$row_data = $this->get($slug);
 		$data = array_merge($options, array(
 			'type' => $row_data['Widget']['type'],
-			'widget_data' => $row_data['Widget']['data'],
+			'data' => $row_data['Widget']['data'],
 		));
 		return $this->_View->element('widget', $data);
 	}
@@ -105,7 +105,7 @@ class WidgetHelper extends AppHelper
 	{
 		$data = array_merge($options, array(
 			'type' => $type,
-			'widget_data' => $data,
+			'data' => $data,
 		));
 		return $this->_View->element('widget', $data);
 	}

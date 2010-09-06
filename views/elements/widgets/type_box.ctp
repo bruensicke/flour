@@ -1,4 +1,10 @@
 <?php
+$content_types = array(
+	'text' => __('Text', true),
+	'element' => __('Element', true),
+	'widget' => __('Widget', true),
+);
+
 $data = (isset($data))
 	? $data 
 	: array();
@@ -17,6 +23,12 @@ if($template == 'admin')
 	echo $this->Form->input('Widget.data.label', array(
 		'type' => 'text',
 	));
+
+	//show dropdown, show textbox, element-selector or widget-selector accordingly
+	// echo $this->Form->input('Widget.data.content_type', array(
+	// 	'type' => 'select',
+	// 	'options' => $content_types,
+	// ));
 
 	echo $this->Form->input('Widget.data.content', array(
 		'type' => 'textarea',

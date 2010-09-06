@@ -23,6 +23,25 @@ class WidgetsController extends FlourAppController
 	);
 
 /**
+ * View action
+ *
+ * @param integer $id ID of record
+ * @return void
+ * @access public
+ */	
+	public function view($id_or_slug)
+	{
+		$layout = (isset($this->passedArgs['layout']))
+			? $this->passedArgs['layout']
+			: 'ajax';
+
+		$this->data = $this->Widget->read(null, $id_or_slug);
+		$this->set($this->data['Widget']);
+		$this->set('widget_data', $this->data['Widget']['data']);
+		$this->render('/elements/widget', $layout);
+	}
+
+/**
  * lists all available widgets, accepts a variety of named params
  *
  * {{{
