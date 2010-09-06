@@ -147,7 +147,7 @@ class WidgetHelper extends AppHelper
  * @return string $output the HTML rendered by the template, including all widgets
  * @access public
  */
-	public function row($items, $template = 'full', $options = array())
+	public function row($items, $template = 'Flour.full', $options = array())
 	{
 		$out = array();
 		foreach($items as $index => $item)
@@ -168,6 +168,14 @@ class WidgetHelper extends AppHelper
 					break;
 			}
 		}
+
+		//find correct plugin for template
+		$templateArray = pluginSplit($template);
+		$template = $templateArray[1];
+		$options['plugin'] = (!isset($options['plugin']) && !empty($templateArray[0]))
+			? $templateArray[0]
+			: 'Flour';
+
 		$out = $this->template($template, $out, $options);
 		return $this->_addrow($out);
 	}
