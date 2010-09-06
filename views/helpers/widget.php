@@ -120,7 +120,9 @@ class WidgetHelper extends AppHelper
 			'type' => $type,
 			'data' => $data,
 		));
-		if(!empty($plugin)) $data['plugin'] = $plugin;
+		$data['plugin'] = isset($plugin)
+			? $plugin
+			: 'Flour';
 		return $this->_View->element('widget', $data);
 	}
 
