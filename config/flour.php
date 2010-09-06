@@ -41,7 +41,7 @@ Configure::write('Flour.CollectionItem.types', array(
 	'options' => array(
 		'bool' => __('Switch', true),
 		'text' => __('Textfield', true), // ONE key => value pair
-		'array' => __('Array', true), // nested array with unlimited amount of key => value pairs
+		// 'array' => __('Array', true), // nested array with unlimited amount of key => value pairs
 		// 'collection' => __('Collection', true), // a referenced collection with all its data under a key.
 	),
 ));
@@ -110,7 +110,7 @@ Configure::write('Flour.Configuration.types', array(
 	'options' => array(
 		'bool' => __('Switch', true),
 		'text' => __('Textfield', true),
-		// 'array' => __('Array', true), //TODO: fix js on this one.
+		'array' => __('Array', true),
 		// 'collection' => __('Collection', true), //TODO: later
 	),
 ));
