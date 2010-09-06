@@ -94,6 +94,11 @@ class WidgetHelper extends AppHelper
 
 /**
  * renders a Widget of a given $type and given $data
+ * 
+ * {{{
+ * echo $this->Widget->type('foo', array('bar' => 'baz'));
+ * echo $this->Widget->type('Flour.html', array('content' => 'hello world.'));
+ * }}}
  *
  * @param string $type which type to use
  * @param array $data put in all data, needed by this type of widget
@@ -103,10 +108,14 @@ class WidgetHelper extends AppHelper
  */
 	public function type($type, $data = array(), $options = array())
 	{
+		$typeArray = pluginSplit($type);
+		$type = $typeArray[1];
+		$plugin = $typeArray[0];
 		$data = array_merge($options, array(
 			'type' => $type,
 			'data' => $data,
 		));
+		if(!empty($plugin)) $data['plugin'] = $plugin;
 		return $this->_View->element('widget', $data);
 	}
 

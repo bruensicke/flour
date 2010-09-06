@@ -24,18 +24,18 @@ $footer = (isset($footer))
 	? $footer 
 	: '';
 
-$class_replacing = (isset($class))
-	? array('type' => $type, 'class' => $class)
-	: array('type' => $type);
+$content = $this->element(
+	String::insert(
+		Configure::read('Flour.Widget.types.pattern'), 
+		array('type' => $type)
+	), 
+	array(
+		'data' => $data,
+		'template' => $template,
+	)
+);
 
-$class = (isset($class))
-	? String::insert($class, $class_replacing)
-	: String::insert(Configure::read('Flour.Widget.types.class'), $class_replacing);
-
-echo $header;
-	echo $this->Html->div($class, $this->element($this->Widget->element($type), array(
-			'data' => $data,
-			'template' => $template,
-		)
-	));
-echo $footer;
+echo String::insert(
+	Configure::read('Flour.Widget.templates.markup'),
+	compact('header', 'footer', 'type', 'slug', 'class', 'content')
+);
