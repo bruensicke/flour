@@ -1,8 +1,33 @@
 <?php
+//default-values
+$id = (isset($id))
+	? $id 
+	: null;
+
+//default-values
+$name = (isset($name))
+	? $name 
+	: null;
+
+//default-values
+$description = (isset($description))
+	? $description 
+	: null;
+
+//default-values
+$intro = (isset($intro))
+	? $intro 
+	: null;
+
 //which widget to use, defaults to 'generic'
 $type = (isset($type))
 	? $type 
 	: Configure::read('Flour.Widget.types.default');
+
+//which widget to use, defaults to 'generic'
+$status = (isset($status))
+	? $status 
+	: Configure::read('Flour.Widget.status.default');
 
 //which template in the widget to use, defaults to 'default'
 $template = (isset($template))
@@ -13,6 +38,16 @@ $template = (isset($template))
 $data = (isset($data))
 	? $data 
 	: array();
+
+//which widget to use, defaults to 'generic'
+$class = (isset($class))
+	? $class 
+	: '';
+
+//has a title?
+$title = (isset($title))
+	? $title 
+	: '';
 
 //show a header before the widget?
 $header = (isset($header))
@@ -37,5 +72,18 @@ $content = $this->element(
 
 echo String::insert(
 	Configure::read('Flour.Widget.templates.markup'),
-	compact('header', 'footer', 'type', 'slug', 'class', 'content')
+	compact(
+		'header',
+		'footer',
+		'id',
+		'type',
+		'status',
+		'title',
+		'slug',
+		'name',
+		'description',
+		'intro',
+		'class',
+		'content'
+	)
 );

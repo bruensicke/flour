@@ -63,9 +63,13 @@ class WidgetHelper extends AppHelper
  * @return mixed array of $data, if found in database for the currently active content, false otherwise
  * @access public
  */
-	public function get($slug)
+	public function get($slug_or_id)
 	{
-		$data = $this->_Widget->find('current', array('slug' => $slug));
+		$field = (Validation::uuid($slug_or_id))
+			? 'id'
+			: 'slug';
+
+		$data = $this->_Widget->find('current', array($field => $slug_or_id));
 		if(empty($data))
 		{
 			return false;
@@ -85,10 +89,11 @@ class WidgetHelper extends AppHelper
 	public function render($slug, $data = array(), $options = array())
 	{
 		$row_data = $this->get($slug);
-		$data = array_merge($options, array(
-			'type' => $row_data['Widget']['type'],
-			'data' => $row_data['Widget']['data'],
-		));
+		if(empty($row_data['Widget']) || !is_array($row_data['Widget']))
+		{
+			return false;
+		}
+		$data = array_merge($options, $row_data['Widget']);
 		return $this->_View->element('widget', $data);
 	}
 
