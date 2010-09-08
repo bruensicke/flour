@@ -104,10 +104,12 @@ class ContentsController extends FlourAppController
 					$save2 = $this->Content->save();
 					if($save2)
 					{
-						$id = $this->Content->getInsertID();
+						$this->data['Content']['id'] = $this->Content->getInsertID();
+						$this->Activity = ClassRegistry::init('Flour.Activity');
+						$this->Activity->write('content_object_created', $this->data, 'Content');
 						$this->Flash->success(
 							__('Content :Content.name saved.', true),
-							array('action' => 'edit', $id)
+							array('action' => 'edit', $this->data['Content']['id'])
 						);
 					} else {
 						$this->Flash->error(
@@ -157,6 +159,8 @@ class ContentsController extends FlourAppController
 				$save2 = $this->Content->save();
 				if($save1 && $save2)
 				{
+					$this->Activity = ClassRegistry::init('Flour.Activity');
+					$this->Activity->write('content_object_updated', $this->data, 'Content');
 					$this->Flash->success(
 						__('Content :Content.name saved.', true),
 						array('action' => 'edit', $this->data['Content']['id'])
@@ -198,6 +202,8 @@ class ContentsController extends FlourAppController
 				$this->referer(array('action'=>'index'))
 			);
 		}
+		$this->Activity = ClassRegistry::init('Flour.Activity');
+		$this->Activity->write('content_object_deleted', $this->data, 'Content');
 		$this->Flash->success(
 			__('Content :Content.name successfully deleted.', true),
 			$this->referer(array('action'=>'index'))
