@@ -7,6 +7,10 @@ $box_element = (isset($box_element))
 	? $box_element 
 	: 'flour/box';
 
+$paging = (isset($paging))
+	? $paging 
+	: true;
+
 $paginator_element = (isset($paginator_element))
 	? $paginator_element 
 	: 'flour/paginator';
@@ -294,7 +298,7 @@ if(!empty($search))
 	$box_content[] = $this->Html->div($items_class, $content);
 
 	//paginator
-	$footer = (isset($this->Paginator) && is_object($this->Paginator))
+	$footer = (isset($this->Paginator) && is_object($this->Paginator) && $paging)
 		? $this->element($paginator_element, array('search' => $current_searchterms))
 		: null;
 
