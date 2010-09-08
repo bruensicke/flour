@@ -147,6 +147,40 @@ class Activity extends FlourAppModel
 	}
 
 /**
+ * overwriting find for a new option 'type'
+ * 
+ * use like this:
+ * 
+ * {{{
+ * $this->Activity->find('all', array('type' => array('foo', 'bar', 'baz')))
+ * }}}
+ *
+ * @param string $type kind of find, usually 'first', or 'all'
+ * @param array $options query data with conditions and everything, new key for $type, see code-example
+ * @return mixed returns parent::find();
+ * @access public
+ */
+	public function find($type, $options = array())
+	{
+		if (!isset($options['conditions']))
+		{
+			$options['conditions'] = array();
+		} 
+
+		if (isset($options['conditions']) && is_string($options['conditions']))
+		{
+			$options['conditions'] = array($options['conditions']);
+		} 
+
+		if (isset($options['type']))
+		{
+			$options['conditions'] = array_merge($options['conditions'], array($this->alias.'.type' => $options['type']));
+			unset($options['type']);
+		}
+		return parent::find($type, $options);
+	}
+
+/**
  * shortcut to get a list of recent Activities
  *
  * @param string $limit number of items to retrieve
