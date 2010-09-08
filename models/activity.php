@@ -21,6 +21,17 @@ class Activity extends FlourAppModel
 {
 
 /**
+ * Attached behaviors
+ *
+ * @var array
+ * @access public
+ */
+	public $actsAs = array(
+		'Flour.Polymorphic',
+		// 'Flour.Taggable',
+	);
+
+/**
  * Activity types
  * taken from Flour.Activities.types.options
  *
@@ -32,14 +43,21 @@ class Activity extends FlourAppModel
 /**
  * constructor auto-sets $this->types to a merged set of:
  * 
- *   o  Flour.Activities.types.options
- *   o  App.Activities.types.options
+ *   o  Flour.Activity.types.options
+ *   o  App.Activity.types.options
  *
  * @access public
  */
 	public function __construct()
 	{
-		$this->types = Configure::read('Flour.Activities.types.options');
+		$appTypes = (Configure::read('App.Activity.types.options'))
+			? Configure::read('App.Activity.types.options')
+			: array();
+
+		$flourTypes = (Configure::read('Flour.Activity.types.options'))
+			? Configure::read('Flour.Activity.types.options')
+			: array();
+		$this->types = array_merge($flourTypes, $appTypes);
 		return parent::__construct();
 	}
 
@@ -48,15 +66,27 @@ class Activity extends FlourAppModel
  *
  * @param string $type one of $this->types
  * @param array $data array with data, that will be stored and used for inserts in type_text
+ * @param string $model name of model that this entry connects to.
  * @return mixed parsed text of type, or false on error
  * @access public
  */
-	public function write($type, $data)
+	public function write($type, $data = array(), $model = null)
 	{
+		if(!array_key_exists($type, $this->types)) {
+			return false;
+		}
+
 		$row = array(
 			'type' => $type,
 			'data' => $data,
 		);
+
+		if(!empty($model) && isset($data[$model]) && isset($data[$model]['id']))
+		{
+			$row['model'] = $model;
+			$row['foreign_id'] = $data[$model]['id'];
+		}
+
 		if($this->create($row) && $this->save())
 		{
 			//everything went fine
@@ -75,6 +105,8 @@ class Activity extends FlourAppModel
  */
 	public function beforeSave($options = null)
 	{
+		//extract data, because it got encoded by flexible already.
+		$this->data[$this->alias]['data'] = json_decode($this->data[$this->alias]['data'], true);
 		$this->data[$this->alias]['message'] = $this->parse($this->data[$this->alias]['type'], $this->data[$this->alias]['data']);
 		$this->data[$this->alias]['data'] = json_encode($this->data[$this->alias]['data']);
 		return parent::beforeSave($options);
@@ -132,4 +164,3 @@ class Activity extends FlourAppModel
 		return $this->find('all', $options);
 	}
 }
-?>
