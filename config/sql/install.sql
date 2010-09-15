@@ -153,6 +153,30 @@ CREATE TABLE IF NOT EXISTS `flour_tags` (
 	UNIQUE KEY `UNIQUE_TAG` (`identifier`,`keyname`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `flour_widget_collections` (
+	`id` CHAR(36) NOT NULL,
+	`user_id` CHAR(36) DEFAULT NULL,
+	`group_id` CHAR(36) DEFAULT NULL,
+	`type` VARCHAR(255) NOT NULL DEFAULT 'stack',
+	`status` INT(3) DEFAULT '0',
+	`locale` VARCHAR(10) DEFAULT NULL,
+	`slug` VARCHAR(255) NOT NULL DEFAULT '',
+	`name` VARCHAR(255) NOT NULL,
+	`class` VARCHAR(255) NOT NULL DEFAULT '',
+	`data` TEXT DEFAULT NULL,
+	`description` TINYTEXT,
+	`tags` VARCHAR(255) NOT NULL,
+	`valid_from` DATETIME DEFAULT NULL,
+	`valid_to` DATETIME DEFAULT NULL,
+	`created` DATETIME NOT NULL,
+	`created_by` CHAR(36) NOT NULL,
+	`modified` DATETIME DEFAULT NULL,
+	`modified_by` CHAR(36) DEFAULT NULL,
+	`deleted` DATETIME DEFAULT NULL,
+	`deleted_by` CHAR(36) DEFAULT NULL,
+	PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `flour_widgets` (
 	`id` CHAR(36) NOT NULL,
 	`user_id` CHAR(36) DEFAULT NULL,
@@ -168,6 +192,28 @@ CREATE TABLE IF NOT EXISTS `flour_widgets` (
 	`data` TEXT DEFAULT NULL,
 	`description` TINYTEXT,
 	`tags` VARCHAR(255) NOT NULL,
+	`valid_from` DATETIME DEFAULT NULL,
+	`valid_to` DATETIME DEFAULT NULL,
+	`created` DATETIME NOT NULL,
+	`created_by` CHAR(36) NOT NULL,
+	`modified` DATETIME DEFAULT NULL,
+	`modified_by` CHAR(36) DEFAULT NULL,
+	`deleted` DATETIME DEFAULT NULL,
+	`deleted_by` CHAR(36) DEFAULT NULL,
+	PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `flour_widget_collection_items` (
+	`id` CHAR(36) NOT NULL,
+	`user_id` CHAR(36) DEFAULT NULL,
+	`group_id` CHAR(36) DEFAULT NULL,
+	`widget_collection_id` CHAR(36) NOT NULL,
+	`type` VARCHAR(255) DEFAULT NULL,
+	`sequence` INT(7) NOT NULL,
+	`data` TEXT NOT NULL,
+	`status` INT(3) DEFAULT '1',
+	`locale` VARCHAR(10) DEFAULT NULL,
+	`description` TINYTEXT,
 	`valid_from` DATETIME DEFAULT NULL,
 	`valid_to` DATETIME DEFAULT NULL,
 	`created` DATETIME NOT NULL,
