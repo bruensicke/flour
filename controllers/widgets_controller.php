@@ -38,6 +38,15 @@ class WidgetsController extends FlourAppController
 		$this->render($this->action, $layout);
 	}
 
+	public function admin_library()
+	{
+		$layout = (isset($this->passedArgs['layout']))
+			? $this->passedArgs['layout']
+			: 'ajax';
+
+		$this->render($this->action, $layout);
+	}
+
 /**
  * lists all available widgets, accepts a variety of named params
  *

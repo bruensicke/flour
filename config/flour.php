@@ -131,7 +131,7 @@ Configure::write('Flour.Configuration.categories', array(
 
 
 /**
- * Widgets
+ * Widgets / WidgetCollections
  */
 
 //status
@@ -153,6 +153,11 @@ Configure::write('Flour.Widget.types', array(
 		'element' => __('Element', true),
 		'box' => __('Box', true),
 	),
+	'descriptions' => array(
+		'html' => __('Just a plain HTML element, fill in whatever you want to appear.', true),
+		'element' => __('Render out an element', true),
+		'box' => __('Show a styled box with classes already filled.', true),
+	),
 ));
 
 //templates
@@ -163,6 +168,29 @@ Configure::write('Flour.Widget.templates', array(
 	'options' => array(
 		'full' => __('Full width column', true),
 		'half' => __('2 half-width columns', true),
+	),
+));
+
+/* WidgetCollections */
+
+//status
+Configure::write('Flour.WidgetCollection.status', array(
+	'default' => 1,
+	'options' => array(
+		'0' => __('offline', true),
+		'1' => __('draft', true),
+		'2' => __('online', true),
+	),
+));
+
+//types
+Configure::write('Flour.WidgetCollection.types', array(
+	'pattern' => 'widget_collections/type_:type',
+	'default' => 'stack',
+	'options' => array(
+		'stack' => __('Stack', true),
+		'row' => __('Row', true),
+		// 'rows' => __('Rows', true), //come on, this is complex
 	),
 ));
 

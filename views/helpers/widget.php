@@ -237,6 +237,38 @@ class WidgetHelper extends AppHelper
 	}
 
 /**
+ * returns array with brief explanations of all Widget types.
+ *
+ * @return array a list of all types with their brief explanation
+ * @access public
+ */
+	public function explain($type_only = false)
+	{
+		$out = array();
+		$types = Configure::read('Flour.Widget.types.options');
+		$descriptions = Configure::read('Flour.Widget.types.descriptions');
+		foreach($types as $type => $name)
+		{
+			$out[$type] = array(
+				'type' => $type,
+				'name' => $name,
+				'description' => $descriptions[$type],
+			);
+		}
+		if($type_only !== false && is_string($type_only) && array_key_exists($type_only, $types))
+		{
+			return $out[$type];
+		}
+		return $out;
+	}
+
+	public function find($type = 'active', $options = array())
+	{
+		return $this->_Widget->find($type, $options);
+	}
+
+
+/**
  * adds $html to output array, used by $this->rows();
  *
  * @param string $html
