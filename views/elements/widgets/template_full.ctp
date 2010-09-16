@@ -46,24 +46,24 @@ $a = (isset($f))
 	: $a;
 
 
-//show a header before the widget?
-$header = (isset($header))
-	? $header 
+//to be prepended
+$before = (isset($before))
+	? $before
 	: '';
 
-//show a footer after the widget?
-$footer = (isset($footer))
-	? $footer 
+//to be appended
+$after = (isset($after))
+	? $after
 	: '';
 
 $template = (isset($template))
 	? $template
 	: <<<HTML
-	:header
+	:before
 	<div class="clearfix :class":style>
 		<div class="full a">:a</div>
 	</div>
-	:footer
+	:after
 HTML;
 
-echo String::insert($template, compact('header', 'footer', 'a', 'b', 'class', 'style'));
+echo String::insert($template, compact('before', 'after', 'a', 'b', 'class', 'style'));
