@@ -43,18 +43,13 @@ class ContentLibHelper extends AppHelper
 /**
  * gets the current ContentObject with given $slug
  *
- * @param string $slug slug of ContentObject to retrieve
+ * @param string $slug slug of ContentObject to retrieve (or id)
  * @return mixed array of $data, if found in database for the currently active content - false otherwise
  * @access public
  */
 	public function get($slug)
 	{
-		$data = $this->_Content->find('current', array('slug' => $slug));
-		if(empty($data))
-		{
-			return false;
-		}
-		return $data;
+		return $this->_Content->get($slug);
 	}
 
 /**

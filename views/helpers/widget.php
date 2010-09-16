@@ -59,22 +59,13 @@ class WidgetHelper extends AppHelper
 /**
  * gets the current Widget with given $slug
  *
- * @param string $slug slug of Widget to retrieve
+ * @param string $slug slug of Widget to retrieve (or id)
  * @return mixed array of $data, if found in database for the currently active content, false otherwise
  * @access public
  */
-	public function get($slug_or_id)
+	public function get($slug)
 	{
-		$field = (Validation::uuid($slug_or_id))
-			? 'id'
-			: 'slug';
-
-		$data = $this->_Widget->find('current', array($field => $slug_or_id));
-		if(empty($data))
-		{
-			return false;
-		}
-		return $data;
+		return $this->_Widget->get($slug);
 	}
 
 /**
