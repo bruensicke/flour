@@ -1,0 +1,20 @@
+/* widget template layout */
+
+.sidebar_right {
+	clear: right;
+	float: right;
+}
+
+.half {
+	float: left;
+	width: 50%;
+	padding: 0;
+}
+
+
+/* clearfix */
+
+.clearfix:after {content:".";display:block;height:0;clear:both;visibility:hidden;}
+.clearfix {display:inline-block;position:relative;}
+* html .clearfix {height:1%;}
+.clearfix {display:block;}

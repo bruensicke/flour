@@ -5,6 +5,16 @@ $seperator = (isset($seperator))
 	? $seperator 
 	: '';
 
+//template class
+$class = (isset($class))
+	? $class
+	: '';
+
+//template style
+$style = (isset($style))
+	? ' style="'.$style.'"'
+	: '';
+
 //content 'a'
 $a = (isset($a))
 	? $a
@@ -46,7 +56,15 @@ $footer = (isset($footer))
 	? $footer 
 	: '';
 
-echo $header;
-echo $this->Html->div('half', $a);
-echo $this->Html->div('half', $b);
-echo $footer;
+$template = (isset($template))
+	? $template
+	: <<<HTML
+	:header
+	<div class="clearfix :class":style>
+		<div class="half a">:a</div>
+		<div class="half b">:b</div>
+	</div>
+	:footer
+HTML;
+
+echo String::insert($template, compact('header', 'footer', 'a', 'b', 'class', 'style'));

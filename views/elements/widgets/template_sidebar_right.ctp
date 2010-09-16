@@ -1,8 +1,13 @@
 <?php
 
+//sidebar width
+$width = (isset($width))
+	? $width
+	: '300px';
+
 //which seperator to join more than one column
 $seperator = (isset($seperator))
-	? $seperator 
+	? $seperator
 	: '';
 
 //template class
@@ -21,9 +26,9 @@ $a = (isset($a))
 	: '';
 
 //content 'b'
-$a = (isset($b))
-	? $a.$seperator.$b
-	: $a;
+$b = (isset($b))
+	? $b
+	: '';
 
 //content 'c'
 $a = (isset($c))
@@ -61,9 +66,10 @@ $template = (isset($template))
 	: <<<HTML
 	:header
 	<div class="clearfix :class":style>
-		<div class="full a">:a</div>
+		<div class="sidebar sidebar_right b" style="width::width;">:b</div>
+		<div class="a" style="margin-right::width;">:a</div>
 	</div>
 	:footer
 HTML;
 
-echo String::insert($template, compact('header', 'footer', 'a', 'b', 'class', 'style'));
+echo String::insert($template, compact('header', 'footer', 'a', 'b', 'class', 'style', 'width'));

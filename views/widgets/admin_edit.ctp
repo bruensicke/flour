@@ -33,8 +33,7 @@ $items[] = array(
 	),
 );
 
-echo $this->Widget->row($items, 'bp_right');
+echo $this->Widget->row($items, 'sidebar_right');
 
 echo $this->element('flour/content_stop');
 echo $form->end('Ok');
-

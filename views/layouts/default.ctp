@@ -14,6 +14,7 @@
 echo $this->Html->css(array(
 	'/flour/css/grid',
 	'/flour/css/flour',
+	'/flour/css/templates',
 ));
 echo $this->Html->script(array(
 	'/flour/js/jquery',
