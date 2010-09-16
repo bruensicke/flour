@@ -7,6 +7,7 @@
  * @version $Id$
  * @copyright bruensicke.com GmbH
  **/
+require_once(dirname(__FILE__).'/config/init.php');
 class FlourAppModel extends AppModel
 {
 

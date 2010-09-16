@@ -7,7 +7,7 @@
  * @version $Id$
  * @copyright bruensicke.com GmbH
  **/
-require_once(dirname(__FILE__).'/config/flour.php'); //temp
+require_once(dirname(__FILE__).'/config/init.php');
 class FlourAppController extends AppController
 {
 

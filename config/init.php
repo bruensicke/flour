@@ -1,11 +1,31 @@
 <?php
-Configure::write('App.name', '');
-Configure::write('App.version', '0.1');
-Configure::write('App.tagline', '');
+switch(true)
+{
+	case Configure::read('App.Settings.name') != '':
+		break;
 
-//layout / theme specific
-Configure::write('App.theme', 'default'); //default theme
-Configure::write('App.title', ':title - :name (:version)'); //used for title-tag
-Configure::write('App.keywords', '');
-Configure::write('App.description', '');
-Configure::write('App.breadcrumb', ' &raquo; '); //used as seperator for breadcrumbs
+	case APP_DIR != 'app':
+		Configure::write('App.Settings.name', APP_DIR);
+		break;
+
+	default:
+		$rootArray = pathinfo(ROOT);
+		Configure::write('App.Settings.name', $rootArray['basename']);
+}
+
+switch(true)
+{
+	case Configure::read('App.Settings.version') != '':
+		break;
+	default:
+		Configure::write('App.Settings.version', '0.1');
+}
+
+switch(true)
+{
+	case Configure::read('App.Settings.title') != '':
+		break;
+	default:
+		Configure::write(':title - :name (:version)');
+}
+

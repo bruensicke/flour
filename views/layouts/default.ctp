@@ -31,7 +31,7 @@ echo $this->Html->script(array(
 <body>
 	<div id="container">
 		<div id="header">
-			<h1><?php echo $this->Html->link( __('flour: a CakePHP plugin', true), array('controller' => 'contents', 'action' => 'index', 'plugin' => 'flour')); ?></h1>
+			<h1><?php echo $this->Html->link(Configure::read('App.Settings.name'), array('controller' => 'flour', 'action' => 'index', 'plugin' => 'flour')); ?></h1>
 		</div>
 		<div id="navigation">
 			<div class="btnbar"><?php echo $this->element('flour/nav.main'); ?></div>
