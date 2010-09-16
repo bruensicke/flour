@@ -2,7 +2,14 @@
 App::import('Core', array('Security', 'String'));
 class FlourShell extends Shell
 {
+/**
+ * Contains tasks to load and instantiate
+ *
+ * @var array
+ * @access public
+ */
 	var $tasks = array(
+		'DbConfig',
 		'ProgressBar',
 		'SqlFile',
 		'Install',
@@ -51,5 +58,13 @@ class FlourShell extends Shell
 		$this->out('');
 	}
 
+	protected function __checkConnection()
+	{
+		if (!config('database')) {
+			$this->out(__("Your database configuration was not found. Take a moment to create one.", true));
+			$this->args = null;
+			return $this->DbConfig->execute();
+		}
+	}
 }
 ?>

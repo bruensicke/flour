@@ -14,6 +14,8 @@ class InstallTask extends FlourShell
 	
 	function install()
 	{
+		$this->__checkConnection();
+		
 		$file = array_shift($this->args);
 		if(empty($file))
 		{
@@ -36,6 +38,5 @@ class InstallTask extends FlourShell
 		$this->out("   All tables have been populated into datasource: $ds");
 		$this->out('');
 	}
-
 }
 ?>
