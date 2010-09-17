@@ -29,6 +29,7 @@ class FlourAppController extends AppController
  * @access public
  */
 	var $components = array(
+		'RequestHandler',
 		'Flour.Config',
 		'Flour.Flash',
 		'Flour.Search',
