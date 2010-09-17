@@ -7,12 +7,7 @@ echo $this->Form->hidden('Widget.id');
 
 echo $this->element('flour/content_start');
 
-
 $items = array();
-
-$items[] = array(
-	'slug' => 'widget_edit_before',
-);
 
 $items[] = array(
 	'type' => 'box',
