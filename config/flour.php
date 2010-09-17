@@ -162,8 +162,8 @@ Configure::write('Flour.Widget.types', array(
 
 //templates
 Configure::write('Flour.Widget.templates', array(
-	'pattern' => 'widgets/template_:template',
-	'markup' => ':header<div class="widget type_:type :class">:content</div>:footer',
+	'pattern' => 'templates/:template',
+	'markup' => '<div class="widget type_:type :class">:content</div>',
 	'default' => 'full',
 	'options' => array(
 		'full' => __('Full width column', true),

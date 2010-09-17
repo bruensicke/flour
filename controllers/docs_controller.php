@@ -24,5 +24,25 @@ class DocsController extends FlourAppController
 
 	}
 
+/**
+ * Contents action.
+ *
+ * @access public
+ */
+	function admin_contents()
+	{
+
+	}
+
+/**
+ * Widgets action.
+ *
+ * @access public
+ */
+	function admin_widgets()
+	{
+
+	}
+
 }
 ?>

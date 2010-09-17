@@ -9,6 +9,10 @@ $name = (isset($name))
 	? $name 
 	: null;
 
+$caption = (isset($caption))
+	? $caption 
+	: $name;
+
 //default-values
 $description = (isset($description))
 	? $description 
@@ -32,7 +36,7 @@ $status = (isset($status))
 //which template in the widget to use, defaults to 'default'
 $template = (isset($template))
 	? $template 
-	: Configure::read('Flour.Widget.templates.default');
+	: 'default';
 
 //what data will be passed (at least) to the widget itself
 $data = (isset($data))
@@ -59,6 +63,14 @@ $footer = (isset($footer))
 	? $footer 
 	: '';
 
+$before = (isset($before))
+	? $before 
+	: '';
+
+$after = (isset($after))
+	? $after 
+	: '';
+
 $content = $this->element(
 	String::insert(
 		Configure::read('Flour.Widget.types.pattern'), 
@@ -70,19 +82,22 @@ $content = $this->element(
 	)
 );
 
+$content = $this->element(
+	'flour/box', 
+	compact(
+		'before',
+		'after',
+		'header',
+		'footer',
+		'content',
+		'caption'
+	)
+);
+
 echo String::insert(
 	Configure::read('Flour.Widget.templates.markup'),
 	compact(
-		'header',
-		'footer',
-		'id',
 		'type',
-		'status',
-		'title',
-		'slug',
-		'name',
-		'description',
-		'intro',
 		'class',
 		'content'
 	)

@@ -54,7 +54,7 @@ echo &amp;this->ContentLib->form('foo', array('plugin' => 'bar', 'baz' => 'test'
 
 echo &amp;this->ContentLib->form('article');
 echo &amp;this->ContentLib->form('article', array('title' => 'prefilled title'));
-</code></pre>
+</pre></code>
 
 HTML;
 
