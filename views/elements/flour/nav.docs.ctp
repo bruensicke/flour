@@ -6,6 +6,10 @@ $link = array('controller' => 'docs', 'action' => 'index');
 $active = ($this->here == Router::url($link)) ? 'active' : '';
 $nav[] = $this->Html->link( __('Documentation', true), $link, array('class' => $active));
 
+$link = array('controller' => 'docs', 'action' => 'install');
+$active = ($this->here == Router::url($link)) ? 'active' : '';
+$nav[] = $this->Html->link( __('Installation', true), $link, array('class' => $active));
+
 $link = array('controller' => 'docs', 'action' => 'contents');
 $active = ($this->here == Router::url($link)) ? 'active' : '';
 $nav[] = $this->Html->link( __('Documentation / Contents', true), $link, array('class' => $active));

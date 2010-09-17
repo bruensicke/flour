@@ -25,6 +25,16 @@ class DocsController extends FlourAppController
 	}
 
 /**
+ * Install action.
+ *
+ * @access public
+ */
+	function admin_install()
+	{
+
+	}
+
+/**
  * Contents action.
  *
  * @access public
