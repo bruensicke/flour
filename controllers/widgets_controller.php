@@ -40,9 +40,13 @@ class WidgetsController extends FlourAppController
 
 	public function admin_library()
 	{
+		$layout = ($this->RequestHandler->isAjax())
+			? 'ajax'
+			: null;
+		
 		$layout = (isset($this->passedArgs['layout']))
 			? $this->passedArgs['layout']
-			: 'ajax';
+			: $layout;
 
 		$this->render($this->action, $layout);
 	}
