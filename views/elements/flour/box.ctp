@@ -17,7 +17,7 @@ $actions = (isset($actions))
 
 $class = (isset($class))
 	? $class
-	: 'box clearfix';
+	: 'clearfix box';
 
 $style = (isset($style))
 	? $style
@@ -70,10 +70,10 @@ echo $this->Html->div($class, null, $options);
 
 	if (!empty($caption) || !empty($btnbar) || !empty($filters) || !empty($actions))
 	{
-		echo $this->Html->div('caption');
+		echo $this->Html->div($class.'_caption caption');
 
 			echo (!empty($btnbar) && is_string($btnbar))
-				? $this->Html->div('btnbar', $btnbar)
+				? $this->Html->div($class.'_btnbar btnbar', $btnbar)
 				: null;
 
 			echo (!empty($btnbar) && is_array($btnbar))
@@ -89,40 +89,40 @@ echo $this->Html->div($class, null, $options);
 				: null;
 
 			echo (!empty($actions) && is_string($actions))
-				? $this->Html->div('actions', $actions)
+				? $this->Html->div($class.'_actions actions', $actions)
 				: null;
 
 			echo (!empty($actions) && is_array($actions))
-				? $this->Html->div('actions', $this->Html->nestedList($actions))
+				? $this->Html->div($class.'_actions actions', $this->Html->nestedList($actions))
 				: null;
 
 			echo (!empty($filters) && is_string($filters))
-				? $this->Html->div('filter', $filters)
+				? $this->Html->div($class.'_filter filter', $filters)
 				: null;
 
 			echo (!empty($filters) && is_array($filters))
-				? $this->Html->div('filter', $this->Html->nestedList($filters))
+				? $this->Html->div($class.'_filter filter', $this->Html->nestedList($filters))
 				: null;
 
 		echo $this->Html->tag('/div'); //div.caption
 	}
 
-	echo $this->Html->div('box_wrapper');
+	echo $this->Html->div($class.'_wrapper wrapper');
 
 		echo (!empty($header))
-			? $this->Html->div('box_header', $header)
+			? $this->Html->div($class.'_header header', $header)
 			: null;
 
 		echo (!empty($content) && is_string($content))
-			? $this->Html->div('box_content', $content)
+			? $this->Html->div($class.'_content', $content)
 			: null;
 
 		echo (!empty($content) && is_array($content))
-			? $this->Html->div('box_content', implode($content))
+			? $this->Html->div($class.'_content', implode($content))
 			: null;
 
 		echo (!empty($footer))
-			? $this->Html->div('box_footer', $footer)
+			? $this->Html->div($class.'_footer', $footer)
 			: null;
 
 	echo $this->Html->tag('/div'); //div.box
