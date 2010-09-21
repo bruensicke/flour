@@ -65,8 +65,8 @@ if(is_array($content))
 	$content = $contentArray;
 }
 
-echo $before;
 echo $this->Html->div($class, null, $options);
+echo $before;
 
 	if (!empty($caption) || !empty($btnbar) || !empty($filters) || !empty($actions))
 	{
@@ -127,5 +127,5 @@ echo $this->Html->div($class, null, $options);
 
 	echo $this->Html->tag('/div'); //div.box
 
-echo $this->Html->tag('/div'); //div.box
 echo $after;
+echo $this->Html->tag('/div'); //div.box
