@@ -69,6 +69,23 @@ if(is_array($content))
 	$content = $contentArray;
 }
 
+if(is_array($footer))
+{
+	$footerArray = array();
+	foreach($footer as $key => $val)
+	{
+		if(is_numeric($key))
+		{
+			$footerArray[] = $val;
+		} else {
+			$footerArray[] = (is_array($val))
+				? $this->Html->div($key, implode($val))
+				: $this->Html->div($key, $val);
+		}
+	}
+	$footer = $footerArray;
+}
+
 echo $this->Html->div($class, null, $options);
 echo $before;
 
@@ -125,8 +142,12 @@ echo $before;
 			? $this->Html->div($class.'_content', implode($content))
 			: null;
 
-		echo (!empty($footer))
+		echo (!empty($footer) && is_string($footer))
 			? $this->Html->div($class.'_footer', $footer)
+			: null;
+
+		echo (!empty($footer) && is_array($footer))
+			? $this->Html->div($class.'_footer', implode($footer))
 			: null;
 
 	echo $this->Html->tag('/div'); //div.box
