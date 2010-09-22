@@ -9,7 +9,7 @@
  * @version $Id$
  * @copyright brünsicke.com GmbH
  */
-require_once(dirname(dirname(dirname(__FILE__))).'/config/flour.php');
+App::import('Lib', 'Flour.init');
 class ContentLibHelper extends AppHelper
 {
 
