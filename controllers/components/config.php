@@ -34,7 +34,7 @@ class ConfigComponent extends Object
 	public function initialize(&$controller, $settings = array())
 	{
 		$this->Controller = $controller;
-		$this->Configuration = ClassRegistry::init('Flour.Configuration');
+		$this->_init();
 	}
 
 /**
@@ -44,7 +44,40 @@ class ConfigComponent extends Object
  */
 	public function startup()
 	{
-		$this->Configuration->_writeConfiguration();
+		if($this->Configuration)
+		{
+			$this->Configuration->_writeConfiguration();
+		}
 	}
 
+
+/**
+ * if database is connected, loads Configuration Model
+ *
+ * @return bool returns true if running with connected db, false otherwise.
+ * @access protected
+ */
+	protected function _init()
+	{
+		//first, check if we run with database
+		if(!file_exists(CONFIGS.'database.php'))
+		{
+			//TODO: check for active connection.
+			return false;
+		}
+
+		uses('model' . DS . 'connection_manager');
+		$db = ConnectionManager::getInstance();
+		$connected = $db->getDataSource('default');
+		if (!$connected->isConnected())
+		{
+			return false;
+		}
+		
+		if(!$this->Configuration)
+		{
+			$this->Configuration = ClassRegistry::init('Flour.Configuration');
+		}
+		return true;
+	}
 }
