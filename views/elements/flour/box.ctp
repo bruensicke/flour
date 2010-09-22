@@ -1,4 +1,6 @@
 <?php
+App::import('Lib', 'Flour.div_explode');
+
 $caption = (isset($caption))
 	? $caption
 	: '';
@@ -35,13 +37,25 @@ $content = (isset($content))
 	? $content
 	: '';
 
+$content = (is_array($content))
+	? div_explode($content)
+	: $content;
+
 $header = (isset($header))
 	? $header
 	: '';
 
+$header = (is_array($header))
+	? div_explode($header)
+	: $header;
+
 $footer = (isset($footer))
 	? $footer
 	: '';
+
+$footer = (is_array($footer))
+	? div_explode($footer)
+	: $footer;
 
 $before = (isset($before))
 	? $before
@@ -50,58 +64,6 @@ $before = (isset($before))
 $after = (isset($after))
 	? $after
 	: '';
-
-
-if(is_array($content))
-{
-	$contentArray = array();
-	foreach($content as $key => $val)
-	{
-		if(is_numeric($key))
-		{
-			$contentArray[] = $val;
-		} else {
-			$contentArray[] = (is_array($val))
-				? $this->Html->div($key, implode($val))
-				: $this->Html->div($key, $val);
-		}
-	}
-	$content = $contentArray;
-}
-
-if(is_array($header))
-{
-	$headerArray = array();
-	foreach($header as $key => $val)
-	{
-		if(is_numeric($key))
-		{
-			$headerArray[] = $val;
-		} else {
-			$headerArray[] = (is_array($val))
-				? $this->Html->div($key, implode($val))
-				: $this->Html->div($key, $val);
-		}
-	}
-	$header = $headerArray;
-}
-
-if(is_array($footer))
-{
-	$footerArray = array();
-	foreach($footer as $key => $val)
-	{
-		if(is_numeric($key))
-		{
-			$footerArray[] = $val;
-		} else {
-			$footerArray[] = (is_array($val))
-				? $this->Html->div($key, implode($val))
-				: $this->Html->div($key, $val);
-		}
-	}
-	$footer = $footerArray;
-}
 
 echo $this->Html->div($class, null, $options);
 echo $before;
