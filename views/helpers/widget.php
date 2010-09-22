@@ -154,8 +154,12 @@ class WidgetHelper extends AppHelper
 			switch (true)
 			{
 				case isset($item['type']):
-					$out[$target] .= $this->type($item['type'], $item['data']);
+					$item['data'] = (isset($item['data']))
+						? $item['data']
+						: array();
+					$out[$target] .= $this->type($item['type'], $item['data'], $item);
 					break;
+
 				case isset($item['slug']):
 					$out[$target] .= $this->render($item['slug']);
 					break;
