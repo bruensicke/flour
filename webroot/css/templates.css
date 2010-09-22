@@ -1,5 +1,10 @@
 /* widget template layout */
 
+.sidebar_left {
+	clear: left;
+	float: left;
+}
+
 .sidebar_right {
 	clear: right;
 	float: right;
