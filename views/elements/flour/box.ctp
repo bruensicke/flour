@@ -69,6 +69,23 @@ if(is_array($content))
 	$content = $contentArray;
 }
 
+if(is_array($header))
+{
+	$headerArray = array();
+	foreach($header as $key => $val)
+	{
+		if(is_numeric($key))
+		{
+			$headerArray[] = $val;
+		} else {
+			$headerArray[] = (is_array($val))
+				? $this->Html->div($key, implode($val))
+				: $this->Html->div($key, $val);
+		}
+	}
+	$header = $headerArray;
+}
+
 if(is_array($footer))
 {
 	$footerArray = array();
@@ -130,10 +147,16 @@ echo $before;
 
 	echo $this->Html->div($class.'_wrapper wrapper');
 
-		echo (!empty($header))
+		//HEADER
+		echo (!empty($header) && is_string($header))
 			? $this->Html->div($class.'_header header', $header)
 			: null;
 
+		echo (!empty($header) && is_array($header))
+			? $this->Html->div($class.'_header header', implode($header))
+			: null;
+
+		//CONTENT
 		echo (!empty($content) && is_string($content))
 			? $this->Html->div($class.'_content', $content)
 			: null;
@@ -142,6 +165,7 @@ echo $before;
 			? $this->Html->div($class.'_content', implode($content))
 			: null;
 
+		//FOOTER
 		echo (!empty($footer) && is_string($footer))
 			? $this->Html->div($class.'_footer', $footer)
 			: null;
