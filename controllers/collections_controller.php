@@ -11,6 +11,14 @@ class CollectionsController extends FlourAppController
 {
 
 /**
+ * which models to load
+ *
+ * @var string $uses
+ * @access public
+ */
+	public $uses = array('Flour.Collection');
+
+/**
  * controls pagination
  *
  * @var array $paginate

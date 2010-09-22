@@ -11,6 +11,14 @@ class ConfigurationsController extends FlourAppController
 {
 
 /**
+ * which models to load
+ *
+ * @var string $uses
+ * @access public
+ */
+	public $uses = array('Flour.Configuration');
+
+/**
  * controls pagination
  *
  * @var array $paginate

@@ -11,6 +11,14 @@ class ContentsController extends FlourAppController
 {
 
 /**
+ * which models to load
+ *
+ * @var string $uses
+ * @access public
+ */
+	public $uses = array('Flour.Content');
+
+/**
  * controls pagination
  *
  * @var array $paginate

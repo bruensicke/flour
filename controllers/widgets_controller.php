@@ -11,6 +11,14 @@ class WidgetsController extends FlourAppController
 {
 
 /**
+ * which models to load
+ *
+ * @var string $uses
+ * @access public
+ */
+	public $uses = array('Flour.Widget');
+
+/**
  * controls pagination
  *
  * @var array $paginate
