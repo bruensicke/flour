@@ -18,7 +18,8 @@ $items[] = array(
 	'data' => array(
 		'caption' => __('Enter Widget Details.', true),
 		'class' => 'box type_details',
-		'content' => $this->element('widget', array('type' => $type, 'template' => 'admin')),
+		//'content' => $this->element('flour/widget', array('type' => $type, 'template' => 'admin')),
+		'content' => $this->Widget->type($type, array(), array('template' => 'admin')),
 	),
 );
 

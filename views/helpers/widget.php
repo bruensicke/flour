@@ -85,7 +85,7 @@ class WidgetHelper extends AppHelper
 			return false;
 		}
 		$data = array_merge($options, $row_data['Widget']);
-		return $this->_View->element('widget', $data);
+		return $this->_View->element('flour/widget', $data);
 	}
 
 /**
@@ -114,7 +114,7 @@ class WidgetHelper extends AppHelper
 		$data['plugin'] = isset($plugin)
 			? $plugin
 			: 'Flour';
-		return $this->_View->element('widget', $data);
+		return $this->_View->element('flour/widget', $data);
 	}
 
 /**
