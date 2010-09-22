@@ -64,6 +64,58 @@ HTML;
 
 
 
+
+// $contents = array();
+// $contents['install'] = 'Installation';
+// $contents['contents'] = 'CONTENT';
+// $contents['widgets'] = 'WIDGETS';
+// 
+// $tabs = array();
+// 
+// $tabs[] = $this->Html->link( __('Installation', true), '#install', array('rel' => 'install'));
+// $tabs[] = $this->Html->link( __('Contents', true), '#contents', array('rel' => 'contents'));
+// $tabs[] = $this->Html->link( __('Widgets', true), '#widgets', array('rel' => 'widgets'));
+// 
+// echo $this->element('flour/box', array(
+// 	'caption' => __('Documentation', true),
+// 	'content' => $contents,
+// 	'class' => 'tabbing',
+// 	'header' => $this->Html->nestedList($tabs, array('class' => 'tabs')),
+// ));
+// 
+// $script = <<<HTML
+// $().ready(function(){
+// 	
+// 	$('.box_content > div').hide();
+// 	$('.box_content > div:first').show();
+// 	$('ul.tabs li:first').addClass('active');
+// 	$('ul.tabs li').bind('click', function()
+// 	{ 
+// 		$('ul.tabs li').removeClass('active');
+// 		$(this).addClass('active');
+// 		var type = $(this).find('a').attr('rel');
+// 		$('.box_content > div').hide();
+// 		$('.box_content > div.' + type).show(); 
+// 	});
+// 
+// });
+// HTML;
+// echo $this->Html->tag('script', $script);
+// 
+// 
+// echo <<<HTML
+// <style>
+// ul.tabs { list-style: none; margin: 0; background: #F2F2F2; }
+// ul.tabs li { cursor: pointer; margin: 0; display: inline-block; padding: 10px; border-right: 1px solid #ccc; }
+// ul.tabs li.active { background: #fff; }
+// div.box_content { background: #fff; }
+// div.widgets {  }
+// div.widget_types {  }
+// </style>
+// HTML;
+
+
+
 	echo $this->Html->div('span-12', $left);
 	echo $this->Html->div('span-12 last', $right);
 
