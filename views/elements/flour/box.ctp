@@ -3,6 +3,10 @@ $caption = (isset($caption))
 	? $caption
 	: '';
 
+$caption_tag = (isset($caption_tag))
+	? $caption_tag
+	: 'h3';
+
 $btnbar = (isset($btnbar))
 	? $btnbar
 	: '';
@@ -81,7 +85,7 @@ echo $before;
 				: null;
 
 			echo (!empty($caption) && is_string($caption))
-				? $this->Html->tag('h2', $caption)
+				? $this->Html->tag($caption_tag, $caption)
 				: null;
 
 			echo (!empty($caption) && is_array($caption))
