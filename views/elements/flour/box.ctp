@@ -33,9 +33,17 @@ $options = (isset($options))
 	? $options
 	: array('style' => $style);
 
+$template = (isset($template))
+	? $template
+	: null;
+
 $content = (isset($content))
 	? $content
 	: '';
+
+$content = (!empty($template) && is_array($content))
+	? $this->element('templates/'.$template, $content)
+	: $content;
 
 $content = (is_array($content))
 	? div_explode($content)
