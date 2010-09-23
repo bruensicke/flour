@@ -1,68 +1,43 @@
 flour, a CakePHP Plugin
 ==========
 
-flour is a plugin for CakePHP that acts as a toolset for application developers. It has been actively developed, and used in production by many, since early 2009.
+flour is a plugin for CakePHP that enables developers to focus on the real problems of an application.
 
-Created by [Dirk Brünsicke][1], flour is still under heavy development, but can boost your application development time within CakePHP. To use it effectively, you have
-to understand the basic principle of how things work. First, there is a schedule  
+It is actively developed and used in production by many, since early 2009.
 
-CakePHP up to the latest version 1.3 is supported.
+Created by [Dirk Brünsicke][1], flour is still under heavy development, but can boost your application development time within [CakePHP][2].
 
   [1]: http://bruensicke.com/
+  [2]: http://cakephp.org/
+
+
+Installation
+------------
+
+<pre><code class="shell">
+$ cd your_app
+$ git submodule add http://github.com/bruensicke/flour.git plugins/flour
+</code></pre>
+
+
+Usage Example
+-------------
+
+<pre><code class="shell">
+$ cd your_app
+$ git pull
+$ git submodule init
+$ git submodule update
+</code></pre>
+
 
 Design Goals
 ------------
- * CMSes suck.  We don't want our application to live inside a CMS.
- * Do one thing and do it well. flour schedules content.  That's pretty much it.
- * Don't be clever.  We're not clever so we probably can't make a computer clever.
- * Be fast.  Cache in flour so that the consuming application doesn't have to.
-
-
-Getting Started
----------------
-
-See the [flour wiki](http://wiki.github.com/d1rk/flour/) for the latest information.
-
-  * [Installing flour](http://wiki.github.com/d1rk/flour/installation)
-  * [Using flour](http://wiki.github.com/d1rk/flour/usage)
-
-Ideas?  Need help?  Discuss [here](http://getsatisfaction.com/flour).
-
-
-
-
-
-Terminology
------------
-### Plate
-A *Plate* is a class of content.  A plate is identified by the combination of it's *Layout Name*, *Instance Name* and *Plate Name*.  The names are used to classify and organize plates.
-
-### Layout Name
-A class of pages.  For instance, the layout for all help pages.
-
-### Instance Name
-A specific page using a layout.  For instance, the contact help page.  The Instance Name can be blank for those layouts that have only one instance, such as a home page.
-
-### Plate Name
-A content area on a web page.  For instance, the body of the contact help page.
-
-### Plate Edition
-A *Plate* has many *Plate Editions*.  These editions contain content and can be scheduled.
-
-### Fallback Edition
-The edition that is published if no scheduled edition can be found.
-
-### Publish
-Flag used to mark that an edition is ready to be considered for publishing.  Scheduling rules will take this edition into account.
-
-### Event
-*Plate Editions* can be grouped into *Events* that can be scheduled.  All editions take on the Events start time and and time.
-
-### Plate Set
-A *Plate Set* is a template for generating a group of related *Plates*.  For example, if a help page has a body plate and a left column plate, a user can generate an instance of both those plates from that plate set.
-
-### Consuming App
-The application that makes web calls out to rit. for content.
+  * allow transition from simple usage to more advanced without refactoring your app
+  * allow scheduling of content (see below)
+  * allow configurations to customize contents/types/behaviors
+  * allow easy usage of simple things like a elements and helpers
+  * allow developers to grasp usage from within the plugin itself (code and docs)
 
 
 Scheduling
@@ -138,22 +113,4 @@ Edition start times:
  * time 4: edition 3 continues
  * time 5: back to edition 1
  * time 6: fallback edition
- 
- 
-Installation
--------------
-
-
-
-
-
-Usage Example
--------------
-
-<pre><code class="php">
-&lt;?php
-$conditions = array('slug' => $slug);
-$this->Content->find('editions', compact('conditions'));
-?&gt;
-</code></pre>
 
