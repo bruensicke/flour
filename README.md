@@ -14,20 +14,16 @@ Created by [Dirk Brünsicke][1], flour is still under heavy development, but can
 Installation
 ------------
 
-<pre><code class="shell">
-$ cd your_app
-$ git submodule add http://github.com/bruensicke/flour.git plugins/flour
+<pre><code class="shell">$  cd your_app
+$  git submodule add http://github.com/bruensicke/flour.git plugins/flour
 </code></pre>
 
+After adding it as a submodule, you need to init them within your repository.
 
-Usage Example
--------------
-
-<pre><code class="shell">
-$ cd your_app
-$ git pull
-$ git submodule init
-$ git submodule update
+<pre><code class="shell">$  cd your_app
+$  git pull
+$  git submodule init
+$  git submodule update
 </code></pre>
 
 
