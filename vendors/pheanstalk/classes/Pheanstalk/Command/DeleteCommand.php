@@ -19,7 +19,6 @@ class Pheanstalk_Command_DeleteCommand
 	 */
 	public function __construct($job)
 	{
-		debug($job);
 		$this->_job = $job;
 	}
 
