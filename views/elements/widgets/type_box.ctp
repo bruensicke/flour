@@ -75,7 +75,7 @@ if($template == 'admin')
 
 	$element_data['class'] = (isset($data['class']) && !empty($data['class']))
 		? $data['class']
-		: 'box clearfix';
+		: null;
 
 	$data = array(
 		'App' => Configure::read('App'),
