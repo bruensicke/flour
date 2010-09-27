@@ -55,15 +55,18 @@ class ContentLibHelper extends AppHelper
 /**
  * renders the current ContentObject with given $slug
  *
- * @param string $slug slug of ContentObject to render
+ * @param mixed $slug_or_id give slug of ContentObject (from DB) or pass in data to render
  * @param string $template name of template 
  * @param array $data array with data to be passed into the element
  * @return string $output the HTML rendered by the element
  * @access public
  */
-	public function render($slug, $template = 'contents/item', $data = array())
+	public function render($slug_or_data, $template = 'contents/item', $data = array())
 	{
-		$row_data = $this->get($slug);
+		$row_data = (is_array($slug_or_data))
+			? $slug_or_data
+			: $this->get($slug_or_data);
+
 		return $this->_View->element($template,
 			array_merge(
 				$data,
