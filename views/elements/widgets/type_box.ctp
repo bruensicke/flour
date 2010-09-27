@@ -65,6 +65,10 @@ if($template == 'admin')
 		? $data['content']
 		: null;
 
+	$element_data['template'] = (isset($data['template']))
+		? $data['template']
+		: null;
+
 	$element_data['footer'] = (isset($data['footer']))
 		? $data['footer']
 		: null;
