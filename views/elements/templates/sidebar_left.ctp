@@ -67,7 +67,7 @@ $template = (isset($template))
 	:before
 	<div class="clearfix :class":style>
 		<div class="sidebar sidebar_left b" style="width::width;">:b</div>
-		<div class="a" style="margin-right::width;">:a</div>
+		<div class="a" style="margin-left::width;">:a</div>
 	</div>
 	:after
 HTML;
