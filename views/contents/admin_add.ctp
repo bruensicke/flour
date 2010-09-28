@@ -23,12 +23,19 @@ $items[] = array(
 );
 
 $items[] = array(
+	'type' => 'publish',
+	'target' => 'b',
+	'data' => array(
+		'caption' => __('Control Content (unfinished)', true),
+	),
+);
+
+$items[] = array(
 	'type' => 'box',
 	'target' => 'b',
 	'data' => array(
 		'caption' => __('Control Content', true),
 		'content' => $this->element('contents/form'),
-		// 'class' => 'box',
 	),
 );
 

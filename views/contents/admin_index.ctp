@@ -6,20 +6,36 @@ echo $this->Html->link(__('Add', true), array('controller' => 'contents', 'actio
 
 echo $this->element('flour/content_start');
 
-echo $this->element('flour/iterator', array(
-	'caption' => __('Contents', true),
-	'element' => 'contents/item',
-	'search' => true,
+$items = array();
+
+$items[] = array(
+	'type' => 'iterator',
+	'target' => 'a',
+	'data' => array(
+		'caption' => __('Contents', true),
+		'element' => 'contents/item',
+		'search' => true,
+		),
+);
+
+$items[] = array(
+	'type' => 'tags',
+	'target' => 'b',
+	'data' => array(
+		'caption' => __('Tags', true),
+		'data' => $tags,
+		// 'before' => '<span>',
+	),
+);
+
+echo $this->Widget->row($items, 'sidebar_right');
+
+echo $this->Widget->type('activities', array(
+	'types' => array(
+		'content_object_created',
+		'content_object_updated',
+		'content_object_deleted',
+	)
 ));
-
-echo $this->TagCloud->display($tags, array('before' => '<span>'));
-
-
-//example of showing activites, restricted to certain types.
-echo $this->element('flour/activities', array('type' => array(
-	'content_object_created',
-	'content_object_updated',
-	'content_object_deleted',
-)));
 
 echo $this->element('flour/content_stop');
