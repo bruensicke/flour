@@ -68,8 +68,8 @@ if($template == 'admin')
 		'options' => $status_options,
 		'default' => $status_default,
 	));
-	$content['status'][] = $this->Html->link( __('Ok', true), '#', array('class' => 'btn'));
-	$content['status'][] = $this->Html->link( __('cancel', true), '#');
+	$content['status'][] = $this->Html->link( __('Ok', true), '#', array('class' => 'btn section_cancel', 'rel' => 'status'));
+	$content['status'][] = $this->Html->link( __('cancel', true), '#', array('class' => 'section_cancel', 'rel' => 'status'));
 	$content['status'][] = $this->Html->tag('/div'); //div.section_status
 
 	$valid_replacements = array(
@@ -83,7 +83,18 @@ if($template == 'admin')
 
 	$content['valid_range'] = array();
 	$content['valid_range'][] = $valid_range;
-	$content['valid_range'][] = $this->Html->div('section section_valid_range', 'j');
+	$content['valid_range'][] = $this->Html->div('section section_valid_range');
+	$content['valid_range'][] = $this->Form->input($model.'.valid_from', array(
+		'type' => 'date',
+		'label' => __('from', true),
+	));
+	$content['valid_range'][] = $this->Form->input($model.'.valid_to', array(
+		'type' => 'date',
+		'label' => __('to', true),
+	));
+	$content['valid_range'][] = $this->Html->link( __('Ok', true), '#', array('class' => 'btn section_cancel', 'rel' => 'valid_range'));
+	$content['valid_range'][] = $this->Html->link( __('cancel', true), '#', array('class' => 'section_cancel', 'rel' => 'valid_range'));
+	$content['valid_range'][] = $this->Html->tag('/div'); //div.valid_range
 
 	// $content['visibility'] = String::insert(
 	// 	__('Visibility: :visibility', true), array(
@@ -105,8 +116,14 @@ echo $this->element('flour/box', compact('caption', 'header', 'footer', 'content
 $script = <<<HTML
 $().ready(function(){
 	$('.section_toggle').live('click', function(event) {
+		$(this).addClass('RevealMe').fadeOut();
 		var rel = $(this).attr('rel');
 		$('.section_' + rel).slideToggle();
+	});
+	$('.section_cancel').live('click', function(event) {
+		var rel = $(this).attr('rel');
+		$('.'+rel+' div.section').slideToggle();
+		$('.RevealMe[rel='+rel+']').fadeIn();
 	});
 	$('.section_valid_range, .section_status').hide();
 });
