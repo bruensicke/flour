@@ -17,8 +17,8 @@ $items[] = array(
 	'target' => 'a',
 	'data' => array(
 		'caption' => __('Enter Content Details.', true),
-		'class' => 'type_details box',
-		'content' => $this->element('contents/form_type', array('type' => $type)),
+		'class' => 'box',
+		'content' => array('type_details' => $this->element('contents/form_type', array('type' => $type))),
 	),
 );
 
