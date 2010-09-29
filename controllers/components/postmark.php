@@ -12,8 +12,6 @@
  * @version	0.1
  * @license	http://www.opensource.org/licenses/mit-license.php The MIT License
  */
-App::import('Component', 'Email');
-
 /**
  * PostmarkComponent
  *
@@ -23,11 +21,12 @@ App::import('Component', 'Email');
  * How to use:
  * 
  * {{{
- * Configure::write('Service.Postmark.uri', 'http://api.postmarkapp.com/email');
- * Configure::write('Service.Postmark.key', '810de23c-5ffb-44d9-a424-7a4a5c0fba1a');
+ *  Configure::write('Service.Postmark.uri', 'http://api.postmarkapp.com/email'); //optional
+ *  Configure::write('Service.Postmark.key', '810de23c-5ffb-44d9-a424-7a4a5c0fba1a');
  * }}}
  *
  */
+App::import('Component', 'Email');
 class PostmarkComponent extends EmailComponent {
 
 /**
