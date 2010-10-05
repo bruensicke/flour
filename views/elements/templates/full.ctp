@@ -1,4 +1,5 @@
 <?php
+App::import('Lib', 'Flour.div_explode');
 
 //which seperator to join more than one column
 $seperator = (isset($seperator))
@@ -19,6 +20,11 @@ $style = (isset($style))
 $a = (isset($a))
 	? $a
 	: '';
+
+//content 'a'
+$a = (is_array($a))
+	? div_explode($a)
+	: $a;
 
 //content 'b'
 $a = (isset($b))

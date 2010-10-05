@@ -1,4 +1,5 @@
 <?php
+App::import('Lib', 'Flour.div_explode');
 
 //sidebar width
 $width = (isset($width))
@@ -25,10 +26,20 @@ $a = (isset($a))
 	? $a
 	: '';
 
+//content 'a'
+$a = (is_array($a))
+	? div_explode($a)
+	: $a;
+
 //content 'b'
 $b = (isset($b))
 	? $b
 	: '';
+
+//content 'b'
+$b = (is_array($b))
+	? div_explode($b)
+	: $b;
 
 //content 'c'
 $a = (isset($c))
