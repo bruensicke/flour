@@ -283,7 +283,7 @@ class FlourAppModel extends AppModel
 
 	function _getUser($field = null)
 	{
-		$user = Configure::read('App.User');
+		$user = Configure::read('Flour.User');
 		if(!empty($user))
 			return (isset($field))
 				? $user[$field]
