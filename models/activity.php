@@ -41,6 +41,37 @@ class Activity extends FlourAppModel
 	public $types = array();
 
 /**
+ * Custom find methods
+ *
+ * @var array $_findMethods
+ * @access public
+ */
+	public $_findMethods = array(
+		'types' => true,
+	);
+
+/**
+ * conditions for custom find and paginate count methods
+ *
+ * @var array $findConditions
+ * @access public
+ */
+	public $findQueries = array(
+		'types' => array(
+			'conditions' => array(
+				
+			),
+			'group' => array(
+				'Activity.type'
+			),
+			'fields' => array(
+				'DISTINCT(`type`) as type',
+				'COUNT(`type`) as count',
+			),
+		),
+	);
+
+/**
  * constructor auto-sets $this->types to a merged set of:
  * 
  *   o  Flour.Activity.types.options
@@ -211,5 +242,36 @@ class Activity extends FlourAppModel
 		$options = array_merge($options, $defaults);
 		$options['limit'] = $limit;
 		return $this->find('all', $options);
+	}
+
+
+/**
+ * custom find method 'types'
+ *
+ * @param string $state 'before' or 'after'
+ * @param string $query
+ * @param string $results 
+ * @return mixed based on $state, returns $query or $results
+ * @access protected
+ */
+	protected function _findTypes($state, $query, $results = array()) {
+		if ($state == 'before') {
+			$query = Set::merge(
+				$query,
+				$this->findQueries['types']
+			);
+			return $query;
+		} elseif ($state == 'after') {
+			$return = array();
+			foreach($results as $row)
+			{
+				$return[] = array(
+					'type' => $row['Activity']['type'],
+					'message' => $this->types[$row['Activity']['type']],
+					'count' => $row[0]['count'],
+				);
+			}
+			return $return;
+		}
 	}
 }
