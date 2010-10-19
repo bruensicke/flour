@@ -36,7 +36,8 @@ class FlourAppModel extends AppModel
  * @access public
  */
 	public function beforeSave()
-	{		
+	{
+		parent::beforeSave();
 		$this->_addUserdata();
 		return true;
 	}
@@ -275,9 +276,9 @@ class FlourAppModel extends AppModel
 		if(!$user_id) return false;
 		
 		if(!isset($this->data[$this->alias][$this->primaryKey])) {
+			$this->data[$this->alias]['user_id'] = $user_id;
 			$this->data[$this->alias]['created_by'] = $user_id;
 		}
-		
 		$this->data[$this->alias]['modified_by'] = $user_id;
 	}
 
