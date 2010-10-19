@@ -66,7 +66,10 @@ class Activity extends FlourAppModel
  *
  * @param string $type one of $this->types
  * @param array $data array with data, that will be stored and used for inserts in type_text
- * @param string $model name of model that this entry connects to.
+ * @param string|array|object $model one of the following:
+ *   - 'User' (pulls data from $data['User']['id'])
+ *   - array('model' => 'User', 'id' => $id)
+ *   - $this->User (Object / Instance of User Model)
  * @return mixed parsed text of type, or false on error
  * @access public
  */
@@ -81,10 +84,22 @@ class Activity extends FlourAppModel
 			'data' => $data,
 		);
 
-		if(!empty($model) && isset($data[$model]) && isset($data[$model]['id']))
+		if(!empty($model) && is_string($model) && isset($data[$model]) && isset($data[$model]['id']))
 		{
 			$row['model'] = $model;
 			$row['foreign_id'] = $data[$model]['id'];
+		}
+		
+		if(!empty($model) && is_array($model) && array_key_exists('model', $model) && array_key_exists('id', $model))
+		{
+			$row['model'] = $model['model'];
+			$row['foreign_id'] = $model['id'];
+		}
+
+		if(!empty($model) && is_object($model))
+		{
+			$row['model'] = $model->alias;
+			$row['foreign_id'] = $model->id;
 		}
 
 		if($this->create($row) && $this->save())
