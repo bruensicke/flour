@@ -23,7 +23,7 @@ $a = (isset($a))
 
 //content 'a'
 $a = (is_array($a))
-	? div_explode($a)
+	? implode($seperator, div_explode($a))
 	: $a;
 
 //content 'b'
@@ -72,4 +72,4 @@ $template = (isset($template))
 	:after
 HTML;
 
-echo String::insert($template, compact('before', 'after', 'a', 'b', 'class', 'style'));
+echo String::insert(String::insert($template, compact('before', 'after')), compact('a', 'b', 'class', 'style'));
