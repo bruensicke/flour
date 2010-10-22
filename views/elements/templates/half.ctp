@@ -62,10 +62,20 @@ $before = (isset($before))
 	? $before
 	: '';
 
+//to be prepended
+$before = (is_array($before))
+	? implode($seperator, div_explode($before))
+	: $before;
+
 //to be appended
 $after = (isset($after))
 	? $after
 	: '';
+
+//to be prepended
+$after = (is_array($after))
+	? implode($seperator, div_explode($after))
+	: $after;
 
 $template = (isset($template))
 	? $template
