@@ -128,6 +128,33 @@ Configure::write('Flour.Configuration.categories', array(
 ));
 
 
+/**
+ * Navigations / NavigationItems
+ */
+
+//status
+Configure::write('Flour.Navigation.status', array(
+	'default' => 1,
+	'options' => array(
+		'0' => __('offline', true),
+		'1' => __('draft', true),
+		'2' => __('online', true),
+	),
+));
+
+//types
+Configure::write('Flour.NavigationItem.types', array(
+	'pattern' => 'navigation_items/type_:type',
+	'default' => 'url',
+	'options' => array(
+		'url' => __('URL', true), //url, like http://google.de, or /about/team or /feed.rss
+		'route' => __('Route', true), //route like: controller:foo,action:bar,etc
+	),
+));
+
+
+
+
 
 
 /**
