@@ -2,11 +2,20 @@
 /**
  * NavHelper
  *
- * Provides access to Navigations through a set of various functions.
+ * Handles different ways of generating and outputting navigations.
+ * 
+ * 
+ * Example Usage:
+ * {{{
+ * echo $this->Nav->show('foo'); //reads navigation with slug named "foo" from Navigationtable
  *
+ * $slug = $this->Nav->create('Foo', array('description' => 'All Navigations for navigating foo.'));
+ * $nav->add($slug, array('name' => 'Bar', 'url' => '#bar'));
+ * $nav->add($slug, 'Baz', '#baz');
+ * }}}
+ * 
  * @package flour
  * @author Dirk Brünsicke
- * @version $Id$
  * @copyright brünsicke.com GmbH
  */
 App::import('Lib', 'Flour.init');
@@ -52,21 +61,12 @@ class NavHelper extends AppHelper
 		return $this->_Navigation->get($slug_or_id);
 	}
 
-
-
-
-
-
-
-
-
-
 /**
  * will be executed on initialization, references the current
  * View Class, to be able to render elements.
  * 
- * if database is connected, loads Content Model, to interact with 
- * ContentLibrary
+ * if database is connected, loads Navigation Model, to interact with 
+ * NavigationLibrary
  *
  * @return bool returns true if running with connected db, false otherwise.
  * @access protected
@@ -92,7 +92,7 @@ class NavHelper extends AppHelper
 		
 		if(!$this->_Navigation)
 		{
-			$this->_Navigation = ClassRegistry::init('Flour.Content');
+			$this->_Navigation = ClassRegistry::init('Flour.Navigation');
 		}
 		return true;
 	}
