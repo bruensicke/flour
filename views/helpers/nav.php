@@ -51,10 +51,10 @@ class NavHelper extends AppHelper
 	public $navigationTemplate = array(
 		'Navigation' => array(
 			'type' => 'default',
-			'name' => '',
-			'class' => '',
 			'template' => 'default',
 			'status' => 1,
+			'name' => '',
+			'class' => '',
 			'slug' => '',
 		),
 		'NavigationItem' => array(),
@@ -63,8 +63,10 @@ class NavHelper extends AppHelper
 	public $navigationItemTemplate = array(
 		'NavigationItem' => array(
 			'type' => 'default',
-			'template' => 'default',
+			'template' => '',
 			'status' => 1,
+			'name' => '',
+			'class' => '',
 			'url' => '',
 		),
 	);
@@ -97,26 +99,108 @@ class NavHelper extends AppHelper
 
 /**
  * renders the current Navigation with given $slug
+ * 
+ * $options are:
+ * 
+ *  - element
+ *  - template
+ *  - data
+ *  - item_element
+ *  - item_template
+ *  - item_data
  *
+ * plugin-prefix for elements have a syntax like this: "$plugin:$element"
+ * 
  * @param string | array $slug_or_id give slug of Navigation (from DB) or pass in data to render
- * @param string $template name of template 
- * @param array $data array with data to be passed into the element
+ * @param array $options array with options
  * @return string $output the HTML rendered by the element
  * @access public
  */
-	public function render($slug_or_data, $template = 'navigations/item', $data = array())
+	public function render($slug_or_data, $options = array())
 	{
 		$row_data = (is_array($slug_or_data))
 			? $slug_or_data
 			: $this->get($slug_or_data);
 
-		//if second param is array, it is data (third param will be omitted)
-		$data = (is_array($template))
-			? $template
-			: $data;
+		$element = (isset($options['element']))
+			? $options['element']
+			: 'Flour:navigations/item';
 
-		$data = array_merge($data, array('row' => $row_data));
-		return $this->_View->element($template, $data);
+		$template = (isset($options['template']))
+			? $options['template']
+			: null;
+
+		$data = (isset($options['data']))
+			? $options['data']
+			: array();
+
+		$item_element = (isset($options['item_element']))
+			? $options['item_element']
+			: 'Flour:navigation_items/item';
+
+		$item_template = (isset($options['item_template']))
+			? $options['item_template']
+			: 'default';
+
+		$item_data = (isset($options['item_data']))
+			? $options['item_data']
+			: array();
+
+		//Check, if element is prefixed with $plugin: (e.g. "Flour:navigations/item")
+		if (strpos($element, ':') !== false) {
+			$parts = explode(':', $element, 2);
+			$element = $parts[1];
+		}
+		if (strpos($item_element, ':') !== false) {
+			$item_parts = explode(':', $item_element, 2);
+			$item_element = $item_parts[1];
+		}
+
+		$plugin = (!empty($parts[0]))
+			? $parts[0]
+			: null;
+		
+		$item_plugin = (!empty($item_parts[0]))
+			? $item_parts[0]
+			: null;
+		
+
+		$output = array();
+		$max = count($row_data['NavigationItem']);
+		$i = 0;
+		foreach($row_data['NavigationItem'] as $index => $item)
+		{
+			//prepare $row for $item_element
+			$item_row = array(
+				'Navigation' => $row_data['Navigation'],
+				'NavigationItem' => $item,
+			);
+
+			//TODO: check for children
+			$item_data = Set::merge($item_data, array(
+				'plugin' => $item_plugin,
+				'row' => $item_row,
+				'first' => ($i == 0) ? 'first' : null,
+				'last' => ($i == $max-1) ? 'last' : null,
+				'max' => $max,
+				'i' => $i++,
+				'template' => (!empty($item['template']))
+					? $item['template']
+					: $item_template,
+			));
+			$output[] = $this->_View->element($item_element, $item_data);
+		}
+
+		$row_data['items'] = implode($output);
+
+		$data = Set::merge($data, array(
+			'plugin' => $plugin,
+			'row' => $row_data,
+			'template' => (!empty($template))
+				? $template
+				: $row_data['Navigation']['template'],
+		));
+		return $this->_View->element($element, $data);
 	}
 
 /**
@@ -197,6 +281,7 @@ class NavHelper extends AppHelper
 
 		if(!array_key_exists($slug, $this->_cache))
 		{
+			$this->navigationTemplate['Navigation']['id'] = String::uuid(); //we generate a random id here, so we have one for our template
 			$this->_cache[$slug] = Set::merge($this->navigationTemplate, $data);
 		}
 		return $this->_cache[$slug];
