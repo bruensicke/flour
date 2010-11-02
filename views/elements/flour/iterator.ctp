@@ -208,6 +208,7 @@ if(!empty($search))
 	{
 		$rows = array();
 		$content = array();
+		$max = count($data);
 		$i = 0;
 
 		foreach($data as $ind => $row)
@@ -230,6 +231,9 @@ if(!empty($search))
 							'row' => $row,
 							'group' => $current_group,
 							'i' => $i++,
+							'max' => $max,
+							'first' => ($i == 0) ? 'first' : null,
+							'last' => ($i == $max-1) ? 'last' : null,
 							'even' => ($i % 2)
 								? 'even'
 								: 'odd'
@@ -245,6 +249,9 @@ if(!empty($search))
 						array(
 							'row' => $row,
 							'i' => $i++,
+							'max' => $max,
+							'first' => ($i == 0) ? 'first' : null,
+							'last' => ($i == $max-1) ? 'last' : null,
 							'even' => ($i % 2)
 								? 'even'
 								: 'odd'
