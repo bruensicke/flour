@@ -333,9 +333,8 @@ if(!empty($search))
 	echo $this->Form->end();
 }
 
-$url = Router::url(array('controller' => $this->params['controller'], 'action' => 'edit'));
-
-echo $this->Html->scriptBlock('
-	$("tr, div.items div.item").dblclick(function(){ var id = $(this).attr("rel"); document.location = "'.$url.'/" + id; });
-	$("div.actions").hide();
-');
+// $url = Router::url(array('controller' => $this->params['controller'], 'action' => 'edit'));
+// echo $this->Html->scriptBlock('
+// 	$("tr, div.items div.item").dblclick(function(){ var id = $(this).attr("rel"); document.location = "'.$url.'/" + id; });
+// 	$("div.actions").hide();
+// ');
