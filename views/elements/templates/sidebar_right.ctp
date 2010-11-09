@@ -93,4 +93,4 @@ $template = (isset($template))
 	:after
 HTML;
 
-echo String::insert(String::insert($template, compact('before', 'after')), compact('a', 'b', 'class', 'style'));
+echo String::insert(String::insert($template, compact('before', 'after')), compact('a', 'b', 'class', 'style', 'width'));
