@@ -8,11 +8,11 @@ if($this->Paginator->hasPage(null, 2))
 {
 	$info[] = '<div class="btnbar">';
 	$info[] = '<ul class="pager">';
-	$info[] = '<li class="img">'.$this->Paginator->first($this->Html->image('/flour/img/ico/resultset_first.png'), $options).'</li>';
-	$info[] = '<li class="img">'.$this->Paginator->prev($this->Html->image('/flour/img/ico/resultset_previous.png'), $options).'</li>';
+	$info[] = '<li class="img">'.$this->Paginator->first($this->Html->image('ico/resultset_first.png'), $options).'</li>';
+	$info[] = '<li class="img">'.$this->Paginator->prev($this->Html->image('ico/resultset_previous.png'), $options).'</li>';
 	$info[] = $this->Paginator->numbers(array('separator' => '', 'tag' => 'li'));
-	$info[] = '<li class="img">'.$this->Paginator->next($this->Html->image('/flour/img/ico/resultset_next.png'), $options).'</li>';
-	$info[] = '<li class="img">'.$this->Paginator->last($this->Html->image('/flour/img/ico/resultset_last.png'), $options).'</li>';
+	$info[] = '<li class="img">'.$this->Paginator->next($this->Html->image('ico/resultset_next.png'), $options).'</li>';
+	$info[] = '<li class="img">'.$this->Paginator->last($this->Html->image('ico/resultset_last.png'), $options).'</li>';
 	$info[] = '</ul>';
 	$info[] = '</div>';
 }
