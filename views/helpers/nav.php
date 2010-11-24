@@ -39,6 +39,33 @@ class NavHelper extends AppHelper
  */
 	protected $_View = false;
 
+/**
+ * controls, how output is generated
+ *
+ * @var bool $debug
+ * @access public
+ */
+	public $debug = false;
+
+/**
+ * shows, which attributes on NavigationItem will get generated
+ *
+ * @var array $allowedAttributes
+ * @access public
+ */
+	protected $allowedAttributes = array(
+		'id',
+		'class',
+		'rel',
+		'title',
+		'ico', //special case, used by button-helper
+		'onclick',
+		'onchange',
+		'onfocus',
+		'onhover',
+		'ondblclick',
+		'confirm',
+	);
 
 /**
  * used for internal handling of complete Navigations
@@ -70,6 +97,17 @@ class NavHelper extends AppHelper
 			'url' => '',
 		),
 	);
+
+/**
+ * Helpers used by this Helper
+ *
+ * @var array $helpers
+ * @access public
+ */
+	public $helpers = array(
+		'Html',
+	);
+
 
 /**
  * Constructor method
@@ -255,6 +293,234 @@ class NavHelper extends AppHelper
 
 		return $this->_addLocal($slug, $data);
 	}
+
+
+
+
+
+/* legacy stuff */
+
+	function show($name, $config = array())
+	{
+		return $this->show_links($name);
+	}
+
+
+	function show_links($name)
+	{
+		//we better check that.
+		if(!array_key_exists($name, $this->_cache))
+		{
+			$this->_cache[$name]['Navigation'] = array('class' => '', 'name' => Inflector::humanize($name));
+			$this->_cache[$name]['NavigationItem'] = array();
+		}
+		$output = $this->list_element_links($name, $this->_cache[$name]['NavigationItem']);
+#		debug($output);
+		return $output;
+	}
+
+	function list_element_links($name, $data, $level = 0)
+	{
+		$tabs = ($this->debug)
+			? "\n" . str_repeat($this->tab, $level * 2)
+			: '';
+
+		$li_tabs = ($this->debug)
+			? $tabs . $this->tab
+			: '';
+
+		$output = '';
+
+		//insert css?
+		$ulclass = '';
+		if($level == 0)
+		{
+			$ulcss = $this->_cache[$name]['Navigation']['class'];
+			if(!empty($ulclass)) $ulclass = ' class="'.$ulclass.'"'; //put into html-string
+		}
+		$output .= $tabs. '<ul'.$ulclass.' id="parent-'.$level.'">';
+
+
+		$slug = $name;
+
+		//iterate all items
+		$i = 0;
+		foreach ($data as $key => $val)
+		{
+			$i++;
+			extract($val);
+
+			$class = (isset($class))
+				? $class
+				: '';
+			
+			$class = explode(' ', $class);
+
+			if($i == 1) $class[] = 'first';
+			if($i == count($data)) $class[] = 'last';
+			if(isset($url) && stristr($this->here, Router::url($url))) $class[] = 'active'; #$active = (stristr($this->here, Router::url($link))) ? 'active' : '';
+
+			$attributes = $val;
+			foreach($attributes as $key => $value)
+			{
+				if(!in_array($key, $this->allowedAttributes)) unset($attributes[$key]);
+			}
+
+			$attributes['id'] = (!isset($attributes['id']) && isset($id))
+				? 'item_'.$slug.'_'.$id
+				: null;
+
+			$attributes['rel'] = (isset($id))
+				? $id
+				: null;
+
+			$attributes['class'] = implode(' ', $class);
+
+			$output .= $li_tabs.$this->Html->tag('li', null, $attributes);
+
+			//the link itself, yeeha
+			
+			$type = (isset($type))
+				? Inflector::humanize($type)
+				: 'Html';
+
+			if(empty($url)) $_rel = (!empty($rel)) ? ' rel="'.$rel.'"' : '';
+
+			$url = (isset($url) && !empty($url))
+				? $url
+				: false;
+
+			switch($type)
+			{
+				case 'Button':
+					$output .= $this->button('<span'.$_rel.'>'.$name.'</span>', $attributes);
+					break;
+				case 'Link':
+					$output .= $this->link($name, $url, $attributes);
+					break;
+				case 'Html':
+				default:
+					if($url)
+					{
+						$output .= $this->Html->link($name, $url, $attributes);
+					} else {
+						$output .= $this->Html->tag('span', $name, $attributes);
+					}
+			}
+
+			//iterate all children, if present
+			if(isset($val['children'][0]))
+			{
+				$output .= $this->list_element_links($name, $val['children'], $level+1);
+				$output .= $li_tabs . "</li>";
+			}
+			else
+			{
+				$output .= "</li>";
+			}
+			unset($class, $url);
+		}
+		$output .= $tabs . "</ul>";
+		return $output;
+	}
+
+
+/**
+ * creates a link (with icon, if given)
+ *
+ * @return array
+ * @access public
+ */
+	function link($name, $link = array(), $options = array())
+	{
+		$defaults = array(
+			'class' => '',
+		);
+
+		if(!isset($options['class']))
+		{
+			$options['class'] = '';
+		}
+
+		if(!is_array($options['class']))
+		{
+			$options['class'] = array($options['class']);
+		}
+
+		if(isset($options['ico']))
+		{
+			if(!isset($options['size']))
+			{
+				$options['size'] = '16';
+			}
+			$img = $this->image($options);
+			unset($options['ico']);
+			unset($options['size']);
+		} else {
+			$img = null;
+		}
+
+		$options['class'] = implode(' ', $options['class']);
+
+		$options['escape'] = false;
+
+		if(!empty($img))
+		{
+			$name = $this->Html->tag('span', $img).$this->Html->tag('span', $name, array('class' => 'ui-button-text'));
+		}
+		$output = $this->Html->link($name, $link, $options);
+		return $output;
+	}
+
+	function button($name, $options = array())
+	{
+		$defaults = array(
+			'class' => array(),
+		);
+
+		if(!isset($options['class']))
+		{
+			$options['class'] = '';
+		}
+
+		if(!is_array($options['class']))
+		{
+			$options['class'] = array($options['class']);
+		}
+
+		if(isset($options['ico']))
+		{
+			$img = $this->Html->image(String::insert('ico/:ico.png', array('ico' => $options['ico'])), array('width' => '16', 'height' => '16'));
+			unset($options['ico']);
+		} else {
+			$img = null;
+		}
+
+		$options['class'] = implode(' ', array_merge($defaults['class'], $options['class']));
+
+		$options['escape'] = false;
+
+		$output = $this->Html->tag('button', $this->Html->tag('span', $img).$this->Html->tag('span', $name, array('class' => 'ui-button-text')), $options);
+		return $output;
+	}
+
+	function image($options)
+	{
+		$img = $this->Html->image(
+			String::insert(
+				'ico/:ico.png', array(
+					'ico' => $options['ico'],
+					'size' => $options['size']
+				)
+			),
+			array('width' => $options['size'], 'height' => $options['size'])
+		);
+		return $img;
+	}
+
+
+
+
 
 
 /* internal methods */
