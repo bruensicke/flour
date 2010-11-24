@@ -2,7 +2,14 @@
 $this->title = __('Contents', true);
 $this->description = __('This is your content library.', true);
 
-echo $this->Html->link(__('Add', true), array('controller' => 'contents', 'action' => 'add'));
+// echo $this->Html->link(__('Add', true), array('controller' => 'contents', 'action' => 'add'));
+
+$this->Nav->add('Primary', array(
+	'name' => __('Add', true),
+	'url' => array('controller' => 'contents', 'action' => 'add'),
+	'type' => 'link',
+	'ico' => 'add',
+));
 
 echo $this->element('flour/content_start');
 
@@ -28,7 +35,7 @@ $items[] = array(
 	),
 );
 
-echo $this->Widget->row($items, 'sidebar_right');
+echo $this->Widget->row($items, 'full');
 
 echo $this->Widget->type('activities', array(
 	'types' => array(
