@@ -7,6 +7,21 @@ $type = (isset($this->passedArgs['type']))
 	? $this->passedArgs['type']
 	: Configure::read('Flour.Configuration.types.default');
 
+$this->Nav->add('Primary', array(
+	'name' => __('Cancel', true),
+	'url' => array('controller' => 'configurations', 'action' => 'index'),
+	'type' => 'link',
+	'ico' => 'cross',
+	'confirm' => __('Are you sure you want to cancel?', true),
+));
+
+$this->Nav->add('Primary', array(
+	'name' => __('Save', true),
+	'type' => 'button',
+	'ico' => 'disk',
+	'class' => 'positive',
+));
+
 echo $this->Form->create('Configuration', array('action' => $this->action));
 echo $this->element('flour/content_start');
 

@@ -20,6 +20,7 @@ class FlourAppController extends AppController
 	var $helpers = array(
 		'Flour.TagCloud',
 		'Flour.Widget',
+		'Flour.Nav',
 	);
 
 /**

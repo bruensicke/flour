@@ -2,6 +2,21 @@
 $this->title = __('Navigations', true);
 $this->description = __('Add new Navigation.', true);
 
+$this->Nav->add('Primary', array(
+	'name' => __('Cancel', true),
+	'url' => array('controller' => 'navigations', 'action' => 'index'),
+	'type' => 'link',
+	'ico' => 'cross',
+	'confirm' => __('Are you sure you want to cancel?', true),
+));
+
+$this->Nav->add('Primary', array(
+	'name' => __('Save', true),
+	'type' => 'button',
+	'ico' => 'disk',
+	'class' => 'positive',
+));
+
 echo $this->Form->create('Navigation', array('action' => $this->action));
 echo $this->element('flour/content_start');
 

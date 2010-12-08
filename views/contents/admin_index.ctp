@@ -2,10 +2,8 @@
 $this->title = __('Contents', true);
 $this->description = __('This is your content library.', true);
 
-// echo $this->Html->link(__('Add', true), array('controller' => 'contents', 'action' => 'add'));
-
 $this->Nav->add('Primary', array(
-	'name' => __('Add', true),
+	'name' => __('Add Content', true),
 	'url' => array('controller' => 'contents', 'action' => 'add'),
 	'type' => 'link',
 	'ico' => 'add',
@@ -37,12 +35,13 @@ $items[] = array(
 
 echo $this->Widget->row($items, 'full');
 
-echo $this->Widget->type('activities', array(
-	'types' => array(
-		'content_object_created',
-		'content_object_updated',
-		'content_object_deleted',
-	)
-));
+//just an example for activites, on specific types
+// echo $this->Widget->type('activities', array(
+// 	'types' => array(
+// 		'content_object_created',
+// 		'content_object_updated',
+// 		'content_object_deleted',
+// 	)
+// ));
 
 echo $this->element('flour/content_stop');

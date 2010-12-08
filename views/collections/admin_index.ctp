@@ -2,7 +2,12 @@
 $this->title = __('Collections', true);
 $this->description = __('These are all your configurations.', true);
 
-echo $this->Html->link(__('Add', true), array('controller' => 'collections', 'action' => 'add'));
+$this->Nav->add('Primary', array(
+	'name' => __('Create Collection', true),
+	'url' => array('controller' => 'collections', 'action' => 'add'),
+	'type' => 'link',
+	'ico' => 'add',
+));
 
 echo $this->element('flour/content_start');
 

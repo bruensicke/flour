@@ -2,7 +2,12 @@
 $this->title = __('Widgets', true);
 $this->description = __('These are all your widgets.', true);
 
-echo $this->Html->link(__('Add', true), array('controller' => 'widgets', 'action' => 'add'));
+$this->Nav->add('Primary', array(
+	'name' => __('Create Widget', true),
+	'url' => array('controller' => 'widgets', 'action' => 'add'),
+	'type' => 'link',
+	'ico' => 'add',
+));
 
 echo $this->element('flour/content_start');
 

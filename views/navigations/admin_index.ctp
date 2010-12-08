@@ -2,7 +2,12 @@
 $this->title = __('Navigations', true);
 $this->description = __('These are all your configurations.', true);
 
-echo $this->Html->link(__('Add', true), array('controller' => 'navigations', 'action' => 'add'));
+$this->Nav->add('Primary', array(
+	'name' => __('Create Navigation', true),
+	'url' => array('controller' => 'navigations', 'action' => 'add'),
+	'type' => 'link',
+	'ico' => 'add',
+));
 
 echo $this->element('flour/content_start');
 

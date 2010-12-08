@@ -2,7 +2,12 @@
 $this->title = __('Configurations', true);
 $this->description = __('These are all your configurations.', true);
 
-echo $this->Html->link(__('Add', true), array('controller' => 'configurations', 'action' => 'add'));
+$this->Nav->add('Primary', array(
+	'name' => __('Create Configuration', true),
+	'url' => array('controller' => 'configurations', 'action' => 'add'),
+	'type' => 'link',
+	'ico' => 'add',
+));
 
 echo $this->element('flour/content_start');
 
@@ -17,7 +22,7 @@ echo $this->TagCloud->display($tags, array('before' => '<span>'));
 echo $this->element('flour/content_stop');
 
 $style = <<<HTML
-div.group { background: red; }
+div.group { background: silver; }
 
 HTML;
 
