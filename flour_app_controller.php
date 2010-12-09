@@ -21,6 +21,7 @@ class FlourAppController extends AppController
 		'Flour.TagCloud',
 		'Flour.Widget',
 		'Flour.Nav',
+		'Flour.Collection',
 	);
 
 /**

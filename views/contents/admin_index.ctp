@@ -1,25 +1,43 @@
 <?php
 $this->title = __('Contents', true);
 $this->description = __('This is your content library.', true);
-$add_name = __('Create Content', true);
-$add_url = array('controller' => 'contents', 'action' => 'add');
 
-if(isset($this->passedArgs['type']))
+if(!empty($this->passedArgs['type']))
 {
-	//TODO: have default-types
-	$this->title = $this->passedArgs['type']; //Configure::read('App.');
-	$this->description = ''; //TODO: read description
+	$name = Configure::read('App.Content.types.options.'.$this->passedArgs['type']);
+	$this->title = Inflector::pluralize($name);
+	$this->description = Configure::read('App.Content.types.descriptions.'.$this->passedArgs['type']);
 
-	$add_name =  String::insert( __('Create :type', true), array('type' => $this->passedArgs['type']));
-	$add_url['type'] = $this->passedArgs['type'];
+	$this->Nav->add('Primary', array(
+		'name' => String::insert( __('Create :type', true), array('type' => $name)),
+		'url' => array('controller' => 'contents', 'action' => 'add', 'type' => $this->passedArgs['type']),
+		'type' => 'link',
+		'ico' => 'add',
+	));
+
+} else {
+
+	$types = Configure::read('App.Content.types');
+	$children = array();
+	foreach ($types['options'] as $type => $name)
+	{
+		$description = $types['descriptions'][$type];
+		$children[] = array(
+			// 'name' => String::insert(':name <span class="description">:description</span>', compact('name', 'description')),
+			'name' => $name,
+			'url' => array('controller' => 'contents', 'action' => 'add', 'type' => $type),
+		);
+	}
+
+	$this->Nav->add('Primary', array(
+		'name' => __('Create Content', true),
+		'url' => array('controller' => 'contents', 'action' => 'add'),
+		'type' => 'link',
+		'ico' => 'add',
+		'children' => $children,
+	));
+
 }
-
-$this->Nav->add('Primary', array(
-	'name' => $add_name,
-	'url' => $add_url,
-	'type' => 'link',
-	'ico' => 'add',
-));
 
 echo $this->element('flour/content_start');
 
@@ -29,7 +47,7 @@ $items[] = array(
 	'type' => 'iterator',
 	'target' => 'a',
 	'data' => array(
-		'caption' => __('Contents', true),
+		'caption' => $this->title,
 		'element' => 'contents/item',
 		'search' => true,
 		),

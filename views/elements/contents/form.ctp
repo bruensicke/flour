@@ -1,9 +1,5 @@
 <?php
 //retrieve the content_type to be used
-$type = (isset($this->passedArgs['type']))
-	? $this->passedArgs['type']
-	: Configure::read('Flour.Content.types.default');
-
 $status = (isset($this->passedArgs['status']))
 	? $this->passedArgs['status']
 	: Configure::read('Flour.Content.status.default');
@@ -24,12 +20,17 @@ echo $this->Form->error('Content.model', array(
 	'notEmpty' => __('You must give a model to use.', true)
 ));
 
-echo $this->Form->input('Content.type', array(
-	'type' => 'select',
-	'class' => 'auto_switch_type',
-	'options' => Configure::read('Flour.Content.types.options'),
-	'default' => $type,
-));
+if(!empty($this->passedArgs['type']))
+{
+	echo $this->Form->hidden('Content.type', array('value' => $this->passedArgs['type']));
+} else {
+	echo $this->Form->input('Content.type', array(
+		'type' => 'select',
+		'class' => 'auto_switch_type',
+		'options' => Configure::read('Flour.Content.types.options'),
+		'default' => Configure::read('Flour.Content.types.default'),
+	));
+}
 
 echo $this->Form->input('Content.status', array(
 	'type' => 'select',

@@ -171,6 +171,10 @@ ul.horiz li
 }
 ul.nav li a { display: block; padding: 0 3px 0 0;}
 
+ul ul { position: absolute; margin: 0; padding: 0; }
+ul ul li { width: 99%; display: block; border-bottom: 1px solid #CACACA; }
+li ul {display: none;}
+ul li:hover > ul {display: block; }
 
 
 

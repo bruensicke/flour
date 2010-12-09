@@ -53,16 +53,16 @@ class Content extends FlourAppModel
  */
 	public function __construct()
 	{
-		$appTypes = (Configure::read('App.Content.types.options'))
-			? Configure::read('App.Content.types.options')
+		$appTypes = (Configure::read('App.Content.types'))
+			? Configure::read('App.Content.types')
 			: array();
 
-		$flourTypes = (Configure::read('Flour.Content.types.options'))
-			? Configure::read('Flour.Content.types.options')
+		$flourTypes = (Configure::read('Flour.Content.types'))
+			? Configure::read('Flour.Content.types')
 			: array();
-		$this->types = array_merge($flourTypes, $appTypes);
+		$this->types = Set::merge($flourTypes, $appTypes);
 
-		Configure::write('App.Content.types.options', $this->types);
+		Configure::write('App.Content.types', $this->types);
 		return parent::__construct();
 	}
 
