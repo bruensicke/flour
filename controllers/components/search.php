@@ -17,6 +17,7 @@ class SearchComponent extends Object
  */
 	protected $_searchModes = array(
 		'fullsearch',
+		'type',
 		'search',
 		'tags',
 		'date',
@@ -240,6 +241,11 @@ class SearchComponent extends Object
 				case 'status':
 					$value = split(',', $value); //too bad... see: https://trac.cakephp.org/ticket/5449
 					$conditions[$alias.'.status'] = $value;
+					break;
+
+				case 'type':
+					$value = split(',', $value); //too bad... see: https://trac.cakephp.org/ticket/5449
+					$conditions[$alias.'.type'] = $value;
 					break;
 
 				//TBD.
