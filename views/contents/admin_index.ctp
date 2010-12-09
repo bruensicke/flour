@@ -1,10 +1,22 @@
 <?php
 $this->title = __('Contents', true);
 $this->description = __('This is your content library.', true);
+$add_name = __('Create Content', true);
+$add_url = array('controller' => 'contents', 'action' => 'add');
+
+if(isset($this->passedArgs['type']))
+{
+	//TODO: have default-types
+	$this->title = $this->passedArgs['type']; //Configure::read('App.');
+	$this->description = ''; //TODO: read description
+
+	$add_name =  String::insert( __('Create :type', true), array('type' => $this->passedArgs['type']));
+	$add_url['type'] = $this->passedArgs['type'];
+}
 
 $this->Nav->add('Primary', array(
-	'name' => __('Add Content', true),
-	'url' => array('controller' => 'contents', 'action' => 'add'),
+	'name' => $add_name,
+	'url' => $add_url,
 	'type' => 'link',
 	'ico' => 'add',
 ));

@@ -44,6 +44,29 @@ class Content extends FlourAppModel
 	);
 
 /**
+ * constructor auto-sets $this->types to a merged set of:
+ * 
+ *   o  Flour.Content.types.options
+ *   o  App.Content.types.options
+ *
+ * @access public
+ */
+	public function __construct()
+	{
+		$appTypes = (Configure::read('App.Content.types.options'))
+			? Configure::read('App.Content.types.options')
+			: array();
+
+		$flourTypes = (Configure::read('Flour.Content.types.options'))
+			? Configure::read('Flour.Content.types.options')
+			: array();
+		$this->types = array_merge($flourTypes, $appTypes);
+
+		Configure::write('App.Content.types.options', $this->types);
+		return parent::__construct();
+	}
+
+/**
  * gets the current ContentObject with given $slug
  *
  * @param string $slug slug of ContentObject to retrieve (or id)

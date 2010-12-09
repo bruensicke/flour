@@ -37,6 +37,7 @@ class ContentsController extends FlourAppController
  *	/contents/index/view:short #show all items with template 'short' (from item.ctp)
  *	/contents/index/search:foo #find all items with 'foo'
  *	/contents/index/tags:bar #find all items tagged 'bar'
+ *	/contents/index/type:foo #find all items of type 'foo' (aka filter results)
  * }}}
  *
  * @return void
