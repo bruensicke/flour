@@ -74,6 +74,10 @@ Configure::write('Flour.Content.types', array(
 		'article' => __('Article', true),
 		'blog' => __('Blogpost', true),
 	),
+	'descriptions' => array(
+		'article' => __('An Article is a defined block of Content with a title, an excerpt and a body.', true),
+		'blog' => __('A Blogpost has a title and body-text.', true),
+	),
 ));
 
 
