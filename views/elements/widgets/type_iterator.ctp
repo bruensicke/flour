@@ -36,6 +36,10 @@ if($template == 'admin')
 		? $data['search']
 		: null;
 
+	$element_data['actions'] = (isset($data['actions']))
+		? $data['actions']
+		: null;
+
 	$element_data['filters'] = (isset($data['filters']))
 		? $data['filters']
 		: null;
