@@ -21,7 +21,6 @@ $a = (isset($a))
 	? $a
 	: '';
 
-//content 'a'
 $a = (is_array($a))
 	? implode($seperator, div_explode($a))
 	: $a;
@@ -31,31 +30,45 @@ $b = (isset($b))
 	? $b
 	: '';
 
-//content 'b'
 $b = (is_array($b))
 	? implode($seperator, div_explode($b))
 	: $b;
 
 //content 'c'
-$a = (isset($c))
+$a = (isset($c) && is_string($c))
 	? $a.$seperator.$c
 	: $a;
 
+$a = (isset($c) && is_array($c))
+	? $a.implode($seperator, div_explode($c))
+	: $a;
+
 //content 'd'
-$a = (isset($d))
+$a = (isset($d) && is_string($d))
 	? $a.$seperator.$d
 	: $a;
 
+$a = (isset($d) && is_array($d))
+	? $a.implode($seperator, div_explode($d))
+	: $a;
+
 //content 'e'
-$a = (isset($e))
+$a = (isset($e) && is_string($e))
 	? $a.$seperator.$e
 	: $a;
 
+$a = (isset($e) && is_array($e))
+	? $a.implode($seperator, div_explode($e))
+	: $a;
+
 //content 'f'
-$a = (isset($f))
+$a = (isset($f) && is_string($f))
 	? $a.$seperator.$f
 	: $a;
 
+$a = (isset($f) && is_array($f))
+	? $a.implode($seperator, div_explode($f))
+	: $a;
 
 //to be prepended
 $before = (isset($before))
