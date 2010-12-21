@@ -232,4 +232,50 @@ CREATE TABLE IF NOT EXISTS `flour_navigations` (
 	PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+CREATE TABLE `flour_users` (
+  `id` CHAR(36) NOT NULL DEFAULT '',
+  `name` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
+  `email` VARCHAR(255) NOT NULL,
+  `created` DATETIME DEFAULT NULL,
+  `modified` DATETIME DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `flour_accounts_users` (
+  `id` char(36) NOT NULL,
+  `account_id` char(36) DEFAULT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `role` varchar(255) DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `flour_accounts` (
+  `id` char(36) NOT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `slug` varchar(500) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `www` varchar(250) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `place` varchar(50) DEFAULT NULL,
+  `placecode` varchar(5) DEFAULT NULL,
+  `street` varchar(255) DEFAULT NULL,
+  `country` varchar(255) DEFAULT NULL,
+  `lat` float DEFAULT NULL,
+  `lon` float DEFAULT NULL,
+  `specific_data` text,
+  `status` smallint(6) NOT NULL DEFAULT '10',
+  `api_key` varchar(32) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `www` (`www`),
+  KEY `email` (`email`),
+  KEY `slug` (`slug`(333)),
+  KEY `name` (`name`),
+  KEY `status` (`status`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
