@@ -1,12 +1,9 @@
 <?php
 /**
- * Account Membership Model
- *
- * You can use this model or copy it to your app.
+ * Account Model
  *
  * @package flour
  * @author Dirk Brünsicke
- * @version $Id$
  * @copyright brünsicke.com GmbH
  **/
 class Account extends FlourAppModel  {
@@ -18,11 +15,6 @@ class Account extends FlourAppModel  {
 		'status' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 	);

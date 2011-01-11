@@ -34,13 +34,13 @@ class User extends FlourAppModel
 		$token = md5(uniqid(mt_rand(), true));
 		$userId = $user['User']['id'];
 
-		$this->LoginToken->create(array(
-			'user_id' => $userId,
-			'token' => $token,
-			'duration' => $duration,
-			'expires' => date('Y-m-d H:i:s', strtotime($duration)),
-		));
-		$this->LoginToken->save();
+// 		$this->LoginToken->create(array(
+// 			'user_id' => $userId,
+// 			'token' => $token,
+// 			'duration' => $duration,
+// 			'expires' => date('Y-m-d H:i:s', strtotime($duration)),
+// 		));
+// 		$this->LoginToken->save();
 
 		return "${token}:${userId}";
 	}
@@ -67,23 +67,23 @@ class User extends FlourAppModel
 				list($token, $userId) = split(':', $credentials['token']);
 				$duration = $credentials['duration'];
 
-				$loginToken = $this->LoginToken->find('first', array(
-					'conditions' => array(
-					'user_id' => $userId,
-					'token' => $token,
-					'duration' => $duration,
-					'used' => false,
-					'expires <=' => date('Y-m-d H:i:s', strtotime($duration)),
-				),
-				'contain' => false
-				));
+// 				$loginToken = $this->LoginToken->find('first', array(
+// 					'conditions' => array(
+// 						'user_id' => $userId,
+// 						'token' => $token,
+// 						'duration' => $duration,
+// 						'used' => false,
+// 						'expires <=' => date('Y-m-d H:i:s', strtotime($duration)),
+// 					),
+// 					'contain' => false
+// 				));
 
 				if (!$loginToken) {
 					return false;
 				}
 
 				$loginToken['LoginToken']['used'] = true;
-				$this->LoginToken->save($loginToken);
+// 				$this->LoginToken->save($loginToken);
 
 				$conditions = array(
 					'User.id' => $loginToken['LoginToken']['user_id']
@@ -99,6 +99,4 @@ class User extends FlourAppModel
 		$user['User']['loginType'] = $type;
 		return $user;
 	}
-	
 }
-?>
