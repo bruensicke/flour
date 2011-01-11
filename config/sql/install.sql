@@ -237,6 +237,7 @@ CREATE TABLE `flour_users` (
   `name` VARCHAR(255) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) NOT NULL,
+  `api_key` varchar(32) DEFAULT NULL,
   `created` DATETIME DEFAULT NULL,
   `modified` DATETIME DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -255,7 +256,7 @@ CREATE TABLE IF NOT EXISTS `flour_accounts_users` (
 CREATE TABLE IF NOT EXISTS `flour_accounts` (
   `id` char(36) NOT NULL,
   `type` varchar(255) DEFAULT NULL,
-  `slug` varchar(500) DEFAULT NULL,
+  `slug` varchar(120) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `www` varchar(250) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
@@ -267,14 +268,13 @@ CREATE TABLE IF NOT EXISTS `flour_accounts` (
   `lat` float DEFAULT NULL,
   `lon` float DEFAULT NULL,
   `specific_data` text,
-  `status` smallint(6) NOT NULL DEFAULT '10',
-  `api_key` varchar(32) DEFAULT NULL,
+  `status` smallint(6) NOT NULL DEFAULT '1',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `www` (`www`),
   KEY `email` (`email`),
-  KEY `slug` (`slug`(333)),
+  KEY `slug` (`slug`),
   KEY `name` (`name`),
   KEY `status` (`status`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
