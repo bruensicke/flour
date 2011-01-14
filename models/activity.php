@@ -14,7 +14,6 @@
  * 
  * @package flour
  * @author Dirk Brünsicke
- * @version $Id$
  * @copyright bruensicke.com GmbH
  **/
 class Activity extends FlourAppModel

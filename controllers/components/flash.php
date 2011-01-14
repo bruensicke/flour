@@ -16,7 +16,6 @@
  * 
  * @package flour
  * @author Dirk Brünsicke
- * @version $Id$
  * @copyright bruensicke.com GmbH
  **/
 App::import('Core', array('String', 'Set'));

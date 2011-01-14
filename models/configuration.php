@@ -13,7 +13,6 @@
  * 
  * @package flour
  * @author Dirk Brünsicke
- * @version $Id$
  * @copyright bruensicke.com GmbH
  **/
 class Configuration extends FlourAppModel
