@@ -273,3 +273,13 @@ CREATE TABLE IF NOT EXISTS `flour_accounts` (
   KEY `status` (`status`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+CREATE TABLE `login_tokens` (
+	`id` char(36) NOT NULL,
+	`user_id` char(36) NOT NULL,
+	`expires` datetime NOT NULL,
+	`used` tinyint(1) NOT NULL DEFAULT '0',
+	`created` datetime NOT NULL,
+	`modified` datetime NOT NULL,
+	PRIMARY KEY (`id`),
+	KEY `user_id_idx` (`user_id`)
+)
