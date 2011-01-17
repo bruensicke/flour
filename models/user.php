@@ -14,7 +14,7 @@ class User extends FlourAppModel
 	var $actsAs = 'Flour.Taggable';
 
 	public $hasMany = array(
-		//'Flour.LoginToken',
+		'Flour.LoginToken',
 		//'Flour.Activity',
 		'Flour.AccountMembership',
 	);
@@ -31,18 +31,9 @@ class User extends FlourAppModel
 	
 	public function authsomePersist($user, $duration)
 	{
-		$token = md5(uniqid(mt_rand(), true));
 		$userId = $user['User']['id'];
-
-// 		$this->LoginToken->create(array(
-// 			'user_id' => $userId,
-// 			'token' => $token,
-// 			'duration' => $duration,
-// 			'expires' => date('Y-m-d H:i:s', strtotime($duration)),
-// 		));
-// 		$this->LoginToken->save();
-
-		return "${token}:${userId}";
+ 		$token = $this->LoginToken->generate($userId, date('Y-m-d H:i:s', strtotime($duration)));
+		return $token;
 	}
 	
 	public function authsomeLogin($type, $credentials = array())
