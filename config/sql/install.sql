@@ -232,54 +232,70 @@ CREATE TABLE IF NOT EXISTS `flour_navigations` (
 	PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE `flour_users` (
-  `id` CHAR(36) NOT NULL DEFAULT '',
-  `name` VARCHAR(255) NOT NULL,
-  `password` VARCHAR(255) NOT NULL,
-  `email` VARCHAR(255) NOT NULL,
-  `api_key` varchar(32) DEFAULT NULL,
-  `created` DATETIME DEFAULT NULL,
-  `modified` DATETIME DEFAULT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE IF NOT EXISTS `flour_users` (
+	`id` CHAR(36) NOT NULL,
+	`user_id` CHAR(36) DEFAULT NULL,
+	`template` VARCHAR(255) DEFAULT NULL,
+	`status` INT(3) DEFAULT '0',
+	`locale` VARCHAR(10) DEFAULT NULL,
+	`name` VARCHAR(255) NOT NULL,
+	`email` VARCHAR(255) NOT NULL,
+	`password` VARCHAR(255) NOT NULL,
+	`description` TINYTEXT,
+	`tags` VARCHAR(255) NOT NULL,
+	`valid_from` DATETIME DEFAULT NULL,
+	`valid_to` DATETIME DEFAULT NULL,
+	`created` DATETIME NOT NULL,
+	`created_by` CHAR(36) NOT NULL,
+	`modified` DATETIME DEFAULT NULL,
+	`modified_by` CHAR(36) DEFAULT NULL,
+	`deleted` DATETIME DEFAULT NULL,
+	`deleted_by` CHAR(36) DEFAULT NULL,
+	PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `flour_accounts_users` (
-  `id` char(36) NOT NULL,
-  `account_id` char(36) DEFAULT NULL,
-  `user_id` char(36) DEFAULT NULL,
-  `role` varchar(255) DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+	`id` CHAR(36) NOT NULL,
+	`account_id` CHAR(36) DEFAULT NULL,
+	`user_id` CHAR(36) DEFAULT NULL,
+	`role` VARCHAR(255) NOT NULL,
+	`created` DATETIME NOT NULL,
+	`created_by` CHAR(36) NOT NULL,
+	`modified` DATETIME DEFAULT NULL,
+	`modified_by` CHAR(36) DEFAULT NULL,
+	PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `flour_accounts` (
-  `id` char(36) NOT NULL,
-  `type` varchar(255) DEFAULT NULL,
-  `slug` varchar(120) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `url` varchar(250) DEFAULT NULL,
-  `email` varchar(50) DEFAULT NULL,
-  `phone` varchar(20) DEFAULT NULL,
-  `specific_data` text,
-  `status` smallint(6) NOT NULL DEFAULT '1',
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `www` (`www`),
-  KEY `email` (`email`),
-  KEY `slug` (`slug`),
-  KEY `name` (`name`),
-  KEY `status` (`status`)
+	`id` CHAR(36) NOT NULL,
+	`type` VARCHAR(255) NOT NULL,
+	`status` INT(3) DEFAULT '0',
+	`slug` VARCHAR(255) NOT NULL DEFAULT '',
+	`name` VARCHAR(255) NOT NULL,
+	`url` VARCHAR(255) NOT NULL,
+	`email` VARCHAR(255) NOT NULL,
+	`valid_from` DATETIME DEFAULT NULL,
+	`valid_to` DATETIME DEFAULT NULL,
+	`created` DATETIME NOT NULL,
+	`created_by` CHAR(36) NOT NULL,
+	`modified` DATETIME DEFAULT NULL,
+	`modified_by` CHAR(36) DEFAULT NULL,
+	`deleted` DATETIME DEFAULT NULL,
+	`deleted_by` CHAR(36) DEFAULT NULL,
+	PRIMARY KEY (`id`),
+	KEY `slug` (`slug`),
+	KEY `name` (`name`),
+	KEY `email` (`email`),
+	KEY `status` (`status`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE `login_tokens` (
-	`id` char(36) NOT NULL,
-	`user_id` char(36) NOT NULL,
-	`expires` datetime NOT NULL,
-	`used` tinyint(1) NOT NULL DEFAULT '0',
-	`created` datetime NOT NULL,
-	`modified` datetime NOT NULL,
+CREATE TABLE IF NOT EXISTS `flour_login_tokens` (
+	`id` CHAR(36) NOT NULL,
+	`user_id` CHAR(36) DEFAULT NULL,
+	`expires` DATETIME NOT NULL,
+	`used` TINYINT(1) NOT NULL DEFAULT '0',
+	`created` DATETIME NOT NULL,
+	`modified` DATETIME NOT NULL,
 	PRIMARY KEY (`id`),
 	KEY `user_id_idx` (`user_id`)
-)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
