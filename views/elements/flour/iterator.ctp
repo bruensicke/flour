@@ -302,7 +302,9 @@ if(!empty($search))
 		);
 	}
 
-	$box_content[] = $this->Html->div($items_class, $content);
+	$box_content[] = empty($items_class)
+		? $content
+		: $this->Html->div($items_class, $content);
 
 	//paginator
 	$footer = (isset($this->Paginator) && is_object($this->Paginator) && $paging)
