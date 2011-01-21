@@ -108,3 +108,8 @@ $template = (isset($template))
 HTML;
 
 echo String::insert(String::insert($template, compact('before', 'after')), compact('a', 'b', 'class', 'style', 'width'));
+
+if(!empty($script))
+{
+	echo $this->Html->tag('script', (is_array($script)) ? implode($script) : $script);
+}
