@@ -95,8 +95,8 @@ $template = (isset($template))
 	: <<<HTML
 	:before
 	<div class="clearfix :class":style>
-		<div class="half a">:a</div>
-		<div class="half b">:b</div>
+		<div class="half a" style="float: left; width: 50%;">:a</div>
+		<div class="half b" style="float: left; width: 50%;">:b</div>
 	</div>
 	:after
 HTML;

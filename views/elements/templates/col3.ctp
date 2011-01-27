@@ -1,14 +1,9 @@
 <?php
 App::import('Lib', 'Flour.div_explode');
 
-//sidebar width
-$width = (isset($width))
-	? $width
-	: '300px';
-
 //which seperator to join more than one column
 $seperator = (isset($seperator))
-	? $seperator
+	? $seperator 
 	: '';
 
 //template class
@@ -40,13 +35,13 @@ $b = (is_array($b))
 	: $b;
 
 //content 'c'
-$a = (isset($c) && is_string($c))
-	? $a.$seperator.$c
-	: $a;
+$c = (isset($c))
+	? $c
+	: '';
 
-$a = (isset($c) && is_array($c))
-	? $a.implode($seperator, div_explode($c))
-	: $a;
+$c = (is_array($c))
+	? implode($seperator, div_explode($c))
+	: $c;
 
 //content 'd'
 $a = (isset($d) && is_string($d))
@@ -75,7 +70,6 @@ $a = (isset($f) && is_array($f))
 	? $a.implode($seperator, div_explode($f))
 	: $a;
 
-
 //to be prepended
 $before = (isset($before))
 	? $before
@@ -101,13 +95,14 @@ $template = (isset($template))
 	: <<<HTML
 	:before
 	<div class="clearfix :class":style>
-		<div class="sidebar sidebar_left b" style="float: left; width::width;">:b</div>
-		<div class="a" style="float: left;">:a</div>
+		<div class="third a" style="float: left; width: 33.3%;">:a</div>
+		<div class="third b" style="float: left; width: 33.3%;">:b</div>
+		<div class="third c" style="float: left; width: 33.3%;">:c</div>
 	</div>
 	:after
 HTML;
 
-echo String::insert(String::insert($template, compact('before', 'after')), compact('a', 'b', 'class', 'style', 'width'));
+echo String::insert(String::insert($template, compact('before', 'after')), compact('a', 'b', 'c', 'class', 'style'));
 
 if(!empty($script))
 {
