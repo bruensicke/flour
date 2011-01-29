@@ -2,7 +2,7 @@
 //default-values
 $id = (isset($id))
 	? $id 
-	: null;
+	: '';
 
 //default-values
 $name = (isset($name))
@@ -70,13 +70,13 @@ $before = (isset($before))
 $after = (isset($after))
 	? $after 
 	: '';
-
 $content = $this->element(
 	String::insert(
 		Configure::read('Flour.Widget.types.pattern'), 
 		array('type' => $type)
 	),
 	compact(
+		'id',
 		'class',
 		'before',
 		'after',
@@ -107,6 +107,8 @@ $content = $this->element(
 echo String::insert(
 	Configure::read('Flour.Widget.templates.markup'),
 	compact(
+		'id',
+		'title',
 		'type',
 		'class',
 		'content'

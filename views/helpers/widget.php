@@ -13,6 +13,14 @@ class WidgetHelper extends AppHelper
 {
 
 /**
+ * name of Widget element
+ * 
+ * @var string $element
+ * @access public
+ */
+	public $element = 'flour/widget';
+
+/**
  * array of rows, that are already parsed
  * 
  * @var array $_output
@@ -84,7 +92,7 @@ class WidgetHelper extends AppHelper
 			return false;
 		}
 		$data = array_merge($options, $row_data['Widget']);
-		return $this->_View->element('flour/widget', $data);
+		return $this->_View->element($this->element, $data);
 	}
 
 /**
@@ -113,7 +121,7 @@ class WidgetHelper extends AppHelper
 		$data['plugin'] = isset($plugin)
 			? $plugin
 			: 'Flour';
-		return $this->_View->element('flour/widget', $data);
+		return $this->_View->element($this->element, $data);
 	}
 
 /**
@@ -287,6 +295,7 @@ class WidgetHelper extends AppHelper
 	protected function _init()
 	{
 		$this->_View = ClassRegistry::getObject('view');
+		$this->element = Configure::read('Flour.Widgets.types.element');
 
 		//first, check if we run with database
 		if(!file_exists(CONFIGS.'database.php'))
