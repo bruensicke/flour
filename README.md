@@ -10,7 +10,7 @@ Created by [Dirk Brünsicke][1], `flour` is still under heavy development, but c
 
 ## Goals
 
-**Coupled Features** Every Feature within `flour` is developed that way, that it can be used out of the box and stand-alone. If you need just one specific feature, it should work without using all of the rest.
+**Loose Coupled Features** Every Feature within `flour` is developed that way, that it can be used out of the box and stand-alone. If you need just one specific feature, it should work without using all of the rest.
 
 Also:
 
@@ -130,3 +130,17 @@ Edition start times:
  * time 5: back to edition 1
  * time 6: fallback edition
 
+
+## Development
+
+Flour is actively developed by Dirk Brünsicke, if you want to join or use it for your own project, please get in touch with him.
+You can always fork the repository, and we would like to see pull-requests for finished features.
+
+## License
+
+flour is licensed under the MIT license.
+Feel free to use any of the code published here in your personal or commercial projects!
+
+## Sponsors
+
+flour is developed by [brünsicke.com GmbH](http://bruensicke.com/). Get in touch if you need help making your next project.
