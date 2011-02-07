@@ -57,6 +57,9 @@ class DocsController extends FlourAppController
 		}
 		$content = file_get_contents("$root/$file.md");
 		$this->set(compact('file', 'folders', 'content'));
+
+		$this->view = 'View';
+		$this->layout = 'docs';
 	}
 	
 /**
