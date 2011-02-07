@@ -34,7 +34,7 @@ There are 2 ways of installing `flour`. The best is to use it as a git submodule
 Within your CakePHP applications root type the following command to add `flour` as a git submodule.
 
 	cd your_app
-	git submodule add git@github.com/bruensicke/flour.git plugins/flour
+	git submodule add git@github.com:bruensicke/flour.git plugins/flour
 
 After that, you should type the following:
 
