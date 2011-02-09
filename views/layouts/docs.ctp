@@ -8,7 +8,10 @@
 	</title>
 	<?php
 		echo $this->Html->meta('icon');
-		echo $this->Html->css('/flour/css/docs');
+		echo $this->Html->css(array(
+			'/flour/css/docs',
+			'/flour/css/geshi/twilight',
+		));
 		echo $this->Html->script(array(
 			'/flour/js/jquery',
 		));
@@ -22,10 +25,7 @@
 			<h1><?php echo $this->Html->link(__('Flour', true), array('controller' => 'flour', 'action' => 'index', 'plugin' => 'flour')); ?></h1>
 		</div>
 		<div id="navigation">
-			<div class="hr"><hr /></div>
-			<div class="menu"><?php echo $this->element('flour/nav.main'); ?></div>
-			<?php echo $this->element('flour/nav.sub'); ?>
-			<div class="hr"><hr /></div>
+			<div class="menu"><?php echo $this->element('flour/nav.docs'); ?></div>
 		</div>
 		<div id="content">
 			<?php echo $this->Session->flash(); ?>
