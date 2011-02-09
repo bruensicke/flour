@@ -28,6 +28,7 @@
  * @author Dirk Brünsicke
  * @copyright bruensicke.com GmbH
  **/
+App::import('Lib', 'Flour.init');
 class LayoutComponent extends Object
 {
 	public $settings = array(
