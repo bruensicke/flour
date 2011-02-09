@@ -13,7 +13,10 @@ class DocsController extends FlourAppController
 
 	public $uses = null;
 	
-	public $helpers = array('Flour.Markdown');
+	public $helpers = array(
+		'Flour.Markdown',
+		'Flour.Geshi',
+	);
 
 	public function index()
 	{
