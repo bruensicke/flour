@@ -302,20 +302,20 @@ class NavHelper extends AppHelper
 
 	function show($name, $config = array())
 	{
-		return $this->show_links($name);
+		$config = Set::merge(array('class' => '', 'name' => Inflector::humanize($name)), $config);
+		return $this->show_links($name, $config);
 	}
 
 
-	function show_links($name)
+	function show_links($name, $config)
 	{
 		//we better check that.
 		if(!array_key_exists($name, $this->_cache))
 		{
-			$this->_cache[$name]['Navigation'] = array('class' => '', 'name' => Inflector::humanize($name));
+			$this->_cache[$name]['Navigation'] = $config;
 			$this->_cache[$name]['NavigationItem'] = array();
 		}
 		$output = $this->list_element_links($name, $this->_cache[$name]['NavigationItem']);
-#		debug($output);
 		return $output;
 	}
 
@@ -335,7 +335,7 @@ class NavHelper extends AppHelper
 		$ulclass = '';
 		if($level == 0)
 		{
-			$ulcss = $this->_cache[$name]['Navigation']['class'];
+			$ulclass = $this->_cache[$name]['Navigation']['class'];
 			if(!empty($ulclass)) $ulclass = ' class="'.$ulclass.'"'; //put into html-string
 		}
 		$output .= $tabs. '<ul'.$ulclass.' id="parent-'.$level.'">';
