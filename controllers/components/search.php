@@ -183,8 +183,9 @@ class SearchComponent extends Object
 						}
 					}
 					$db_value = addcslashes(implode(' ', $current_searchterms), "\"'%");
-					
-					$conditions['AND'][] = 'MATCH('.implode(', ', $search_fields).') AGAINST(\''.$db_value.'\' IN BOOLEAN MODE )';
+					$sql_search_mode = 'NATURAL LANGUAGE';
+					$sql_search_mode = 'BOOLEAN';
+					$conditions['AND'][] = 'MATCH('.implode(', ', $search_fields).') AGAINST(\''.$db_value.'\' IN '.$sql_search_mode.' MODE )';
 					$this->Controller->set('current_searchterms', $value);
 
 					break;
