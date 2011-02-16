@@ -139,7 +139,7 @@ $box_content = $btnbar_content = array();
 //TODO: switch for search-form
 if(!empty($search))
 {
-	echo $this->Form->create('Flour', array('url' => array('controller' => $this->params['controller'])));
+	echo $this->Form->create();
 }
 
 	if(!empty($search))
@@ -155,14 +155,13 @@ if(!empty($search))
 			$btnbar_content[] = $this->Html->tag('span', $this->Html->link( __('reset', true), $url));
 		}
 		$btnbar_content[] = '&nbsp;'; //needed for placement in caption (line-height)
-		$btnbar_content[] = $this->Form->hidden('Flour.search', array('value' => 1));
 		if($preserveNamedParams && isset($this->params['named']) && !empty($this->params['named']))
 		{
 			$searchParams = $this->params['named'];
 			unset($searchParams['page']);
-			$btnbar_content[] = $this->Form->hidden('Flour.params', array('value' => json_encode($searchParams)));
+			$btnbar_content[] = $this->Form->hidden('params', array('value' => json_encode($searchParams)));
 		}
-		$btnbar_content[] = $this->Form->input('Flour.search', array(
+		$btnbar_content[] = $this->Form->input('search', array(
 			'label' => false,
 			'value' => $current_searchterms,
 			'class' => 'search',
@@ -182,7 +181,7 @@ if(!empty($search))
 			'autocomplete' => 'off'
 		);
 		if(!empty($this->params['named']['date'])) $date_options['value'] = $this->params['named']['date'];
-		echo $this->Html->div('daterange', $this->Form->input($model.'.date', $date_options));
+		echo $this->Html->div('daterange', $this->Form->input('date', $date_options));
 	}
 
 	//filters

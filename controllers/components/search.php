@@ -73,9 +73,13 @@ class SearchComponent extends Object
  */
 	public function startup()
 	{
-		if(!empty($_POST) && isset($_POST['data']['Flour']['search']))
+		$model = !empty($this->Controller->modelNames[0])
+			? $this->Controller->modelNames[0]
+			: null;
+
+		if(!empty($model) && !empty($_POST) && isset($_POST['data'][$model]['search']))
 		{
-			$this->redirect($_POST['data']['Flour']);
+			$this->redirect($_POST['data'][$model]);
 		}
 	}
 
@@ -103,9 +107,15 @@ class SearchComponent extends Object
  * @return array
  * @access public
  */
-	public function buildConditions($search_fields = array())
+	public function buildConditions($search_fields = null)
 	{
+		//if first param is omitted, we find out which model to use
+		if(is_null($search_fields) && !empty($this->Controller->modelNames[0]))
+		{
+			$search_fields = $this->Controller->modelNames[0];
+		}
 
+		//looks like first param is ModelName
 		if(is_string($search_fields)
 			&& isset($this->Controller->$search_fields)
 			&& is_object($this->Controller->$search_fields)
@@ -123,6 +133,10 @@ class SearchComponent extends Object
 		$search_fields = (is_string($search_fields))
 			? array($search_fields)
 			: $search_fields;
+
+		$alias = (empty($alias))
+			? $this->Controller->modelNames[0]
+			: $alias;
 
 		$conditions = array();
 		foreach($this->passedArgs as $key => $value)
@@ -221,6 +235,7 @@ class SearchComponent extends Object
 						$conditions[$alias.'.created >='] = $from;
 						$conditions[$alias.'.created <='] = $to;
 					} else {
+						//TODO: refactor to mysql-date (Y-m-d)
 						list($f_d, $f_m, $f_y) = split('\.', $value, 3);
 						$value = '20'.$f_y.'-'.$f_m.'-'.$f_d; //concatenate mysql-conform date-string
 						$conditions[$alias.'.created LIKE'] = $value.'%';
