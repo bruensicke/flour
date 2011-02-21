@@ -9,11 +9,15 @@ First of all: it is a toolset. It consists of several parts, that can interact, 
 There are the following Parts:
 
  * [Contents][1]
- * Configurations
+ * [Configurations][2]
  * Collections
  * Navigations
  * Tags
  * Widgets
+
+[1]: /contents        "Contents"
+[2]: /config        "Configurations"
+
 
 ## What else?
 
@@ -72,4 +76,3 @@ But i can give you access to some other projects, where we already utilize these
 
 The minor things like iterators, item-templates, templates in general and the almost famous box-element are subject of another email, i will prepare these days. I hope, i can use these emails as a starting point to more in-depth documentation, as i know, it lacks docs.
 
-[1]: /contents        "Contents"
