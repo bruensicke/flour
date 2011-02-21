@@ -12,6 +12,8 @@ One part is the `App.Settings` namespace. It sets the following default-params:
 		'name' => $default_name,
 		'version' => '0.1',
 		'title' => ':title - :name (:version)',
+		'keywords' => '',
+		'description' => '',
 		'styles' => array('theme', 'app'),
 		'scripts' => array('app', 'theme'),
 	);
@@ -27,6 +29,8 @@ A typical app.php starts with that:
 	Configure::write('App.Settings', array(
 		'name' => 'awesome_app',
 		'version' => '0.3a',
+		'keywords' => 'awesome, app, application, great, wonderful',
+		'description' => 'a super-awesome cakephp application framework plugin',
 		'title' => ':title // :name (:version)',
 		'styles' => array('theme', 'app', 'whatever_i_need'),
 		'scripts' => array('jquery', 'app', 'theme'),

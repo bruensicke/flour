@@ -9,6 +9,8 @@ $app_defaults = array(
 	'name' => $default_name,
 	'version' => '0.1',
 	'title' => ':title - :name (:version)',
+	'keywords' => '',
+	'description' => '',
 	'styles' => array('theme', 'app'),
 	'scripts' => array('app', 'theme'),
 );
