@@ -1,31 +1,22 @@
 <?php
-switch(true)
-{
-	case Configure::read('App.Settings.name') != '':
-		break;
 
-	case APP_DIR != 'app':
-		Configure::write('App.Settings.name', APP_DIR);
-		break;
+$rootArray = pathinfo(ROOT);
+$default_name = (APP_DIR != 'app')
+	? APP_DIR
+	: $rootArray['basename'];
 
-	default:
-		$rootArray = pathinfo(ROOT);
-		Configure::write('App.Settings.name', $rootArray['basename']);
-}
+$app_defaults = array(
+	'name' => $default_name,
+	'version' => '0.1',
+	'title' => ':title - :name (:version)',
+	'styles' => array('theme', 'app'),
+	'scripts' => array('app', 'theme'),
+);
 
-switch(true)
-{
-	case Configure::read('App.Settings.version') != '':
-		break;
-	default:
-		Configure::write('App.Settings.version', '0.1');
-}
+$app_settings = Configure::read('App.Settings');
 
-switch(true)
-{
-	case Configure::read('App.Settings.title') != '':
-		break;
-	default:
-		Configure::write(':title - :name (:version)');
-}
+$settings = (!empty($app_settings))
+	? array_merge($app_settings, $app_defaults)
+	: $app_defaults;
 
+Configure::write('App.Settings', $settings);
