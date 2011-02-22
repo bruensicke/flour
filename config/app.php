@@ -18,7 +18,7 @@ $app_defaults = array(
 $app_settings = Configure::read('App.Settings');
 
 $settings = (!empty($app_settings))
-	? array_merge($app_settings, $app_defaults)
+	? array_merge($app_defaults, $app_settings)
 	: $app_defaults;
 
 Configure::write('App.Settings', $settings);
