@@ -358,7 +358,7 @@ class NavHelper extends AppHelper
 
 			if($i == 1) $class[] = 'first';
 			if($i == count($data)) $class[] = 'last';
-			if(isset($url) && stristr($this->here, Router::url($url))) $class[] = 'active'; #$active = (stristr($this->here, Router::url($link))) ? 'active' : '';
+			if(isset($url) && $url != '/' && stristr($this->here, Router::url($url))) $class[] = 'active'; #$active = (stristr($this->here, Router::url($link))) ? 'active' : '';
 
 			$attributes = $val;
 			foreach($attributes as $key => $value)
