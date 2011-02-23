@@ -120,7 +120,8 @@ class WidgetHelper extends AppHelper
 		));
 		$data['plugin'] = isset($plugin)
 			? $plugin
-			: 'Flour';
+			: null;
+		
 		return $this->_View->element($this->element, $data);
 	}
 
@@ -164,6 +165,7 @@ class WidgetHelper extends AppHelper
 					$item['data'] = (isset($item['data']))
 						? $item['data']
 						: array();
+
 					$out[$target] .= $this->type($item['type'], $item['data'], $item);
 					break;
 
@@ -178,7 +180,7 @@ class WidgetHelper extends AppHelper
 		$template = $templateArray[1];
 		$options['plugin'] = (!isset($options['plugin']) && !empty($templateArray[0]))
 			? $templateArray[0]
-			: 'Flour';
+			: 'flour';
 
 		$out = $this->template($template, $out, $options);
 		return $this->_addrow($out);
@@ -195,10 +197,8 @@ class WidgetHelper extends AppHelper
  */
 	public function template($template = 'full', $items = array(), $options = array())
 	{
-		return $this->_View->element(
-			String::insert(Configure::read('Flour.Widget.templates.pattern'), array('template' => $template)),
-			array_merge($options, $items)
-		);
+		$templateElement = String::insert(Configure::read('Flour.Widget.templates.pattern'), array('template' => $template));
+		return $this->_View->element($templateElement, array_merge($options, $items));
 	}
 
 /**
@@ -295,7 +295,7 @@ class WidgetHelper extends AppHelper
 	protected function _init()
 	{
 		$this->_View = ClassRegistry::getObject('view');
-		$this->element = Configure::read('Flour.Widgets.types.element');
+		$this->element = Configure::read('Flour.Widget.types.element');
 
 		//first, check if we run with database
 		if(!file_exists(CONFIGS.'database.php'))

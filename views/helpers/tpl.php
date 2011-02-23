@@ -286,7 +286,7 @@ class TplHelper extends AppHelper
 	protected function _init()
 	{
 		$this->_View = ClassRegistry::getObject('view');
-		$this->element = Configure::read('Flour.Widgets.types.element');
+		$this->element = Configure::read('Flour.Widget.types.element');
 
 		//first, check if we run with database
 		if(!file_exists(CONFIGS.'database.php'))

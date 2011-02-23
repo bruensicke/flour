@@ -178,7 +178,7 @@ Configure::write('Flour.Widget.status', array(
 //types
 Configure::write('Flour.Widget.types', array(
 	'pattern' => 'widgets/type_:type',
-	'element' => 'flour/widgets',
+	'element' => 'flour/widget',
 	'default' => 'html',
 	'options' => array(
 		'html' => __('Text', true),
