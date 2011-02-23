@@ -64,6 +64,10 @@ if($template == 'admin')
 		? $data['footer']
 		: null;
 
+	$element_data['paging'] = (isset($data['paging']))
+		? $data['paging']
+		: null;
+
 	$element_data['class'] = (isset($data['class']) && !empty($data['class']))
 		? $data['class']
 		: null;
