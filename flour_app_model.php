@@ -161,6 +161,11 @@ class FlourAppModel extends AppModel
 			? $options['slug']
 			: null;
 
+		if(!empty($options['id']))
+		{
+			$this->id = $options['id'];
+		}
+
 		$this->_setValid($options, $type);
 
 		// find all editions with inherited id
