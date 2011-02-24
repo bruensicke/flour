@@ -51,6 +51,7 @@ class ContentsController extends FlourAppController
 				'model' => 'Content',
 				'order' => 'Tag.name ASC',
 			)));
+		// $this->layout = 'admin';
 	}
 
 /**
@@ -69,7 +70,7 @@ class ContentsController extends FlourAppController
 				$this->referer(array('action' => 'index'))
 			);
 		}
-		$this->data = $this->Content->read(null, $id);
+		$this->data = $this->Content->get($id);
 	}
 
 /**
@@ -114,7 +115,7 @@ class ContentsController extends FlourAppController
 					{
 						$this->data['Content']['id'] = $this->Content->getInsertID();
 						$this->Activity = ClassRegistry::init('Flour.Activity');
-						$this->Activity->write('content_object_created', $this->data, 'Content');
+						$this->Activity->write('content_created', $this->data, 'Content');
 						$this->Flash->success(
 							__('Content :Content.name saved.', true),
 							array('action' => 'edit', $this->data['Content']['id'])
@@ -168,7 +169,7 @@ class ContentsController extends FlourAppController
 				if($save1 && $save2)
 				{
 					$this->Activity = ClassRegistry::init('Flour.Activity');
-					$this->Activity->write('content_object_updated', $this->data, 'Content');
+					$this->Activity->write('content_updated', $this->data, 'Content');
 					$this->Flash->success(
 						__('Content :Content.name saved.', true),
 						array('action' => 'edit', $this->data['Content']['id'])
@@ -180,7 +181,7 @@ class ContentsController extends FlourAppController
 				}
 			}
 		} else {
-			$this->data = $this->Content->read(null, $id);
+			$this->data = $this->Content->get($id);
 		}
 		$this->set('type', $this->data['Content']['type']);
 		$this->set('editions', $this->Content->find('editions'));
