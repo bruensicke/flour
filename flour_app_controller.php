@@ -16,7 +16,7 @@ class FlourAppController extends AppController
  * @var array
  * @access public
  */
-	var $helpers = array(
+	public $helpers = array(
 		'Flour.TagCloud',
 		'Flour.Widget',
 		'Flour.Nav',
@@ -29,7 +29,7 @@ class FlourAppController extends AppController
  * @var array
  * @access public
  */
-	var $components = array(
+	public $components = array(
 		'RequestHandler',
 		'Flour.Config',
 		'Flour.Flash',
