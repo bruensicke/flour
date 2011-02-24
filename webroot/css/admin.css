@@ -74,7 +74,7 @@ div.item {
 	border-bottom: 1px solid #ECECEC;
 	font-size: 13px;
 	color: #171717;
-	padding: 3px;
+	padding: 3px 5px 3px 20px;
 }
 
 div.item.active,
@@ -232,6 +232,80 @@ background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYA
 }
 #header .dashboard .icon, #header .dashboard.disabled .icon, #header .dashboard.disabled:active .icon {
 background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABDpJREFUeNrsV21MW1UY7i39uP2i5aNbP+mqXcVNGqEjG3ZYshBHhuBMlmiM/i36R0ljMNZf8INkAX5K+CWBJYv+QxeiQrJpnOhwNdt0igRX2EZb7C29lLb0i4vPXUrS1HalrGZ/OM2T3nPe9573Oe97znveS+zs7HCeZuNynnI7IHBAgFeKMkEQu4/VgBYQZIlXAX+hdwudNmKvxxDGWWNWwMblcgmJRBIENllZKpUiQ6FQNcMwUnTvANeB0F4IPBI8DpkwvQw4DQbD6+Pj460YtwBHAUMGzwAvuN3uUzab7RwIOqF/HpAWs1PMeAXwtlwud8zOzp7CmA4QZfE/DXTthgIyHnB4eXm50Ww2vwkiH2BY/iQEzqnVagdFUfXoC3Kcp5RIZJ+q1PpveTzeSzle5QJ1bW1tb4DEe+xCSiaAdhgTu+bn54+j/5+9IhKJLujqnr0hEAg+EQqFH2a8lRtejVKpfJ/P558oZKfgMYTbLU1NTQ+bm5v/YufKFScSiWNSMf+zrq6uBbm89jSMWPJsXG97e/siSZKNJecBsVisxIvssUrnkdnY+R0Oh3t4ePjHaJT+Ca5uzXvOebyVdDqtKJkAVsTz+/0VeUSieDzeKJMpdE6n81Wj0fhuIpGUy2RVLZA9l6uMk8Flj23JBNiXvF6vKXccXjkJ40cuXhz8HDG8wsLjufclTVN34Rl7rj4WUb/vVCytrH4FcbRmOwbuPMnnc//s6en5GTI3C51O94vFYlmNxWIa6NRl6Wtomj6+r1SMEKQIboWaPYowso2V3gK20f+GTX4Yi2ZtNgayq3isBdYzKVsLL75lOGI+TwVWL5dMALEN/Pb7wmr98y/2bNBBKya9hOFrwO0CqXoFfyzYRHUGaDEa6y8wO0xar9cHSyYwNjZ2p6GhYU4irTTVHtK8JhSJDwX+8dmjkfCvEHsAHxDJmkebcb9ZbzC1VVZWtcAryQf3ly67Pv7oVsE75jGXETEwMHCmv7/fZjI3vEOSokcbMpmIr8S2op6tWMSbTCYjmQ3Ll0hlWpFIUkeS4qPwRgXDbEdC69T3J6yWS1NTU19BbWs/t6HM5XK1joyMNGq0xrNyRXXrXm7ORCLuWVy4PdHR0bE4PT19DYT8hewUK0g2BwcH52ZmZq4+fPD3LPJhmuAU/9Hr1M3e3l43jH/HGn/Sioi22+03cffHtxkmzGF3eBFEImE/wnIXxn3lKslSVqt1ObwRnC9mf2Mj+ENNjWJxaGjIW9aacGJiYk4qEUz5vPe/QCq+B3OcbKRT6QAVWPt6nfJdGR0dvY7VJ/ZUaZXwZcRaMvb19R2bnJw0ra2tKRRVNSrEnAiH6QBJCje7u7uXsPIlrVb7BwikyloT7hal0GdvNjZDikGkEvUgt7Ozc1OlUsUzRSnFZsayF6U5VfHupOLMYzyf0bITOPgy+j/avwIMAGerWw9BUcBoAAAAAElFTkSuQmCC);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+div.summary {
+	width: 500px;
+	padding: 15px;
+}
+
+div.summary .meta {
+	float: right;
+	color: #808080;
+	visibility: hidden;
+}
+
+div.summary:hover .meta {
+	visibility: visible;
+}
+
+div.summary .meta ul {
+	list-style: none;
+}
+
+div.summary .meta ul li {
+	float: left;
+}
+
+div.summary .meta ul li a {
+	display: block;
+}
+
+div.summary fieldset {
+	background: #fff;
+	border: 1px solid #dedede;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	padding: 10px;
+	margin-bottom: 5px;
+	line-height: 17px;
+	min-height: 25px;
+}
+
+div.summary dt {
+	display: block;
+	width: 130px;
+	color: #808080;
+	font-size: 13px;
+	font-weight: normal;
+}
+
+div.summary dd {
+	color: #333;
+	font-size: 13px;
+	font-weight: bold;
+	margin: -14px 0 0 120px;
 }
 
 /*
