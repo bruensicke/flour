@@ -11,7 +11,7 @@
 class FlourController extends FlourAppController
 {
 
-	var $uses = null;
+	public $uses = null;
 
 /**
  * Index action.
@@ -20,8 +20,7 @@ class FlourController extends FlourAppController
  */
 	function admin_index()
 	{
-
+		$this->layout = 'admin';
 	}
 
 }
-?>
