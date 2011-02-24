@@ -6,6 +6,7 @@
  * @author Dirk Brünsicke
  * @copyright bruensicke.com GmbH
  **/
+App::import('Core', 'Sanitize');
 class SearchComponent extends Object 
 {
 /**
