@@ -12,13 +12,14 @@ App::import('Lib', 'Flour.init');
 class WidgetHelper extends AppHelper
 {
 
-/**
+ /**
  * name of Widget element
  * 
  * @var string $element
  * @access public
  */
-	public $element = 'flour/widget';
+	public $template = 'widget';
+
 
 /**
  * array of rows, that are already parsed
@@ -52,6 +53,16 @@ class WidgetHelper extends AppHelper
  * @access protected
  */
 	protected $_View = false;
+
+/**
+ * Helpers used by this Helper
+ *
+ * @var array $helpers
+ * @access public
+ */
+	public $helpers = array(
+		'Flour.Tpl',
+	);
 	
 /**
  * Constructor method
@@ -92,7 +103,7 @@ class WidgetHelper extends AppHelper
 			return false;
 		}
 		$data = array_merge($options, $row_data['Widget']);
-		return $this->_View->element($this->element, $data);
+		return $this->Tpl->element($this->template, $data);
 	}
 
 /**
@@ -122,7 +133,7 @@ class WidgetHelper extends AppHelper
 			? $plugin
 			: null;
 		
-		return $this->_View->element($this->element, $data);
+		return $this->Tpl->element($this->template, $data);
 	}
 
 /**
@@ -197,8 +208,7 @@ class WidgetHelper extends AppHelper
  */
 	public function template($template = 'full', $items = array(), $options = array())
 	{
-		$templateElement = String::insert(Configure::read('Flour.Widget.templates.pattern'), array('template' => $template));
-		return $this->_View->element($templateElement, array_merge($options, $items));
+		return $this->Tpl->element($template, array_merge($options, $items));
 	}
 
 /**
@@ -295,7 +305,6 @@ class WidgetHelper extends AppHelper
 	protected function _init()
 	{
 		$this->_View = ClassRegistry::getObject('view');
-		$this->element = Configure::read('Flour.Widget.types.element');
 
 		//first, check if we run with database
 		if(!file_exists(CONFIGS.'database.php'))

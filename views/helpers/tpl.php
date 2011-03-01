@@ -257,6 +257,20 @@ class TplHelper extends AppHelper
 		return $value;
 	}
 
+	public function element($name, $data = array())
+	{
+		if(file_exists(ELEMENTS.'templates/'.$name.'.ctp'))
+		{
+			return $this->_View->element('templates/'.$name, $data);
+		}
+		if(file_exists(FLOUR.'/views/elements/templates/'.$name.'.ctp'))
+		{
+			$data['plugin'] = 'flour';
+			return $this->_View->element('templates/'.$name, $data);
+		}
+		return $this->_View->element('templates/'.$name, $data);
+	}
+
 /**
  * Returns the regex with the correct OPEN and CLOSE tags (i.e. "{" and "}" or "[" and "]").
  *
@@ -286,7 +300,6 @@ class TplHelper extends AppHelper
 	protected function _init()
 	{
 		$this->_View = ClassRegistry::getObject('view');
-		$this->element = Configure::read('Flour.Widget.types.element');
 
 		//first, check if we run with database
 		if(!file_exists(CONFIGS.'database.php'))
