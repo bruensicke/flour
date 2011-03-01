@@ -178,7 +178,7 @@ Configure::write('Flour.Widget.status', array(
 //types
 Configure::write('Flour.Widget.types', array(
 	'pattern' => 'widgets/type_:type',
-	'element' => 'flour/widget',
+	'element' => 'templates/widget',
 	'default' => 'html',
 	'options' => array(
 		'html' => __('Text', true),
@@ -194,8 +194,8 @@ Configure::write('Flour.Widget.types', array(
 
 //templates
 Configure::write('Flour.Widget.templates', array(
-	'pattern' => 'templates/:template',
-	'markup' => '<div class="widget type_:type :class">:content</div>',
+	// 'pattern' => 'templates/:template',
+	// 'markup' => '<div class="widget type_:type :class">:content</div>',
 	'default' => 'full',
 	'options' => array(
 		'full' => __('Full width column', true),
