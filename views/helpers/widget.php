@@ -197,11 +197,19 @@ class WidgetHelper extends AppHelper
 						? $item['data']
 						: array();
 
+					$item['template'] = (isset($item['template']))
+						? $item['template']
+						: 'default';
+
 					$out[$target] .= $this->type($item['type'], $item['data'], $item);
 					break;
 
 				case isset($item['slug']):
-					$out[$target] .= $this->render($item['slug']);
+					$item['template'] = (isset($item['template']))
+						? $item['template']
+						: 'default';
+
+					$out[$target] .= $this->slug($item['slug'], $item);
 					break;
 			}
 		}
