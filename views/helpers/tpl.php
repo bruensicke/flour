@@ -70,6 +70,14 @@ class TplHelper extends AppHelper
 	public $_markdown = null;
 
 /**
+ * If requested, will be instance of Mustache parser
+ * 
+ * @var object Mustache
+ * @access public
+ */
+	public $_mustache = null;
+
+/**
  * Template Model, will be set on _init()
  * 
  * @var Model $_Template
