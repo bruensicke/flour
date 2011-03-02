@@ -22,10 +22,7 @@ class MarkdownHelper extends AppHelper
 	{
 		if (!isset($this->parser))
 		{
-			if (!class_exists('Markdown_Parser'))
-			{
-				App::import('Vendor', 'Flour.MarkdownParser');
-			}
+			App::import('Vendor', 'Flour.MarkdownParser');
 			$this->parser = new Markdown_Parser;
 		}
 		return $this->parser->transform($text);

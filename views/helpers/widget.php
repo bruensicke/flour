@@ -89,21 +89,41 @@ class WidgetHelper extends AppHelper
 /**
  * renders the current Widget with given $slug
  *
+ * @param string $type which type to use
+ * @param array $data put in all data, needed by this type of widget
+ * @param array $options 
+ * @return string $output the HTML rendered by the widget
+ * @access public
+ */
+	public function render($type, $data = array(), $options = array())
+	{
+		$data['type'] = $type; //array_merge($data, $row_data['Widget']);
+
+
+		$markup = $this->Tpl->element($this->template, $data);
+
+		$data['content'] = $this->_View->element($this->element($type), $data);
+		return String::insert($markup, $data);
+	}
+
+/**
+ * renders the current Widget with given $slug
+ *
  * @param string $slug slug of Widget to render
  * @param string $template name of template 
  * @param array $data array with data to be passed into the element
  * @return string $output the HTML rendered by the widget
  * @access public
  */
-	public function render($slug, $data = array(), $options = array())
+	public function slug($slug, $data = array(), $options = array())
 	{
 		$row_data = $this->get($slug);
 		if(empty($row_data['Widget']) || !is_array($row_data['Widget']))
 		{
 			return false;
 		}
-		$data = array_merge($options, $row_data['Widget']);
-		return $this->Tpl->element($this->template, $data);
+		$data = array_merge($data, $row_data['Widget']);
+		return $this->render($data['type'], $data, $options);
 	}
 
 /**
@@ -132,8 +152,8 @@ class WidgetHelper extends AppHelper
 		$data['plugin'] = isset($plugin)
 			? $plugin
 			: null;
-		
-		return $this->Tpl->element($this->template, $data);
+
+		return $this->render($type, $data);
 	}
 
 /**

@@ -62,6 +62,14 @@ class TplHelper extends AppHelper
 	public $showPlaceholders = true;
 
 /**
+ * If requested, will be instance of Markdown parser
+ * 
+ * @var object Markdown
+ * @access public
+ */
+	public $_markdown = null;
+
+/**
  * Template Model, will be set on _init()
  * 
  * @var Model $_Template
@@ -77,7 +85,7 @@ class TplHelper extends AppHelper
  * @access protected
  */
 	protected $_View = false;
-	
+
 /**
  * Constructor method
  *
@@ -86,6 +94,84 @@ class TplHelper extends AppHelper
 	public function __construct()
 	{
 		$this->_init();
+	}
+
+	public function element($name, $data = array())
+	{
+		if(file_exists(ELEMENTS.'templates/'.$name.'.ctp'))
+		{
+			return $this->_View->element('templates/'.$name, $data);
+		}
+		if(file_exists(FLOUR.'/views/elements/templates/'.$name.'.ctp'))
+		{
+			$data['plugin'] = 'flour';
+			return $this->_View->element('templates/'.$name, $data);
+		}
+		return $this->_View->element('templates/'.$name, $data);
+	}
+
+	public function render($template, $data = array(), $options = array())
+	{
+		$options = array_merge($options, array('type' => 'insert'));
+
+		switch(low($options['type']))
+		{
+
+			case 'mustache':
+			case 'mustache::insert':
+				$output = $this->mustache($template, $data, $options);
+				if(low($options['type']) == 'mustache')
+				{
+					break;
+				} else {
+					$template = $output;
+				}
+
+
+			case 'markdown':
+			case 'markdown::insert':
+				$output = $this->markdown($template);
+				if(low($options['type']) == 'markdown')
+				{
+					break;
+				} else {
+					$template = $output;
+				}
+
+			case 'string::insert':
+			case 'insert':
+			default:
+				$output = String::insert($template, $data);
+		}
+		return $output;
+	}
+
+	public function type($type, $data = array(), $options = array())
+	{
+		$element_name = $this->element($type);
+		return $this->render($element_name, $data, $options);
+	}
+
+/**
+ * renders given $data with Template given via $slug
+ *
+ * @param string $slug slug of Template to render
+ * @param array $data array with data to be inserted into the template
+ * @param array $options array with options to control template rendering
+ * @return string $output the HTML rendered by the widget
+ * @access public
+ */
+	public function slug($slug, $data = array(), $options = array())
+	{
+		$row_data = $this->get($slug);
+		if(empty($row_data['Template']) || !is_array($row_data['Template']))
+		{
+			//nothing in db, check filesystem
+			// $row_data['Template']['content'] = file_get_contents('')
+			return false;
+		}
+		$data = array_merge($data, $row_data['Template']);
+		return $this->render($row_data['Template']['content'], $data, $options);
 	}
 
 /**
@@ -101,27 +187,36 @@ class TplHelper extends AppHelper
 	}
 
 /**
- * renders given $data with Template given via $slug
+ * converts markdown to html
  *
- * @param string $slug slug of Template to render
- * @param array $data array with data to be inserted into the template
- * @param array $options array with options to control template rendering
- * @return string $output the HTML rendered by the widget
- * @access public
+ * @param  string $text Text in markdown format
+ * @return string parsed $text
  */
-	public function render($slug, $data = array(), $options = array())
+	public function markdown($content = null)
 	{
-		$row_data = $this->get($slug);
-		if(empty($row_data['Template']) || !is_array($row_data['Template']))
+		if ($this->_markdown === null)
 		{
-			//nothing in db, check filesystem
-			// $row_data['Template']['content'] = file_get_contents('')
-			return false;
+			App::import('Vendor', 'Flour.MarkdownParser');
+			$this->_markdown = new Markdown_Parser;
 		}
-		$data = array_merge($options, $row_data['Template']);
-		return $this->render($row_data['Template']['content'], $data);
+		return $this->_markdown->transform($content);
 	}
 
+/**
+ * converts markdown to html
+ *
+ * @param  string $text Text in markdown format
+ * @return string parsed $text
+ */
+	public function mustache($template, $data = array(), $options = array())
+	{
+		if ($this->_mustache === null)
+		{
+			App::import('Vendor', 'Flour.Mustache');
+			$this->_mustache = new Mustache;
+		}
+		return $this->_mustache->render($template, $data, $options);
+	}
 
 /**
  * Will replace all Tags in $data or all elements of $data if $data is an array
@@ -257,19 +352,6 @@ class TplHelper extends AppHelper
 		return $value;
 	}
 
-	public function element($name, $data = array())
-	{
-		if(file_exists(ELEMENTS.'templates/'.$name.'.ctp'))
-		{
-			return $this->_View->element('templates/'.$name, $data);
-		}
-		if(file_exists(FLOUR.'/views/elements/templates/'.$name.'.ctp'))
-		{
-			$data['plugin'] = 'flour';
-			return $this->_View->element('templates/'.$name, $data);
-		}
-		return $this->_View->element('templates/'.$name, $data);
-	}
 
 /**
  * Returns the regex with the correct OPEN and CLOSE tags (i.e. "{" and "}" or "[" and "]").
