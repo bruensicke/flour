@@ -12,6 +12,9 @@
  *
  * @author Justin Hileman {@link http://justinhileman.com}
  */
+if(!class_exists('Mustache'))
+{
+	
 class Mustache {
 
 	/**
@@ -765,12 +768,16 @@ class Mustache {
 	}
 }
 
+}
 
 /**
  * MustacheException class.
  *
  * @extends Exception
  */
+if(!class_exists('MustacheException'))
+{
+
 class MustacheException extends Exception {
 
 	// An UNKNOWN_VARIABLE exception is thrown when a {{variable}} is not found
@@ -791,5 +798,7 @@ class MustacheException extends Exception {
 	// An UNKNOWN_PRAGMA exception is thrown whenever a {{%PRAGMA}} tag appears
 	// which can't be handled by this Mustache instance.
 	const UNKNOWN_PRAGMA           = 4;
+
+}
 
 }

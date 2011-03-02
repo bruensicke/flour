@@ -34,6 +34,8 @@ define( 'MARKDOWN_VERSION',  "1.0.1n" ); # Sat 10 Oct 2009
 #
 # Markdown Parser Class
 #
+if(!class_exists('Markdown_Parser'))
+{
 
 class Markdown_Parser {
 
@@ -1489,6 +1491,8 @@ class Markdown_Parser {
 	function _unhash_callback($matches) {
 		return $this->html_hashes[$matches[0]];
 	}
+
+}
 
 }
 
