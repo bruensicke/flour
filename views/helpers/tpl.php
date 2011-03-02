@@ -104,6 +104,7 @@ class TplHelper extends AppHelper
 		$this->_init();
 	}
 
+	//gets content from given element, first checks APP, then FLOUR, in both VIEWS/elements/templates
 	public function element($name, $data = array())
 	{
 		if(file_exists(ELEMENTS.'templates/'.$name.'.ctp'))
@@ -118,17 +119,33 @@ class TplHelper extends AppHelper
 		return $this->_View->element('templates/'.$name, $data);
 	}
 
+	//checks, if given element exists
+	public function elementExists($name)
+	{
+		if(file_exists(ELEMENTS.'templates/'.$name.'.ctp'))
+		{
+			return true;
+		}
+		if(file_exists(FLOUR.'/views/elements/templates/'.$name.'.ctp'))
+		{
+			return true;
+		}
+		return false;
+	}
+
 	public function render($template, $data = array(), $options = array())
 	{
-		$options = array_merge($options, array('type' => 'insert'));
+		$options = array_merge(array('engine' => 'insert'), $options);
 
-		switch(low($options['type']))
+		if($this->elementExists($template)) $template = $this->element($template);
+
+		switch(low($options['engine']))
 		{
 
 			case 'mustache':
 			case 'mustache::insert':
 				$output = $this->mustache($template, $data, $options);
-				if(low($options['type']) == 'mustache')
+				if(low($options['engine']) == 'mustache')
 				{
 					break;
 				} else {
@@ -139,7 +156,7 @@ class TplHelper extends AppHelper
 			case 'markdown':
 			case 'markdown::insert':
 				$output = $this->markdown($template);
-				if(low($options['type']) == 'markdown')
+				if(low($options['engine']) == 'markdown')
 				{
 					break;
 				} else {
@@ -202,6 +219,7 @@ class TplHelper extends AppHelper
  */
 	public function markdown($content = null)
 	{
+		if($this->elementExists($template)) $template = $this->element($template);
 		if ($this->_markdown === null)
 		{
 			App::import('Vendor', 'Flour.MarkdownParser');
@@ -218,6 +236,7 @@ class TplHelper extends AppHelper
  */
 	public function mustache($template, $data = array(), $options = array())
 	{
+		if($this->elementExists($template)) $template = $this->element($template);
 		if ($this->_mustache === null)
 		{
 			App::import('Vendor', 'Flour.Mustache');
