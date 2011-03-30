@@ -9,13 +9,22 @@
 App::import('Core', 'Sanitize');
 class SearchComponent extends Object 
 {
-/**
- * All url-triggered search modes, this component supports
- *
- * @var array $_searchModes
- * @access protected
- */
-	protected $_searchModes = array(
+
+	/**
+	 * controls, if search can be done via fulltext index
+	 *
+	 * @var bool
+	 * @access public
+	 */
+	public $fulltext = true;
+
+	/**
+	 * All url-triggered search modes, this component supports
+	 *
+	 * @var array $_searchModes
+	 * @access public
+	 */
+	public $_searchModes = array(
 		'fullsearch',
 		'type',
 		'search',
@@ -26,36 +35,36 @@ class SearchComponent extends Object
 		'status',
 	);
 
-/**
- * if set to true, will preserve all named params in urls, on redirects
- *
- * @var boolean $preserveNamedParams
- * @access public
- */
+	/**
+	 * if set to true, will preserve all named params in urls, on redirects
+	 *
+	 * @var boolean $preserveNamedParams
+	 * @access public
+	 */
 	public $preserveNamedParams = true;
 
-/**
- * calling controller object
- *
- * @var Controller $Controller
- * @access protected
- */
-	protected $Controller = null;
+	/**
+	 * calling controller object
+	 *
+	 * @var Controller $Controller
+	 * @access public
+	 */
+	public $Controller = null;
 
-/**
- * passedArgs, will be set in initialize
- *
- * @var array $passedArgs
- * @access protected
- */
-	protected $passedArgs = null;
+	/**
+	 * passedArgs, will be set in initialize
+	 *
+	 * @var array $passedArgs
+	 * @access public
+	 */
+	public $passedArgs = null;
 
-/**
- * Intialize Callback
- *
- * @param object Controller object
- * @access public
- */
+	/**
+	 * Intialize Callback
+	 *
+	 * @param object Controller object
+	 * @access public
+	 */
 	public function initialize(&$controller)
 	{
 		$this->Controller = $controller;
@@ -67,11 +76,11 @@ class SearchComponent extends Object
 		// }
 	}
 
-/**
- * startup Callback will be exectured before Controller action, but after beforeFilter
- *
- * @access public
- */
+	/**
+	 * startup Callback will be exectured before Controller action, but after beforeFilter
+	 *
+	 * @access public
+	 */
 	public function startup()
 	{
 		$model = !empty($this->Controller->modelNames[0])
@@ -84,30 +93,30 @@ class SearchComponent extends Object
 		}
 	}
 
-/**
- * generates an conditions array for searches and paginate, that consists of search-params coming in from named params.
- * Only named params that are present in $this->_searchModes are available
- * 
- * usage via Model->alias:
- * {{{
- *	$this->Search->buildConditions('Content');
- * }}}
- *
- * usage via search_fields:
- * {{{
- *	$this->Search->buildConditions(array(
- * 		'Project.name',
- * 		'Project.owner',
- * 		'ProjectDetails.description',
- * 		'ProjectDetails.status',
- * 		'ProjectMessage.body',
- * ));
- * }}}
- *
- * @param mixed $search_fields The alias of the model or an array with fields in the database to search in
- * @return array
- * @access public
- */
+	/**
+	 * generates an conditions array for searches and paginate, that consists of search-params coming in from named params.
+	 * Only named params that are present in $this->_searchModes are available
+	 * 
+	 * usage via Model->alias:
+	 * {{{
+	 *	$this->Search->buildConditions('Content');
+	 * }}}
+	 *
+	 * usage via search_fields:
+	 * {{{
+	 *	$this->Search->buildConditions(array(
+	 * 		'Project.name',
+	 * 		'Project.owner',
+	 * 		'ProjectDetails.description',
+	 * 		'ProjectDetails.status',
+	 * 		'ProjectMessage.body',
+	 * ));
+	 * }}}
+	 *
+	 * @param mixed $search_fields The alias of the model or an array with fields in the database to search in
+	 * @return array
+	 * @access public
+	 */
 	public function buildConditions($search_fields = null)
 	{
 		//if first param is omitted, we find out which model to use
@@ -142,7 +151,12 @@ class SearchComponent extends Object
 		$conditions = array();
 		foreach($this->passedArgs as $key => $value)
 		{
-			if(in_array($key, $this->_searchModes))
+			if(!in_array($key, $this->_searchModes)) {
+				continue;
+			}
+			if($this->fulltext == false && $key == 'search') {
+				$key = 'fullsearch';
+			}
 			switch($key)
 			{
 				case 'fullsearch':
@@ -278,13 +292,13 @@ class SearchComponent extends Object
 		$this->_searchModes = array_merge($this->_searchModes, $modes);
 	}
 
-/**
- * generates a url with current search and redirects to index() with corresponding parameters.
- *
- * @param string $searchterm Term to search for (can be multiple terms, with + and -)
- * @return NULL
- * @access public
- */
+	/**
+	 * generates a url with current search and redirects to index() with corresponding parameters.
+	 *
+	 * @param string $searchterm Term to search for (can be multiple terms, with + and -)
+	 * @return NULL
+	 * @access public
+	 */
 	public function redirect($data = array())
 	{
 		if(isset($data['params']))
