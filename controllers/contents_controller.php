@@ -51,7 +51,7 @@ class ContentsController extends FlourAppController
 				'model' => 'Content',
 				'order' => 'Tag.name ASC',
 			)));
-		// $this->layout = 'admin';
+		$this->layout = 'admin';
 	}
 
 /**

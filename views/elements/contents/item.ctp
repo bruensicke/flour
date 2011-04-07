@@ -41,6 +41,7 @@ $summary = <<<HTML
 			<dd>:Content.created</dd>
 		</dl>
 	</fieldset>
+	:more
 </div>
 HTML;
 
@@ -49,6 +50,14 @@ $template = (empty($template))
 	: $template;
 
 $row['Content']['status_text'] = Configure::read('Flour.Content.status.options.'.$row['Content']['status']);
+
+$row['more'] = '';
+
+$model_data = $row['Content']['model'];
+if($model_data == 'Flour.ContentObject')
+{
+	$row['more'] = $this->Html->tag('fieldset', $this->Collection->show($row['ContentObject'], true));
+}
 
 $row['edit'] = $this->Html->link( __('edit', true), array('controller' => 'contents', 'action' => 'edit', 'admin' => true, $row['Content']['id']), array('class' => 'inline'));
 

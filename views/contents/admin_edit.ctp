@@ -44,7 +44,7 @@ $items[] = array(
 	),
 );
 
-echo $this->Widget->row($items, 'sidebar_right');
+echo $this->Widget->row($items, 'full');
 
 echo $this->element('flour/content_stop');
 echo $form->end('Ok');

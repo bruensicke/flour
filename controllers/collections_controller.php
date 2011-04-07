@@ -50,6 +50,8 @@ class CollectionsController extends FlourAppController
 				'model' => 'Collection',
 				'order' => 'Tag.name ASC',
 			)));
+		
+		$this->layout = 'admin';
 	}
 
 /**

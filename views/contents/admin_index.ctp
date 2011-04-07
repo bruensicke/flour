@@ -39,7 +39,10 @@ if(!empty($this->passedArgs['type']))
 
 }
 
-echo $this->element('flour/content_start');
+// echo $this->element('flour/content_start');
+$Item = ClassRegistry::init('Item');
+// $this->data = $Item->find('all');
+// $shops = $Item->Shop->find('list');
 
 $items = array();
 
@@ -47,9 +50,11 @@ $items[] = array(
 	'type' => 'iterator',
 	'target' => 'a',
 	'data' => array(
-		'caption' => $this->title,
+		// 'caption' => $this->title,
 		'element' => 'contents/item',
-		'search' => true,
+		'group' => 'Content.type',
+		// 'group' => 'Item.shop_id',
+		'paging' => false,
 		),
 );
 
@@ -63,8 +68,38 @@ $items[] = array(
 	),
 );
 
+$items[] = array(
+	'type' => 'html',
+	'target' => 'b',
+	'data' => array(
+		'content' => $this->Html->nestedList(Configure::read('Flour.Content.types.options')),
+		// 'before' => '<span>',
+	),
+);
+
 // echo $this->Widget->row($items, 'full');
-echo $this->Widget->row($items, 'layout');
+echo $this->Widget->row($items, 'col3-flex');
+
+$viewURL = Router::url(array('controller' => 'contents', 'action' => 'view', 'admin' => true), true);
+$editURL = Router::url(array('controller' => 'contents', 'action' => 'edit', 'admin' => true), true);
+$script = <<<HTML
+$(function()
+{
+	$('div.item').live('click', function(){
+		var id = $(this).attr('data-id');
+		$('div.item').removeClass('active');
+		$(this).addClass('active');
+		$('.content_right').load('$viewURL/'+id);
+	});
+	$('a.inline').live('click', function(){
+		var href = $(this).attr('href');
+		$('.content_right').load(href);
+		return false;
+	});
+});
+HTML;
+
+echo $this->Html->scriptBlock($script);
 
 //just an example for activites, on specific types
 // echo $this->Widget->type('activities', array(
@@ -75,4 +110,9 @@ echo $this->Widget->row($items, 'layout');
 // 	)
 // ));
 
-echo $this->element('flour/content_stop');
+// echo $this->element('flour/content_stop');
+
+?>
+			<!-- <div class="content_pane content_left">left</div>
+			<div class="content_pane content_center">center</div>
+			<div class="content_pane content_right">right</div> -->
