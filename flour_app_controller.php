@@ -34,6 +34,7 @@ class FlourAppController extends AppController
 		'Flour.Config',
 		'Flour.Flash',
 		'Flour.Search',
+		'Flour.Layout',
 	);
 
 }
