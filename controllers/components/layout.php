@@ -16,6 +16,7 @@
  *  Configure::write('App.Layout.themes', array(
  *  	'view' => 'Theme', //optional
  *  	'default' => 'cox',
+ *  	'layout' => 'default', //you can use :prefix as var
  *  	'options' => array(
  *  		'admin' => 'cox',
  *			'default' => 'cox',
@@ -33,11 +34,12 @@ class LayoutComponent extends Object
 {
 	public $settings = array(
 		'view' => 'Theme',
+		'layout' => ':prefix',
 	);
 
-	var $__controller;
+	public $__controller;
 
-	var $__flourHelpers = array(
+	public $__flourHelpers = array(
 	);
 
 	public function initialize(&$controller, $settings = array())
@@ -63,6 +65,7 @@ class LayoutComponent extends Object
 
 		$this->__controller->view = 'Theme';
 		$this->__controller->theme = $theme;
+		$this->__controller->layout = String::insert($this->settings['layout'], compact('prefix'));
 	}
 
 }
