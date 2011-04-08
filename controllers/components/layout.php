@@ -55,13 +55,17 @@ class LayoutComponent extends Object
 			? $this->__controller->params['prefix']
 			: 'default';
 
+		$prefixConfigure = (Configure::read(Inflector::camelize($prefix)).'.Layout')
+			? Inflector::camelize($prefix)
+			: 'App';
+
 		$theme = (!empty($this->settings[$prefix]))
 			? $this->settings[$prefix]
-			: Configure::read('App.Layout.themes.default');
+			: Configure::read("$prefixConfigure.Layout.themes.default");
 
 		$view = (!empty($this->settings['view']))
 			? $this->settings['view']
-			: Configure::read('App.Layout.themes.view');
+			: Configure::read("$prefixConfigure.Layout.themes.view");
 
 		$this->__controller->view = 'Theme';
 		$this->__controller->theme = $theme;
