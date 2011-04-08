@@ -32,44 +32,75 @@
 App::import('Lib', 'Flour.init');
 class LayoutComponent extends Object
 {
+
+	/**
+	 * Settings for LayoutComponent
+	 *
+	 * @var array
+	 */
 	public $settings = array(
 		'view' => 'Theme',
 		'layout' => ':prefix',
+		'themes' => array(),
 	);
 
+	/**
+	 * Instance of calling Controller
+	 *
+	 * @var object Controller
+	 * @access public
+	 */
 	public $__controller;
 
-	public $__flourHelpers = array(
-	);
-
+	/**
+	 * called by Cake on instantiation of Component
+	 *
+	 * @param object $controller Controller, calling this Component 
+	 * @param array $settings array of Settings, can be configured in Controller
+	 * @return void
+	 * @access public
+	 */
 	public function initialize(&$controller, $settings = array())
 	{
 		$this->__controller = $controller;
-		$this->settings = Set::merge($settings, $this->settings, Configure::read('App.Layout.themes.options'));
+
+
+		if(Configure::read('App.Layout')) {
+			$this->settings = Set::merge(Configure::read('App.Layout'), $this->settings);
+		}
+		$this->settings = Set::merge($this->settings, $settings);
 		$this->setup();
 	}
 
-	function setup()
+	/**
+	 * sets everything up in Controller, according to $this->settings
+	 *
+	 * @param array $settings array of Settings, can be configured in Controller
+	 * @return void
+	 */
+	function setup($settings = array())
 	{
+		if(!empty($settings)) $this->settings = $settings;
+		
 		$prefix = (!empty($this->__controller->params['prefix']))
 			? $this->__controller->params['prefix']
 			: 'default';
 
-		$prefixConfigure = (Configure::read(Inflector::camelize($prefix)).'.Layout')
-			? Inflector::camelize($prefix)
-			: 'App';
-
-		$theme = (!empty($this->settings[$prefix]))
-			? $this->settings[$prefix]
-			: Configure::read("$prefixConfigure.Layout.themes.default");
+		$theme = (!empty($this->settings['themes'][$prefix]))
+			? $this->settings['themes'][$prefix]
+			: low(Configure::read('App.Settings.name'));
 
 		$view = (!empty($this->settings['view']))
 			? $this->settings['view']
-			: Configure::read("$prefixConfigure.Layout.themes.view");
+			: 'Theme';
 
-		$this->__controller->view = 'Theme';
+		$layout = String::insert($this->settings['layout'], compact('prefix'));
+
+		$this->__controller->view = $view;
 		$this->__controller->theme = $theme;
-		$this->__controller->layout = String::insert($this->settings['layout'], compact('prefix'));
+		$this->__controller->layout = $layout;
+
+		Configure::write('App.Layout.current', compact('prefix', 'theme', 'view', 'layout'));
 	}
 
 }
