@@ -63,8 +63,8 @@ $items[] = array(
 	),
 );
 
-// echo $this->Widget->row($items, 'full');
-echo $this->Widget->row($items, 'layout');
+echo $this->Widget->row($items, 'full');
+// echo $this->Widget->row($items, 'layout');
 
 //just an example for activites, on specific types
 // echo $this->Widget->type('activities', array(
