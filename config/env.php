@@ -30,3 +30,17 @@ Configure::write('Env.dbconfig.connected', $connectable);
 Configure::write('Env.installed', (Configure::read('Env.dbconfig.connected')) ? true : false); //installed, when connected
 
 Configure::write('Env.site_hash', md5(Configure::read('Env.hostname').Configure::read('Env.subfolder')));
+
+if(!function_exists('get_ip')) {
+
+	/**
+	 * Returns current IP or 127.0.0.1 on localhost
+	 *
+	 * @return string current ip
+	 */
+	function get_ip() {
+		return (env('REMOTE_ADDR') != '::1')
+			? env('REMOTE_ADDR')
+			: '127.0.0.1';
+	}
+}
