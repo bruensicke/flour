@@ -1,14 +1,23 @@
 <?php
+/**
+ * Flour Shell
+ * 
+ * @package flour
+ * @author Dirk Brünsicke
+ * @copyright bruensicke.com GmbH
+ **/
 App::import('Core', array('Security', 'String'));
+App::import('Lib', 'Flour.init');
 class FlourShell extends Shell
 {
-/**
- * Contains tasks to load and instantiate
- *
- * @var array
- * @access public
- */
-	var $tasks = array(
+
+	/**
+	 * Contains tasks to load and instantiate
+	 *
+	 * @var array
+	 * @access public
+	 */
+	public $tasks = array(
 		'DbConfig',
 		'ProgressBar',
 		'SqlFile',
@@ -17,24 +26,47 @@ class FlourShell extends Shell
 		'Todo',
 	);
 
-	var $methods = array(
+	/**
+	 * Contains methods that exist directly here
+	 *
+	 * @var array
+	 * @access public
+	 */
+	public $methods = array(
 		'help',
 	);
 
+	/**
+	 * If set to true, will output more information
+	 *
+	 * @var string
+	 * @access public
+	 */
+	public $verbose = false;
+
+	/**
+	 * Constructor
+	 *
+	 * Makes sure, $this->verbose is set correctly
+	 *
+	 * @param string $dispatch 
+	 * @return void
+	 * @access public
+	 */
+	public function __construct(&$dispatch) {
+		parent::__construct($dispatch);
+		$this->verbose = (!empty($this->params['v']) || !empty($this->params['verbose']))
+			? true
+			: false;
+	}
+
 	function startup()
 	{
-		if(!file_exists(ROOT.DS.'app') && file_exists(ROOT.DS.'web'))
-		{
-			$this->params['app'] = 'web';
-			$this->params['working'] = str_replace('app', 'web', $this->params['working']);
-			$this->params['webroot'] = 'content';
-		}
 		$this->_welcome();
 	}
 
 	function main()
 	{
-		
 		$method = array_shift($this->args);
 		if(empty($method)) $method = 'help';
 		if(in_array($method, $this->methods))
