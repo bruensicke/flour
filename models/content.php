@@ -13,23 +13,31 @@
 class Content extends FlourAppModel
 {
 
-/**
- * Attached behaviors
- *
- * @var array
- * @access public
- */
+	/**
+	 * Name
+	 *
+	 * @var string $name
+	 * @access public
+	 */
+	public $name = 'Content';
+
+	/**
+	 * Attached behaviors
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $actsAs = array(
 		'Flour.Polymorphic',
 		'Flour.Taggable',
 	);
 
-/**
- * Validation rules
- *
- * @var array
- * @access public
- */
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $validate = array(
 		'model' => array(
 			'notEmpty' => array('rule' => 'notEmpty', 'required' => true),
@@ -42,14 +50,14 @@ class Content extends FlourAppModel
 		),
 	);
 
-/**
- * constructor auto-sets $this->types to a merged set of:
- * 
- *   o  Flour.Content.types.options
- *   o  App.Content.types.options
- *
- * @access public
- */
+	/**
+	 * constructor auto-sets $this->types to a merged set of:
+	 * 
+	 *   o  Flour.Content.types.options
+	 *   o  App.Content.types.options
+	 *
+	 * @access public
+	 */
 	public function __construct()
 	{
 		$appTypes = (Configure::read('App.Content.types'))
@@ -65,13 +73,13 @@ class Content extends FlourAppModel
 		return parent::__construct();
 	}
 
-/**
- * gets the current ContentObject with given $slug
- *
- * @param string $slug slug of ContentObject to retrieve (or id)
- * @return mixed array of $data, if found in database for the currently active content - false otherwise
- * @access public
- */
+	/**
+	 * gets the current ContentObject with given $slug
+	 *
+	 * @param string $slug slug of ContentObject to retrieve (or id)
+	 * @return mixed array of $data, if found in database for the currently active content - false otherwise
+	 * @access public
+	 */
 	public function get($slug_or_id)
 	{
 		$field = (Validation::uuid($slug_or_id))

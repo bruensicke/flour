@@ -11,22 +11,30 @@
 class Navigation extends FlourAppModel
 {
 
-/**
- * Attached behaviors
- *
- * @var array
- * @access public
- */
+	/**
+	 * Name
+	 *
+	 * @var string $name
+	 * @access public
+	 */
+	public $name = 'Navigation';
+
+	/**
+	 * Attached behaviors
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $actsAs = array(
 		'Flour.Taggable',
 	);
 
-/**
- * hasMany associations
- *
- * @var array
- * @access public
- */
+	/**
+	 * hasMany associations
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $hasMany = array(
 		'NavigationItem' => array(
 			'className' => 'Flour.NavigationItem',
@@ -36,12 +44,12 @@ class Navigation extends FlourAppModel
 		)
 	);
 
-/**
- * Validation rules
- *
- * @var array
- * @access public
- */
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $validate = array(
 		'name' => array(
 			'notEmpty' => array('rule' => 'notEmpty', 'required' => true),
@@ -51,13 +59,13 @@ class Navigation extends FlourAppModel
 		),
 	);
 
-/**
- * gets the current Navigation with given $slug
- *
- * @param string $slug slug of Navigation to retrieve (or id)
- * @return mixed array of $data, if found in database for the currently active Navigation - false otherwise
- * @access public
- */
+	/**
+	 * gets the current Navigation with given $slug
+	 *
+	 * @param string $slug slug of Navigation to retrieve (or id)
+	 * @return mixed array of $data, if found in database for the currently active Navigation - false otherwise
+	 * @access public
+	 */
 	public function get($slug_or_id)
 	{
 		$field = (Validation::uuid($slug_or_id))

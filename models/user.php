@@ -10,15 +10,42 @@
  **/
 class User extends FlourAppModel
 {
-	var $actsAs = 'Flour.Taggable';
 
+	/**
+	 * Name
+	 *
+	 * @var string $name
+	 * @access public
+	 */
+	public $name = 'User';
+
+	/**
+	 * Attached behaviors
+	 *
+	 * @var array
+	 * @access public
+	 */
+	public $actsAs = 'Flour.Taggable';
+
+	/**
+	 * hasMany associations
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $hasMany = array(
 		'Flour.LoginToken',
 		//'Flour.Activity',
 		'Flour.AccountMembership',
 	);
 	
-	var $validate = array(
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 * @access public
+	 */
+	public $validate = array(
 		'name' => array(
 			'isUnique' => array('rule' => 'isUnique'),
 		),
@@ -28,6 +55,14 @@ class User extends FlourAppModel
 		),
 	);
 	
+	/**
+	 * persists a User via Authsome Component
+	 *
+	 * @param string $user 
+	 * @param string $duration 
+	 * @return string $token
+	 * @access public
+	 */
 	public function authsomePersist($user, $duration)
 	{
 		$userId = $user['User']['id'];
@@ -35,6 +70,14 @@ class User extends FlourAppModel
 		return $token;
 	}
 	
+	/**
+	 * Logs a user in via given $type
+	 *
+	 * @param string $type 
+	 * @param array $credentials 
+	 * @return false|array false on error, user-data otherwise
+	 * @access public
+	 */
 	public function authsomeLogin($type, $credentials = array())
 	{
 		switch ($type)

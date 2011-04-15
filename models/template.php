@@ -11,22 +11,30 @@
 class Template extends FlourAppModel
 {
 
-/**
- * Attached behaviors
- *
- * @var array
- * @access public
- */
+	/**
+	 * Name
+	 *
+	 * @var string $name
+	 * @access public
+	 */
+	public $name = 'Template';
+
+	/**
+	 * Attached behaviors
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $actsAs = array(
 		'Flour.Taggable',
 	);
 
-/**
- * Validation rules
- *
- * @var array
- * @access public
- */
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $validate = array(
 		'type' => array(
 			'notEmpty' => array('rule' => 'notEmpty', 'required' => true),
@@ -39,13 +47,13 @@ class Template extends FlourAppModel
 		),
 	);
 
-/**
- * gets the current Template with given $slug
- *
- * @param string $slug slug of Template to retrieve (or id)
- * @return mixed array of $data, if found in database for the currently active content - false otherwise
- * @access public
- */
+	/**
+	 * gets the current Template with given $slug
+	 *
+	 * @param string $slug slug of Template to retrieve (or id)
+	 * @return mixed array of $data, if found in database for the currently active content - false otherwise
+	 * @access public
+	 */
 	public function get($slug_or_id)
 	{
 		$field = (Validation::uuid($slug_or_id))

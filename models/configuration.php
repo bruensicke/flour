@@ -18,31 +18,40 @@
 class Configuration extends FlourAppModel
 {
 
-/**
- * Attached behaviors
- *
- * @var array
- * @access public
- */
+	/**
+	 * Name
+	 *
+	 * @var string $name
+	 * @access public
+	 */
+	public $name = 'Configuration';
+
+	/**
+	 * Attached behaviors
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $actsAs = array(
 		'Flour.Taggable',
 	);
 
-/**
- * Find methods
- *
- * @var array
- * @access public
- */
+	/**
+	 * Custom find methods
+	 *
+	 * @var array $_findMethods
+	 * @access public
+	 */
 	public $_findMethods = array(
 		'autoload' => true,
 	);
 
-/**
- * controls validation
- * @var array
- * @access public
- */
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $validate = array(
 		'category' => array(
 			'notEmpty' => array('rule' => 'notEmpty', 'required' => true),
@@ -64,44 +73,44 @@ class Configuration extends FlourAppModel
 		),
 */	);
 
-/**
- * configurations
- *
- * @var array $configurations
- * @access protected
- */
+	/**
+	 * configurations
+	 *
+	 * @var array $configurations
+	 * @access protected
+	 */
 	protected $_config = array(
 	);
 
-/**
- * cache flag, set to false to disable caching
- *
- * @var boolean $_cache
- * @access protected
- */
+	/**
+	 * cache flag, set to false to disable caching
+	 *
+	 * @var boolean $_cache
+	 * @access protected
+	 */
 	protected $_cache = true;
 
-/**
- * called after save, deletes the cache
- *
- * @param boolean $created True if this save created a new record
- * @return void
- * @access public
- */
+	/**
+	 * called after save, deletes the cache
+	 *
+	 * @param boolean $created True if this save created a new record
+	 * @return void
+	 * @access public
+	 */
 	public function afterSave($created)
 	{
 		Cache::delete('configuration.all');
 	}
 
-/**
- * custom find method 'autoload'
- *
- * @param string $state 'before' or 'after'
- * @param string $query 
- * @param string $results 
- * @return mixed based on $state, returns $query or $results
- * @access public
- */
+	/**
+	 * custom find method 'autoload'
+	 *
+	 * @param string $state 'before' or 'after'
+	 * @param string $query 
+	 * @param string $results 
+	 * @return mixed based on $state, returns $query or $results
+	 * @access public
+	 */
 	public function _findAutoload($state, $query, $results = array())
 	{
 		if($state == 'before')
@@ -121,27 +130,27 @@ class Configuration extends FlourAppModel
 		}
 	}
 
-/**
- * extracts an array in the following structure:
- * 
- * {{{
- *     'App' => array(
- *         'foo.name' => 'baz',
- *         'bar.name' => 'foobarbaz',
- *     ),
- *     'Flour' => array(
- *         'foo2.name' => 'baz2',
- *         'bar2.name' => 'foobarbaz2',
- *     ),
- * }}}
- *
- * all set options are specific per user, regarding the 
- * autoload-option and current user/group id.
- * 
- * @param array $data results from a find-call 
- * @return array list of key => values, in a nested array of categories
- * @access public
- */
+	/**
+	 * extracts an array in the following structure:
+	 * 
+	 * {{{
+	 *     'App' => array(
+	 *         'foo.name' => 'baz',
+	 *         'bar.name' => 'foobarbaz',
+	 *     ),
+	 *     'Flour' => array(
+	 *         'foo2.name' => 'baz2',
+	 *         'bar2.name' => 'foobarbaz2',
+	 *     ),
+	 * }}}
+	 *
+	 * all set options are specific per user, regarding the 
+	 * autoload-option and current user/group id.
+	 * 
+	 * @param array $data results from a find-call 
+	 * @return array list of key => values, in a nested array of categories
+	 * @access public
+	 */
 	public function extract($data = array())
 	{
 		$data = isset($data[$this->alias])
@@ -212,13 +221,13 @@ class Configuration extends FlourAppModel
 		return $output;
 	}
 
-/**
-* Reads settings from database and writes them using the Configure class
-* 
-* @return void
-* @access private
-*/
-	function _writeConfiguration()
+	/**
+	 * Reads settings from database and writes them using the Configure class
+	 * 
+	 * @return void
+	 * @access public
+	 */
+	public function _writeConfiguration()
 	{
 		$this->_cache = (Configure::read())
 			? false

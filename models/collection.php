@@ -11,22 +11,30 @@
 class Collection extends FlourAppModel
 {
 
-/**
- * Attached behaviors
- *
- * @var array
- * @access public
- */
+	/**
+	 * Name
+	 *
+	 * @var string $name
+	 * @access public
+	 */
+	public $name = 'Collection';
+
+	/**
+	 * Attached behaviors
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $actsAs = array(
 		'Flour.Taggable',
 	);
 
-/**
- * hasMany associations
- *
- * @var array
- * @access public
- */
+	/**
+	 * hasMany associations
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $hasMany = array(
 		'CollectionItem' => array(
 			'className' => 'Flour.CollectionItem',
@@ -36,12 +44,12 @@ class Collection extends FlourAppModel
 		)
 	);
 
-/**
- * Validation rules
- *
- * @var array
- * @access public
- */
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $validate = array(
 		'name' => array(
 			'notEmpty' => array('rule' => 'notEmpty', 'required' => true),
@@ -51,13 +59,13 @@ class Collection extends FlourAppModel
 		),
 	);
 
-/**
- * beforeSave callback, will be fired on save
- *
- * @param array $options 
- * @return bool returns true to continue with save-operation, false stops the save.
- * @access public
- */
+	/**
+	 * beforeSave callback, will be fired on save
+	 *
+	 * @param array $options 
+	 * @return bool returns true to continue with save-operation, false stops the save.
+	 * @access public
+	 */
 	public function beforeSave($options = array())
 	{
 		if(!empty($this->id))

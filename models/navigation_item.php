@@ -11,34 +11,42 @@
 class NavigationItem extends FlourAppModel
 {
 
-/**
- * belongsTo associations
- *
- * @var array
- * @access public
- */
+	/**
+	 * Name
+	 *
+	 * @var string $name
+	 * @access public
+	 */
+	public $name = 'NavigationItem';
+
+	/**
+	 * belongsTo associations
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $belongsTo = array(
 		'Navigation' => array(
 			'className' => 'Flour.Navigation',
 		),
 	);
 
-/**
- * behaviors attached to model
- *
- * @var string
- * @access public
- */
+	/**
+	 * behaviors attached to model
+	 *
+	 * @var string
+	 * @access public
+	 */
 	public $actsAs = array(
 		'Tree',
 	);
 
-/**
- * Validation rules
- *
- * @var array
- * @access public
- */
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $validate = array(
 		'type' => array(
 			'notEmpty' => array('rule' => 'notEmpty', 'required' => true),

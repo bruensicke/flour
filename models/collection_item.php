@@ -11,24 +11,32 @@
 class CollectionItem extends FlourAppModel
 {
 
-/**
- * belongsTo associations
- *
- * @var array
- * @access public
- */
+	/**
+	 * Name
+	 *
+	 * @var string $name
+	 * @access public
+	 */
+	public $name = 'CollectionItem';
+
+	/**
+	 * belongsTo associations
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $belongsTo = array(
 		'Collection' => array(
 			'className' => 'Flour.Collection',
 		),
 	);
 
-/**
- * Validation rules
- *
- * @var array
- * @access public
- */
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $validate = array(
 		'type' => array(
 			'notEmpty' => array('rule' => 'notEmpty', 'required' => true),

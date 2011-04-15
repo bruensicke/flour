@@ -14,70 +14,62 @@
  * @package   plugins.tags
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-
-/**
- * Short description for class.
- *
- * @package		plugins.tags
- * @subpackage	plugins.tags.models
- */
-
 class Tagged extends FlourAppModel {
 
-/**
- * Name
- *
- * @var string
- * @access public
- */
+	/**
+	 * Name
+	 *
+	 * @var string
+	 * @access public
+	 */
 	public $name = 'Tagged';
 
-/**
- * Table that is used
- *
- * @var string
- * @access public
- */
+	/**
+	 * Table that is used
+	 *
+	 * @var string
+	 * @access public
+	 */
 	public $useTable = 'tagged';
 
-/**
- * Find methodes
- *
- * @var array
- * @access public
- */
+	/**
+	 * Find methodes
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $_findMethods = array(
 		'cloud' => true,
 		'tagged' => true,
 	);
 
-/**
- * belongsTo associations
- *
- * @var string
- * @access public
- */
+	/**
+	 * belongsTo associations
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $belongsTo = array(
 		'Tag' => array(
 			'className' => 'Flour.Tag',
 		),
 	);
 
-/**
- * Returns a tag cloud
- *
- * The result contains a "weight" field which has a normalized size of the tag
- * occurrence set. The min and max size can be set by passing 'minSize" and
- * 'maxSize' to the query. This value can be used in the view to controll the
- * size of the tag font.
- *
- * @todo Ideas to improve this are welcome
- * @param string
- * @param array
- * @param array
- * @return array
- * @access public
- */
+	/**
+	 * Returns a tag cloud
+	 *
+	 * The result contains a "weight" field which has a normalized size of the tag
+	 * occurrence set. The min and max size can be set by passing 'minSize" and
+	 * 'maxSize' to the query. This value can be used in the view to controll the
+	 * size of the tag font.
+	 *
+	 * @todo Ideas to improve this are welcome
+	 * @param string
+	 * @param array
+	 * @param array
+	 * @return array
+	 * @access public
+	 */
 	public function _findCloud($state, $query, $results = array()) {
 		if ($state == 'before') {
 			$options = array(
@@ -126,22 +118,23 @@ class Tagged extends FlourAppModel {
 		}
 	}
 
-/**
- * Find all the Model entries tagged with a given tag
- * 
- * The query must contain a Model name, and can contain a 'by' key with the Tag keyname to filter the results
- * <code>
- * $this->Article->Tagged->find('tagged', array(
- *		'by' => 'cakephp',
- *		'model' => 'Article'));
- * </code
- *
- * @TODO Find a way to populate the "magic" field Article.tags
- * @param string $state
- * @param array $query
- * @param array $results
- * @return mixed Query array if state is before, array of results or integer (count) if state is after
- */
+	/**
+	 * Find all the Model entries tagged with a given tag
+	 * 
+	 * The query must contain a Model name, and can contain a 'by' key with the Tag keyname to filter the results
+	 * <code>
+	 * $this->Article->Tagged->find('tagged', array(
+	 *		'by' => 'cakephp',
+	 *		'model' => 'Article'));
+	 * </code
+	 *
+	 * @TODO Find a way to populate the "magic" field Article.tags
+	 * @param string $state
+	 * @param array $query
+	 * @param array $results
+	 * @return mixed Query array if state is before, array of results or integer (count) if state is after
+	 * @access public
+	 */
 	public function _findTagged($state, $query, $results = array()) {
 		if ($state == 'before') {
 			if (isset($query['model']) && $Model = ClassRegistry::init($query['model'])) {

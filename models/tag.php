@@ -14,60 +14,52 @@
  * @package   plugins.tags
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-
-/**
- * Short description for class.
- *
- * @package		plugins.tags
- * @subpackage	plugins.tags.models
- */
-
 class Tag extends FlourAppModel {
 
-/**
- * Name
- *
- * @var string $name
- * @access public
- */
+	/**
+	 * Name
+	 *
+	 * @var string $name
+	 * @access public
+	 */
 	public $name = 'Tag';
 
-/**
- * hasMany associations
- *
- * @var array
- * @access public
- */
+	/**
+	 * hasMany associations
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $hasMany = array(
 		'Tagged' => array(
 			'className' => 'Flour.Tagged',
 			'foreignKey' => 'tag_id'));
 
-/**
- * HABTM associations
- *
- * @var array $hasAndBelongsToMany
- * @access public
- */
+	/**
+	 * HABTM associations
+	 *
+	 * @var array $hasAndBelongsToMany
+	 * @access public
+	 */
 	public $hasAndBelongsToMany = array();
 
-/**
- * Validation rules
- *
- * @var array
- * @access public
- */
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $validate = array(
 		'name' => array('rule' => 'notEmpty'),
 		'keyname' => array('rule' => 'notEmpty'));
 
-/**
- * Returns the data for a single tag
- *
- * @param string keyname
- * @return array
- * @access public
- */
+	/**
+	 * Returns the data for a single tag
+	 *
+	 * @param string keyname
+	 * @return array
+	 * @access public
+	 */
 	public function view($keyName = null) {
 		$result = $this->find('first', array(
 			'conditions' => array(
@@ -80,13 +72,13 @@ class Tag extends FlourAppModel {
 	}
 
 
-/**
- * Pre-populates the tag table with entered tags
- *
- * @param array post data, should be Contoller->data
- * @return boolean
- * @access public
- */
+	/**
+	 * Pre-populates the tag table with entered tags
+	 *
+	 * @param array post data, should be Contoller->data
+	 * @return boolean
+	 * @access public
+	 */
 	public function add($postData = null) {
 		if (isset($postData[$this->alias]['tags'])) {
 			$this->Behaviors->attach('Flour.Taggable', array(
@@ -100,14 +92,14 @@ class Tag extends FlourAppModel {
 		}
 	}
 
-/**
- * Edits an existing tag, allows only to modify upper/lowercased characters
- *
- * @param string tag uuid
- * @param array controller post data usually $this->data
- * @return mixed True on successfully save else post data as array
- * @access public
- */
+	/**
+	 * Edits an existing tag, allows only to modify upper/lowercased characters
+	 *
+	 * @param string tag uuid
+	 * @param array controller post data usually $this->data
+	 * @return mixed True on successfully save else post data as array
+	 * @access public
+	 */
 	public function edit($tagId = null, $postData = null) {
 		$tag = $this->find('first', array(
 			'contain' => array(),

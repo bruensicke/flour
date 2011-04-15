@@ -19,42 +19,50 @@
 class Activity extends FlourAppModel
 {
 
-/**
- * Attached behaviors
- *
- * @var array
- * @access public
- */
+	/**
+	 * Name
+	 *
+	 * @var string $name
+	 * @access public
+	 */
+	public $name = 'Activity';
+
+	/**
+	 * Attached behaviors
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $actsAs = array(
 		'Flour.Polymorphic',
 		// 'Flour.Taggable',
 	);
 
-/**
- * Activity types
- * taken from Flour.Activities.types.options
- *
- * @var array
- * @access public
- */
+	/**
+	 * Activity types
+	 * taken from Flour.Activities.types.options
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $types = array();
 
-/**
- * Custom find methods
- *
- * @var array $_findMethods
- * @access public
- */
+	/**
+	 * Custom find methods
+	 *
+	 * @var array $_findMethods
+	 * @access public
+	 */
 	public $_findMethods = array(
 		'types' => true,
 	);
 
-/**
- * conditions for custom find and paginate count methods
- *
- * @var array $findConditions
- * @access public
- */
+	/**
+	 * conditions for custom find and paginate count methods
+	 *
+	 * @var array $findConditions
+	 * @access public
+	 */
 	public $findQueries = array(
 		'types' => array(
 			'conditions' => array(
@@ -71,13 +79,13 @@ class Activity extends FlourAppModel
 	);
 
 /**
- * constructor auto-sets $this->types to a merged set of:
- * 
- *   o  Flour.Activity.types.options
- *   o  App.Activity.types.options
- *
- * @access public
- */
+	 * constructor auto-sets $this->types to a merged set of:
+	 * 
+	 *   o  Flour.Activity.types.options
+	 *   o  App.Activity.types.options
+	 *
+	 * @access public
+	 */
 	public function __construct()
 	{
 		$appTypes = (Configure::read('App.Activity.types.options'))
@@ -91,18 +99,18 @@ class Activity extends FlourAppModel
 		return parent::__construct();
 	}
 
-/**
- * writes an activity log-entry.
- *
- * @param string $type one of $this->types
- * @param array $data array with data, that will be stored and used for inserts in type_text
- * @param string|array|object $model one of the following:
- *   - 'User' (pulls data from $data['User']['id'])
- *   - array('model' => 'User', 'id' => $id)
- *   - $this->User (Object / Instance of User Model)
- * @return mixed parsed text of type, or false on error
- * @access public
- */
+	/**
+	 * writes an activity log-entry.
+	 *
+	 * @param string $type one of $this->types
+	 * @param array $data array with data, that will be stored and used for inserts in type_text
+	 * @param string|array|object $model one of the following:
+	 *   - 'User' (pulls data from $data['User']['id'])
+	 *   - array('model' => 'User', 'id' => $id)
+	 *   - $this->User (Object / Instance of User Model)
+	 * @return mixed parsed text of type, or false on error
+	 * @access public
+	 */
 	public function write($type, $data = array(), $model = null)
 	{
 		if(!array_key_exists($type, $this->types)) {
@@ -140,14 +148,14 @@ class Activity extends FlourAppModel
 		return false;
 	}
 
-/**
- * beforeSave callback, takes care of parsing the message string of
- * type, to be enriched with data.
- *
- * @param string $options 
- * @return mixed returns output of parent::beforeSave()
- * @access public
- */
+	/**
+	 * beforeSave callback, takes care of parsing the message string of
+	 * type, to be enriched with data.
+	 *
+	 * @param string $options 
+	 * @return mixed returns output of parent::beforeSave()
+	 * @access public
+	 */
 	public function beforeSave($options = null)
 	{
 		//extract data, because it got encoded by flexible already.
@@ -157,32 +165,32 @@ class Activity extends FlourAppModel
 		return parent::beforeSave($options);
 	}
 
-/**
- * overwritten to supress deletion of activities
- *
- * @return false
- * @access public
- */
+	/**
+	 * overwritten to supress deletion of activities
+	 *
+	 * @return false
+	 * @access public
+	 */
 	public function delete()
 	{
 		return false;
 	}
 
-/**
- * After flattening $data, inserts strings in message text of given $type.
- * 
- * works like that:
- * 
- * {{{
- * $this->Activity->parse('object_created', array('name' => 'foo', 'id' => 'bar'));
- * //returns: "Created object 'foo' [bar]"
- * }}}
- *
- * @param string $type one of $this->types
- * @param array $data data that gets flattened and String::inserted into message of type $text
- * @return mixed returns parsed string or false, if $type does not exist
- * @access public
- */
+	/**
+	 * After flattening $data, inserts strings in message text of given $type.
+	 * 
+	 * works like that:
+	 * 
+	 * {{{
+	 * $this->Activity->parse('object_created', array('name' => 'foo', 'id' => 'bar'));
+	 * //returns: "Created object 'foo' [bar]"
+	 * }}}
+	 *
+	 * @param string $type one of $this->types
+	 * @param array $data data that gets flattened and String::inserted into message of type $text
+	 * @return mixed returns parsed string or false, if $type does not exist
+	 * @access public
+	 */
 	public function parse($type, $data)
 	{
 		if(!array_key_exists($type, $this->types)) {
@@ -191,20 +199,20 @@ class Activity extends FlourAppModel
 		return String::insert($this->types[$type], Set::flatten($data));
 	}
 
-/**
- * overwriting find for a new option 'type'
- * 
- * use like this:
- * 
- * {{{
- * $this->Activity->find('all', array('type' => array('foo', 'bar', 'baz')))
- * }}}
- *
- * @param string $type kind of find, usually 'first', or 'all'
- * @param array $options query data with conditions and everything, new key for $type, see code-example
- * @return mixed returns parent::find();
- * @access public
- */
+	/**
+	 * overwriting find for a new option 'type'
+	 * 
+	 * use like this:
+	 * 
+	 * {{{
+	 * $this->Activity->find('all', array('type' => array('foo', 'bar', 'baz')))
+	 * }}}
+	 *
+	 * @param string $type kind of find, usually 'first', or 'all'
+	 * @param array $options query data with conditions and everything, new key for $type, see code-example
+	 * @return mixed returns parent::find();
+	 * @access public
+	 */
 	public function find($type, $options = array())
 	{
 		if (!isset($options['conditions']))
@@ -225,14 +233,14 @@ class Activity extends FlourAppModel
 		return parent::find($type, $options);
 	}
 
-/**
- * shortcut to get a list of recent Activities
- *
- * @param string $limit number of items to retrieve
- * @param array $options will be passed as second param into find('all', $options);
- * @return array returns resultset from $this->find('all')
- * @access public
- */
+	/**
+	 * shortcut to get a list of recent Activities
+	 *
+	 * @param string $limit number of items to retrieve
+	 * @param array $options will be passed as second param into find('all', $options);
+	 * @return array returns resultset from $this->find('all')
+	 * @access public
+	 */
 	public function get($limit = 25, $options = array())
 	{
 		$defaults = array(
@@ -244,15 +252,15 @@ class Activity extends FlourAppModel
 	}
 
 
-/**
- * custom find method 'types'
- *
- * @param string $state 'before' or 'after'
- * @param string $query
- * @param string $results 
- * @return mixed based on $state, returns $query or $results
- * @access protected
- */
+	/**
+	 * custom find method 'types'
+	 *
+	 * @param string $state 'before' or 'after'
+	 * @param string $query
+	 * @param string $results 
+	 * @return mixed based on $state, returns $query or $results
+	 * @access protected
+	 */
 	protected function _findTypes($state, $query, $results = array()) {
 		if ($state == 'before') {
 			$query = Set::merge(

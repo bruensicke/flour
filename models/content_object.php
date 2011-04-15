@@ -13,4 +13,12 @@
 class ContentObject extends FlourAppModel
 {
 
+	/**
+	 * Name
+	 *
+	 * @var string $name
+	 * @access public
+	 */
+	public $name = 'ContentObject';
+
 }
