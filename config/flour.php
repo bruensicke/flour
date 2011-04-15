@@ -23,6 +23,25 @@ Configure::write('Flour.Activity', array(
 
 
 /**
+ * Connections
+ */
+Configure::write('Flour.Connection', array(
+	'types' => array(
+		'default' => 'default',
+		'options' => array(
+			'default' => array(
+				'prefix' => 'flour_',
+			),
+			'sqlite' => array(
+				'driver' => 'Flour.DboSqlite3',
+				'database' => FLOUR.'/config/flour.sqlite',
+			),
+		),
+	),
+));
+
+
+/**
  * Collections
  */
 Configure::write('Flour.Collection', array(
