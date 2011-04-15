@@ -341,5 +341,17 @@ class FlourAppModel extends AppModel
 			return $this->find('count', array_merge($parameters, $extra));
 		}
 	}
-	
+
+	/**
+	 * Logs all errors in db to flour log, also logs $this->data to investigate the issue
+	 *
+	 * @return void
+	 * @access public
+	 */
+	public function onError() {
+		$db = ConnectionManager::getDataSource('flour');
+		$err = $db->lastError();
+		$this->log($err, 'flour');
+		$this->log($this->data, 'flour');
+	}
 }
