@@ -24,7 +24,7 @@ class InstallTask extends FlourShell
 		$this->out('');
 		$this->out('   setting up database (creating tables) for flour...');
 		$this->out('');
-		$ds = $this->SqlFile->import($file);
+		$ds = $this->SqlFile->import($file, 'flour');
 		if($ds === false)
 		{
 			$this->out('   file not found or no statements found.');
@@ -39,4 +39,3 @@ class InstallTask extends FlourShell
 		$this->out('');
 	}
 }
-?>
