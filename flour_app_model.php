@@ -10,30 +10,38 @@ App::import('Lib', 'Flour.init');
 class FlourAppModel extends AppModel
 {
 
-/**
- * table prefix for all FlourAppModels
- *
- * @var string tablePrefix
- * @access public
- */
-	public $tablePrefix = 'flour_';
+	/**
+	 * Name
+	 *
+	 * @var string $name
+	 * @access public
+	 */
+	public $name = 'FlourAppModel';
 
-/**
- * Attached behaviors
- *
- * @var array
- * @access public
- */
+	/**
+	 * useDbConfig set explicitly to 'flour'
+	 *
+	 * @var string useDbConfig
+	 * @access public
+	 */
+	public $useDbConfig = 'flour';
+
+	/**
+	 * Attached behaviors
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $actsAs = array(
 		'Flour.Flexible',
 		// 'Flour.Editionable', //TODO: develop editionable behavior
 	);
 
-/**
- * flour beforeSave
- *
- * @access public
- */
+	/**
+	 * flour beforeSave
+	 *
+	 * @access public
+	 */
 	public function beforeSave()
 	{
 		parent::beforeSave();
@@ -41,11 +49,11 @@ class FlourAppModel extends AppModel
 		return true;
 	}
 	
-/**
- * flour soft delete
- *
- * @access public
- */
+	/**
+	 * flour soft delete
+	 *
+	 * @access public
+	 */
 	public function delete($id = null, $cascade = true) {
 		if (!empty($id)) {
 			$this->id = $id;
@@ -67,11 +75,11 @@ class FlourAppModel extends AppModel
 		return $this->save($this->data);
 	}
 	
-/**
- * flour undelete
- *
- * @access public
- */
+	/**
+	 * flour undelete
+	 *
+	 * @access public
+	 */
 	public function undelete($id) {
 		$this->id = $id;
 		if(!$this->hasField('deleted') || !$this->exists()){
@@ -85,13 +93,13 @@ class FlourAppModel extends AppModel
 		return $this->save($this->data);
 	}
 	
-/**
- * flour find
- *
- * @var array
- * @access private
- * @todo add missing params to fulfill the standard find() signature
- */
+	/**
+	 * flour find
+	 *
+	 * @var array
+	 * @access private
+	 * @todo add missing params to fulfill the standard find() signature
+	 */
 	public function find($type, $options = array())
 	{
 		if (!isset($options['conditions']) ) {
@@ -128,13 +136,13 @@ class FlourAppModel extends AppModel
 		return parent::find($type, $options);
 	}
 	
-/**
- * flour find
- *
- * @var array
- * @access private
- * @todo add missing params to fulfill the standard find() signature
- */
+	/**
+	 * flour find
+	 *
+	 * @var array
+	 * @access private
+	 * @todo add missing params to fulfill the standard find() signature
+	 */
 	function _setActive(&$options, &$type)
 	{
 		$this->_setValid($options, $type);
@@ -149,13 +157,13 @@ class FlourAppModel extends AppModel
 			: 'all';
 	}
 
-/**
- * undocumented function
- *
- * @param string $options 
- * @param string $type 
- * @return void
- */
+	/**
+	 * undocumented function
+	 *
+	 * @param string $options 
+	 * @param string $type 
+	 * @return void
+	 */
 	function _setCurrent(&$options, &$type) {
 		$slug = (isset($options['slug']))
 			? $options['slug']
@@ -199,14 +207,14 @@ class FlourAppModel extends AppModel
 		$type = 'first';
 	}
 	
-/**
- * undocumented function
- *
- * @param string $options 
- * @param string $type 
- * @return void
- * @access public
- */
+	/**
+	 * undocumented function
+	 *
+	 * @param string $options 
+	 * @param string $type 
+	 * @return void
+	 * @access public
+	 */
 	function _setEditions(&$options, &$type) {
 		$slug = null;
 		
@@ -312,15 +320,15 @@ class FlourAppModel extends AppModel
 		return false;
 	}
 	
-/**
- * Customized paginateCount method (copied from CakeDC Tags.Taggable Plugin)
- *
- * @param array
- * @param integer
- * @param array
- * @return 
- * @access public
- */
+	/**
+	 * Customized paginateCount method (copied from CakeDC Tags.Taggable Plugin)
+	 *
+	 * @param array
+	 * @param integer
+	 * @param array
+	 * @return void
+	 * @access public
+	 */
 	public function paginateCount($conditions = array(), $recursive = 0, $extra = array()) {
 		$parameters = compact('conditions');
 		if ($recursive != $this->recursive) {
