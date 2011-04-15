@@ -22,6 +22,7 @@ class FlourShell extends Shell
 		'ProgressBar',
 		'SqlFile',
 		'Install',
+		'Password',
 		'Prepare',
 		'Todo',
 	);
