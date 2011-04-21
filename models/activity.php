@@ -88,6 +88,8 @@ class Activity extends FlourAppModel
 	 */
 	public function __construct()
 	{
+		FlourEvent::subscribe('all', 'Activity');
+		
 		$appTypes = (Configure::read('App.Activity.types.options'))
 			? Configure::read('App.Activity.types.options')
 			: array();
@@ -146,6 +148,11 @@ class Activity extends FlourAppModel
 			return $this->parse($type, $data);
 		}
 		return false;
+	}
+
+
+	public static function all($data = array(), $options = array()) {
+		return ClassRegistry::init('Flour.Activity')->write($options['event_type'], $data);
 	}
 
 	/**
