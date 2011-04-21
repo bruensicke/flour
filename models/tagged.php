@@ -82,7 +82,7 @@ class Tagged extends FlourAppModel {
 				'offset' => null,
 				'contain' => 'Tag',
 				'conditions' => array(),
-				'fields' => 'Tag.*, Tagged.tag_id, COUNT(*) AS occurrence',
+				'fields' => array('Tag.id', 'Tag.identifier', 'Tag.name', 'Tag.keyname', 'Tag.weight', 'Tagged.tag_id', 'COUNT(*) AS occurrence'),
 				'group' => 'Tagged.tag_id');
 
 			foreach ($query as $key => $value) {
