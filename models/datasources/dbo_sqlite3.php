@@ -518,8 +518,8 @@ class DboSqlite3 extends DboSource {
 		//PDO::getColumnMeta is experimental and does not work with sqlite3,
 		//	so try to figure it out based on the querystring
 		$querystring = $results->queryString;
-		if (stripos($querystring, 'SELECT') === 0) {
-			$last = stripos($querystring, 'FROM');
+		if (strpos($querystring, 'SELECT') === 0) {
+			$last = strpos($querystring, 'FROM');
 			if ($last !== false) {
 				$selectpart = substr($querystring, 7, $last - 8);
 				$selects = explode(',', $selectpart);
@@ -539,7 +539,7 @@ class DboSqlite3 extends DboSource {
 			}
 
 			if (strpos($selects[$j], 'DISTINCT') === 0) {
-				$columnName = str_ireplace('DISTINCT', '', $columnName);
+				$columnName = str_replace('DISTINCT', '', $columnName);
 			}
 
 			if (strpos($columnName, '.')) {
