@@ -64,46 +64,5 @@ class DocsController extends FlourAppController
 		$this->view = 'View';
 		$this->layout = 'docs';
 	}
-	
-/**
- * Index action.
- *
- * @access public
- */
-	function admin_index()
-	{
-
-	}
-
-/**
- * Install action.
- *
- * @access public
- */
-	function admin_install()
-	{
-
-	}
-
-/**
- * Contents action.
- *
- * @access public
- */
-	function admin_contents()
-	{
-
-	}
-
-/**
- * Widgets action.
- *
- * @access public
- */
-	function admin_widgets()
-	{
-
-	}
 
 }
-?>
