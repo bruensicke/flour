@@ -128,7 +128,7 @@ class MailerComponent extends Object
 			'bcc' => $this->Email->bcc,
 			'subject' => $this->Email->subject,
 		);
-		$this->Activity = ClassRegistry::init('Activity');
+		$this->Activity = ClassRegistry::init('Flour.Activity');
 		$this->Activity->write('mail_out', $response, 'Mailer');
 		
 		return $response;
